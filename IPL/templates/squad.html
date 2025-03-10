@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+{% block head %}
+{{ super() }}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename= 'extended_beauty.css') }}"
+/>
+{% endblock %}
+
+{% block content %}
+<style>
+body {
+        background-image: url('/static/images/banner_bg.jpg');
+        background-size: cover;
+        background-attachment: fixed;"
+        font-family: 'Exo 2', sans-serif;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+ body::-webkit-scrollbar {
+        width: 5px;
+        height: 10px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, .1);
+        border-radius: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background-color: #ff6b81;
+        border-radius: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+        background-color: #f7b733;
+    }
+/* Container and Card Styles */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+  padding: 20px;
+}
+
+.flex-item {
+  background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+  width: 300px;
+  height: 450px;
+  border-radius: 30px;
+  overflow: hidden;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s;
+  perspective: 1000px;
+  position: relative;
+}
+
+.flex-item:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.25);
+}
+
+.flex-item a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.grad1 {
+  background: linear-gradient(180deg, var(--c1), var(--c2), var(--c3));
+  padding: 25px;
+  text-align: center;
+  height: 100%;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* Image Styling */
+.zoomable-image {
+  margin: 0 auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out;
+}
+
+.zoomable-image:hover {
+  transform: scale(1.2);
+}
+
+
+.gradient-text {
+  background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fad0c4);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 20px;
+}
+
+.grad3 {
+  font-size: 30px;
+  color: white;
+  background: linear-gradient(145deg, #3388ff, #0000ff);
+  padding: 8px;
+  border-radius: 20px;
+  margin: 10px auto;
+  max-width: 80%;
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
+  overflow: visible;
+  margin-top: 6px;
+  font-size: 16px;
+  color: #fefefe;
+}
+
+.top-right-icon {
+  position: absolute; /* Positioning it absolutely within the card-content */
+  top: 15px; /* Adjust as needed */
+  right: 15px; /* Adjust as needed */
+  width: 24px; /* Set the width of the icon */
+  height: 23px; /* Maintain aspect ratio */
+}
+
+
+
+/* Image Styling */
+.team-image {
+  margin: 0 auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out;
+}
+
+.team-image:hover {
+  transform: scale(1.2);
+}
+
+.team-players {
+  margin: 0 auto;
+  width: 235px;
+  height: 230px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease-in-out;
+  z-index: 2;
+  position: relative;
+}
+
+.team-players:hover {
+  transform: scale(1.2);
+}
+
+/* Footer Section */
+.card-footer {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 15px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.team-name {
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 8px;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fad0c4);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 20px;
+}
+</style>
+
+<div style="background-image: url('/static/images/banner_bg.jpg'); background-size: cover; background-attachment: fixed;">
+  <center>
+    <marquee style="color: white;" width="40%" direction="left" height="45px" scrollamount="12">
+      <div>
+        <span style="font-size: 29px">&nbsp;<b>{{ fn }}&nbsp;</b></span>
+      </div>
+    </marquee>
+  </center>
+
+  {% macro display(i) %}
+  <div class="flex-item">
+    <a style="text-decoration: none" href="{{ url_for('main.squad_details', team=i.Team, name=i.Name) }}">
+      <div class="grad1" style="--c1: {{ clr['c1'] }}; --c2: {{ clr['c2'] }}; --c3: {{ clr['c3'] }}">
+        {% set name=i.Name %}
+        <center>
+            <div class="card-content">
+                <img class="team-players" src="/static/images/squads/{{ i.Team }}/{{ name.replace(' ','-') }}.png" alt="Team Logo" />
+                {% if i.Captain == 'Y' %}
+              <img class="top-right-icon" src="/static/images/captain.png" alt="Icon" />{% endif %}
+            </div>
+
+              <div class="card-footer">
+                <img class="team-image" src="/static/images/squad_logos/{{ i.Team }}.png" alt="Team Logo" />
+                <div class="team-name gradient-text">{{ i.Name }}</div>
+
+
+            <div class="row" style="justify-content: center;">
+              {% if i.Keeper == 'Y' %}
+              <img src="/static/images/keeper.png" width="22" height="21" />&nbsp;
+              {% endif %}
+              {% if i.Overseas == 'Y' %}
+              <img src="/static/images/overseas.png" width="22" height="21" />&nbsp;
+              {% endif %}
+              {% if i.Role == 'Batter' or i.Role == 'Wicket Keeper' %}
+              <img src="/static/images/Batter.svg" width="22" height="21" />&nbsp;
+              {% endif %}
+              {% if i.Role == 'Bowler' %}
+              <img src="/static/images/Bowler.svg" width="22" height="21" />&nbsp;
+              {% endif %}
+              {% if i.Role == 'All Rounder' %}
+              <img src="/static/images/All-rounder.svg" width="22" height="21" />&nbsp;
+              {% endif %}
+            </div>
+        </center>
+      </div>
+    </a>
+  </div>
+  {% endmacro %}
+
+  <center><div class="grad3"><b>Captain</b></div><br></center>
+  <div class="flex-container">
+    {% for i in sq %}
+    {% if i.Captain == 'Y' %}
+    {{ display(i) }}
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <center><div class="grad3"><b>Batters</b></div><br></center>
+  <div class="flex-container">
+    {% for i in sq %}
+    {% if (i.Role == 'Batter') %}
+    {{ display(i) }}
+    {% endif %}
+    {% endfor %}
+  </div>
+
+<center><div class="grad3"><b>Wicket Keepers</b></div><br></center>
+  <div class="flex-container">
+    {% for i in sq %}
+    {% if (i.Role == 'Wicket Keeper') %}
+    {{ display(i) }}
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <center><div class="grad3"><b>All Rounders</b></div><br></center>
+  <div class="flex-container">
+    {% for i in sq %}
+    {% if i.Role == 'All Rounder' %}
+    {{ display(i) }}
+    {% endif %}
+    {% endfor %}
+  </div>
+
+  <center><div class="grad3"><b>Bowlers</b></div><br></center>
+  <div class="flex-container">
+    {% for i in sq %}
+    {% if i.Role == 'Bowler' %}
+    {{ display(i) }}
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

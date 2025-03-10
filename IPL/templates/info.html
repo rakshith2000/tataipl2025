@@ -1,0 +1,146 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+	<meta name="robots" content="noindex,nofollow" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        {% if dt3['info'] != "" and 'won' not in dt3['info'] and 'Break' not in dt3['info'] %}
+        <meta http-equiv="refresh" content="10">{% endif %}
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}" rel="stylesheet" >
+	 <link href="{{ url_for('static', filename= 'fonts/css/fontawesome.min.css') }}" rel="stylesheet" >
+	<link href="{{ url_for('static', filename= 'fonts/css/brands.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename= 'fonts/css/solid.min.css') }}" rel="stylesheet" />
+	<link href="{{ url_for('static', filename= 'css/global.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename= 'css/live.css') }}" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+	<link href="{{ url_for('static', filename= 'css/flag-icons.css') }}" rel="stylesheet">
+    <style>
+    body {
+        background-image: url('/static/images/banner_bg.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+
+<section id="center" class="pt-3 pb-3 center_live">
+ <div class="container-xl">
+
+   <div class="row schedule2">
+    <div class="col-md-9">
+	  <div class="live">
+	    <div class="live_2 rounded_10 border mt-2" style="background-color: #00816a">
+           <div class="live_2_inner row px-3 pt-2 pb-2">
+		     <div class="col-md-8">
+			  <div class="live_2_inner_left">
+			    <b class="text-white" style="font-size: 20px">{{ dt1[4] }} vs {{ dt1[5] }}</b>
+				<span class="d-block font_14 text-white">{{ dt2[0] }}, {{ dt2[1] }}, {{ dt2[2] }}, TATA Indian Premier League 2025</span>
+			  </div>
+			 </div>
+		   </div>
+		   <span class="bg-white px-3 d-block pt-2"><span class="fi fi-{{ tid[dt3['score_strip'][0].team_id][0] | lower }} me-1"></span> <b>{{ tid[dt3['score_strip'][0].team_id][0] }}</b> <span class="float-end font_14">{% if dt3['score_strip'][0].score %}<b class="fs-6">{{ dt3['score_strip'][0].score.split(' (')[0] }}</b>{{ ' ('~dt3['score_strip'][0].score.split(' (')[1].replace(' ov', '') }}{% else %}{{ 'Yet to Bat' }}{% endif %}</span></span>
+		   <span class="bg-white px-3 d-block pt-2"><span class="fi fi-{{ tid[dt3['score_strip'][1].team_id][0] | lower }} me-1"></span> <b>{{ tid[dt3['score_strip'][1].team_id][0] }}</b> <span class="float-end font_14">{% if dt3['score_strip'][1].score %}<b class="fs-6">{{ dt3['score_strip'][1].score.split(' (')[0] }}</b>{{ ' ('~dt3['score_strip'][1].score.split(' (')[1].replace(' ov', '') }}{% else %}{{ 'Yet to Bat' }}{% endif %}</span></span>
+            {% if dt3['info'] == "" %}{% set fc = 'text-orange' %}{% elif 'won' in dt3['info'] %}{% set fc = 'text-blue' %}{% else %}{% set fc = 'text-danger' %}{% endif %}
+            <span class="bg-white font_14 d-block pt-2 pb-2 px-3 {{ fc }}"><b>{% if dt3['info'] %}{{ dt3['info'] }}{% else %}{{ 'Upcoming' }}{% endif %}</b></span>
+		   {% if dt3['info'] != "" and 'won' not in dt3['info'] and 'Break' not in dt3['info'] %}
+               {% if dt3['score_strip'][0]['currently_batting'] == true %}
+                   <span class="d-block pt-2 pt-2 pb-2 px-3 font_12 bg-light">Current RR: <b>{{ dt3['score_strip'][0]['run_rate'].split(' ')[2] }}</b></span>
+               {% elif dt3['score_strip'][1]['currently_batting'] == true %}
+                   <span class="d-block pt-2 pt-2 pb-2 px-3 font_12 bg-light">Current RR: <b>{{ dt3['score_strip'][1]['run_rate'].split(' ')[2] }}</b>&nbsp;&nbsp;|&nbsp;&nbsp;Required RR: <b>{{ dt3['score_strip'][0]['required_run_rate'] }}</b></span>
+               {% endif %}
+             {% endif %}
+
+        <ul class="mb-0 bg-white rounded_bottom px-3 score_tab d-block">
+         <li class="mx-2 d-inline-block"><a class="active d-block" href="{{ url_for('main.matchInfo', match=match) }}">Info</a></li>
+		 <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.liveScore', match=match) }}">Live</a></li>
+		 <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.scoreCard', match=match) }}">Scorecard</a></li>
+		</ul>
+	    </div>
+		<div class="live_5 border rounded_10 bg-white mt-3 pt-3" style="padding-bottom: 20px">
+        <div class="row">
+		 <div class="col pt-2">
+             <span class="d-block px-3 pt-1 pb-1 bg-greenlight font_16"><b>Match Details</b></span>
+			 <center>
+		   <div class="table-responsive mt-2" style="width: 90%">
+		    <table class="table font_12 mb-0 align-middle">
+  <tbody>
+    <tr class="border border-end">
+	  <td class="bg-light fw-bold">Match</td>
+      <td class="border-start">{{ dt2[0] }}	</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">Series</td>
+      <td class="border-start">TATA Indian Premier League 2025</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">Date</td>
+      <td class="border-start">{{ dt1[2].strftime("%a, %b %d") }}</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">Time</td>
+      <td class="border-start">{{ dt1[3].strftime("%I:%M %p") }} IST	</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">Venue</td>
+      <td class="border-start">{{ dt1[6] }}</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">Toss</td>
+      <td class="border-start">{% if "toss_won_by" in dt3 %}{{ tid[dt3['toss_won_by']][1]~" elected to "~dt3['toss_decision'] }}{% else %}{{ '-' }}{% endif %}</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">Umpires</td>
+      <td class="border-start">{% if dt3['umpires'] %}{{ dt3['umpires'].split(',')[:2] | join(',') }}{% else %}{{ 'TBA' }}{% endif %}</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">3rd Umpire</td>
+      <td class="border-start">{% if dt3['umpires'] %}{{ dt3['umpires'].split(',')[2]~')' }}{% else %}{{ 'TBA' }}{% endif %}</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">Referee</td>
+      <td class="border-start">{% if dt3['referee'] %}{{ dt3['referee'] }}{% else %}{{ 'TBA' }}{% endif %}</td>
+     </tr>
+	 <tr class="border border-end">
+	  <td class="bg-light fw-bold">TV / Streaming</td>
+      <td class="border-start">Star Sports, Sports18 / JioHotstar	</td>
+     </tr>
+  </tbody>
+</table>
+		   </div></center>
+		 </div>
+		</div>
+		</div>
+	  </div>
+	</div>
+   </div>
+ </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/theme.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}

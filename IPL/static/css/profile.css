@@ -1,0 +1,72 @@
+/*
+Template Name: Cricket News
+File: Layout CSS
+Author: TemplatesOnWeb
+Author URI: https://www.templateonweb.com/
+Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
+*/
+
+/*********************profile****************/
+
+tbody, td, tfoot, th, thead, tr{
+border:none!important; 
+ }
+.contact_2_left span{
+width:70px;
+height:70px;
+line-height:70px; 
+ }
+/*********************profile_end****************/
+
+
+@media screen and (max-width : 767px){
+
+.contact_2_left {
+margn-top:10px;
+margin-bottom:10px; 
+ }
+.contact_3_left {
+margin-bottom:15px; 
+ }
+.profile3_inner1{
+margin-top:8px;
+margin-bottom:8px; 
+ }
+.schedule2_left1_left3 {
+    bottom: 0!important;
+}
+.profile4_inner  img{
+width:100px; 
+ }
+.team_dt1l img{
+width:100%;
+ }
+ }
+
+
+@media (min-width:576px) and (max-width:767px) {
+
+ }
+ 
+@media (min-width:768px) and (max-width:991px) {
+.social_link {
+margin-top:5px;
+margin-bottom:5px;
+}
+.profile4_inner  img{
+width:200px; 
+ }
+ }
+
+@media (min-width:992px) and (max-width:1200px) {
+
+ }
+
+@media (min-width:1201px) and (max-width:1300px) {
+
+ }
+@media (min-width:1400px) and (max-width:2000px) {
+
+ }
+
+

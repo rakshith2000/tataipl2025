@@ -1,0 +1,188 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+<link
+        rel="stylesheet"
+        href="{{ url_for('static', filename= 'extended_beauty.css') }}"
+        xmlns="http://www.w3.org/1999/html"/>
+{% endblock %}
+
+{% block content %}
+        {% macro flashes() %}
+            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+                {% for cat,msg in messages %}
+                {% if cat == 'error' %}
+                <div class="alert alert-danger alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    {{ msg }}
+                </div>{% endif %}
+                {% if cat == 'success' %}
+                <div class="alert alert-success alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    {{ msg }}
+                </div>{% endif %}
+                {% if cat == 'warning' %}
+                <div class="alert alert-warning alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    {{ msg }}<br>
+                    <a href="#" type="submit" data-toggle="modal"
+                       data-target="#mymodal">Click Here</a>
+                    to view valid matches
+                </div>{% endif %}
+                {% endfor %}{% endif %} {% endwith %}
+            {% endmacro %}
+<center>
+    <br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="margin: 0 auto">
+            <div class="jumbotron p-3">
+                <h5>To <u>Update</u> <b>Match Result </b></h5>
+                {% if key == '1' %}
+                {{ flashes() }}
+                {% endif %}
+                <form method="POST" action="/updatematch">
+      <label for="match">Enter Match Number: </label>
+      <input
+        type="text"
+        id="match"
+        name="match"
+        aria-describedby="pushupHelp"
+        placeholder="Match number"/>
+      <input type="hidden" name="hint" value="before">
+      <br>
+      <button type="submit" class="btn btn-success">Click Here</button>
+      </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="margin: 0 auto">
+            <div class="jumbotron p-3">
+                <h5>To <u>Delete</u> <b>Match Result   </b>   </h5>
+                {% if key == '2' %}
+                {{ flashes() }}
+                {% endif %}
+                <form method="POST" action="/deletematch">
+                    <label for="dmatch">Enter Match Number: </label>
+                    <input type="text"
+                                    id="dmatch"
+                                    name="dmatch"
+                                    aria-describedby="pushupHelp"
+                                    placeholder="Match number"/>
+                    <input type="hidden" name="hint" value="before">
+                    <br>
+                    <button type="submit" class="btn btn-success">Click Here</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="margin: 0 auto">
+            <div class="jumbotron p-3">
+                <h5>To <u>Update</u> <b>Playoffs Teams   </b>   </h5>
+                {% if key == '3' %}
+                {{ flashes() }}
+                {% endif %}
+                <form method="POST" action="/updateplayoffs">
+                    <label for="pomatch">Select Playoffs Match: </label>
+                    <select name="pomatch" id="pomatch" required="required">
+                        <option value="" disabled selected>----Select----</option>
+                        <option value="Q1">Qualifier 1</option>
+                        <option value="E">Eliminator</option>
+                        <option value="Q2">Qualifier 2</option>
+                        <option value="F">Final</option>
+                    </select>
+                    <input type="hidden" name="hint" value="before">
+                    <br>
+                    <button type="submit" class="btn btn-success">Click Here</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9" style="margin: 0 auto">
+            <div class="jumbotron p-3">
+                <h5>To <u>Update</u> <b>Qualified Teams   </b>   </h5>
+                {% if key == '4' %}
+                {{ flashes() }}
+                {% endif %}
+                <form method="POST" action="/updatequalification">
+                    <label for="qteam">Select Qualified Team: </label>
+                    <select name="qteam" id="qteam" required="required">
+                        <option value="" disabled selected>----Select----</option>
+                        <option value="CSK">Chennai Super Kings</option>
+                        <option value="DC">Delhi Capitals</option>
+                        <option value="GT">Gujarat Titans</option>
+                        <option value="KKR">Kolkata Knight Riders</option>
+                        <option value="LSG">Lucknow Super Giants</option>
+                        <option value="MI">Mumbai Indians</option>
+                        <option value="PBKS">Punjab Kings</option>
+                        <option value="RR">Rajasthan Royals</option>
+                        <option value="RCB">Royal Challengers Bengaluru</option>
+                        <option value="SRH">Sunrisers Hyderabad</option>
+                    </select>
+                    <input type="hidden" name="hint" value="before">
+                    <br>
+                    <button type="submit" class="btn btn-success">Click Here</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</center>
+
+<!-- Modal -->
+<div id="mymodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Header -->
+            <div class="modal-header">
+                {% if key == '1' %}
+                <h6 class="modal-title"><b>Updatable Matches List</b></h6> {% endif %}
+                {% if key == '2' %}
+                <h6 class="modal-title"><b>Deletable Matches List</b></h6> {% endif %}
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+        <!-- Body -->
+            <div class="modal-body">
+                    <div class="container">
+                            {% if key == '1' %}
+                        {% for i in FR %}
+                            {% if i.Win_T == None and i.Team_A != 'TBA' and i.Team_B != 'TBA' %}
+                            <div class="jumbotron p-3">
+                            Match -- {{ i.Match_No }} &nbsp;&nbsp; <b>{{ i.Team_A }}</b> vs <b>{{ i.Team_B }}</b>
+                            </div>
+                                {% endif %}
+                        {% endfor %}
+                            {% endif %}
+                            {% if key == '2' %}
+                        {% for i in FR %}
+                            {% if i.Win_T != None%}
+                        <div class="jumbotron p-3">
+                            Match -- {{ i.Match_No }} &nbsp;&nbsp; <b>{{ i.Team_A }}</b> vs <b>{{ i.Team_B }}</b>
+                        </div>{% endif %}
+                        {% endfor %}
+                            {% endif %}
+                    </div>
+            </div>
+        <!-- Fotter -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

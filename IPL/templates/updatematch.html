@@ -1,0 +1,113 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+<link
+        rel="stylesheet"
+        href="{{ url_for('static', filename= 'extended_beauty.css') }}"
+/>
+<style>
+</style>
+{% endblock %}
+
+{% block content %}
+    <br>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3" style="vertical-align: middle">
+                <h5>Match Number:-&nbsp;&nbsp;<b>{{ FR.Match_No }}</b></h5><br>
+                <h5>Match Date:-&nbsp;&nbsp;<b>{{ FR.Date.strftime('%d-%b-%Y') }}</b></h5><br>
+                <h5>Match between:-</h5>
+                <h5 style="display: flex; align-items: center;"><b><img src="/static/images/squad_logos/{{ FR.Team_A }}.png"
+                            alt="user photo" width="26" height="26" />&nbsp;{{ fn[FR.Team_A] }}<br><br>
+                       <img src="/static/images/squad_logos/{{ FR.Team_B }}.png"
+                            alt="user photo" width="26" height="26" />&nbsp;{{ fn[FR.Team_B] }}</b></h5><br>
+      <button type="submit" class="btn btn-success" data-toggle="modal"
+      data-target="#mymodal">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="mymodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Header -->
+            <div class="modal-header">
+                <h6 class="modal-title"><b>Update Match result of </b><br>{{ FR.Team_A }}&nbsp;&nbsp;vs&nbsp;&nbsp;{{ FR.Team_B }}</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+        <!-- Body -->
+            <div class="modal-body">
+                <form action="/updatematch" method="POST">
+                    <div class="container">
+                        <div class="jumbotron p-3">
+                    <h6><img src="/static/images/squad_logos/{{ FR.Team_A }}.png" alt="user photo" width="26" height="26" />&nbsp;{{ fn[FR.Team_A] }}</h6>
+                    <div class="form-group">
+                        <label for="runsA">Enter Runs:</label>
+                        <input type="number" class="form-control" id="runsA" name="runsA"
+                               aria-describedby="pushupHelp" placeholder="Runs of {{ FR.Team_A }}" required/></div>
+                    <div class="form-group">
+                        <label for="wktsA">Enter Wickets:</label>
+                        <input type="number" class="form-control" id="wktsA" name="wktsA"
+                               aria-describedby="pushupHelp" placeholder="Wickets of {{ FR.Team_A }}" required/></div>
+                    <div class="form-group">
+                        <label for="oversA">Enter Overs:</label>
+                        <input type="number" step="0.1" class="form-control" id="oversA" name="oversA"
+                               aria-describedby="pushupHelp" placeholder="Overs of {{ FR.Team_A }}" required/></div>
+                        </div></div>
+
+                    <div class="container">
+                        <div class="jumbotron p-3">
+                    <h6><img src="/static/images/squad_logos/{{ FR.Team_B }}.png" alt="user photo" width="26" height="26" />&nbsp;{{ fn[FR.Team_B] }}</h6>
+                    <div class="form-group">
+                        <label for="runsB">Enter Runs:</label>
+                        <input type="number" class="form-control" id="runsB" name="runsB"
+                               aria-describedby="pushupHelp" placeholder="Runs of {{ FR.Team_B }}" required/></div>
+                    <div class="form-group">
+                        <label for="wktsB">Enter Wickets:</label>
+                        <input type="number" class="form-control" id="wktsB" name="wktsB"
+                               aria-describedby="pushupHelp" placeholder="Wickets of {{ FR.Team_B }}" required/></div>
+                    <div class="form-group">
+                        <label for="oversB">Enter Overs:</label>
+                        <input type="number" step="0.1" class="form-control" id="oversB" name="oversB"
+                               aria-describedby="pushupHelp" placeholder="Overs of {{ FR.Team_B }}" required/></div>
+                        </div></div>
+
+                    <div class="container">
+                        <div class="jumbotron p-3">
+                    <h6>Match Result</h6>
+                    <div class="form-group">
+                        <label for="wt">Enter won team name:</label>
+                        <select name="wt" id="wt" required="required" class="form-control">
+                        <option value="" disabled selected>----Select----</option>
+                        <option value="{{ FR.Team_A }}"><img src="/static/images/squad_logos/{{ FR.Team_A }}.png" alt="user photo" width="26" height="26" />&nbsp;{{ FR.Team_A }}</option>
+                        <option value="{{ FR.Team_B }}"><img src="/static/images/squad_logos/{{ FR.Team_B }}.png" alt="user photo" width="26" height="26" />&nbsp;{{ FR.Team_B }}</option>
+                        </select></div>
+                    <div class="form-group">
+                        <label for="win_type">Select win type:</label>
+                        <select name="win_type" id="win_type" required="required" class="form-control">
+                        <option value="" disabled selected>----Select----</option>
+                        <option value="wickets">wkts</option>
+                        <option value="runs">runs</option>
+                        </select></div>
+                    <div class="form-group">
+                        <label for="win_by">Enter Won by:</label>
+                        <input type="number" class="form-control" id="win_by" name="win_by"
+                               aria-describedby="pushupHelp" placeholder="Won by" required/></div>
+                    </div></div>
+                    <input type="hidden" name="hint" value="after"/>
+                    <input type="hidden" name="match" value="{{ match }}"/>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        <!-- Fotter -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

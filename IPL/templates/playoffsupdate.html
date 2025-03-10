@@ -1,0 +1,131 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+<link
+        rel="stylesheet"
+        href="{{ url_for('static', filename= 'extended_beauty.css') }}"
+/>
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h5>Match Number:-&nbsp;&nbsp;<b>{{ FR.Match_No }}</b></h5><br>
+                <h5>Match Date:-&nbsp;&nbsp;<b>{{ FR.Date.strftime('%d-%b-%Y') }}</b></h5><br>
+                <h5>Match between:-</h5>
+                <h5><b>{% if FR.Team_A == 'TBA' %}{{ FR.Team_A }} {% else %}<img src="/static/images/{{ FR.Team_A }}.png"
+                            alt="user photo" width="26" height="26" />&nbsp;{{ teams[FR.Team_A]}}{% endif %}
+                        <br><br>
+                       {% if FR.Team_B == 'TBA' %}{{ FR.Team_B }} {% else %}<img src="/static/images/{{ FR.Team_B }}.png"
+                            alt="user photo" width="26" height="26" />&nbsp;{{ teams[FR.Team_B]}}{% endif %}</b></h5><br>
+      <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#mymodal">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="mymodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Header -->
+            <div class="modal-header">
+                <h6 class="modal-title"><b>Update Teams for </b><br>{{ pomatch }}</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+        <!-- Body -->
+            <div class="modal-body">
+                <form action="/updateplayoffs" method="POST">
+                    <div class="container">
+                        <div class="jumbotron p-3">
+                    <h6>Team A Info:</h6>
+                    <div class="form-group">
+                        <label for="checkA">Will you update Team A?</label>
+                        <select name="checkA" id="checkA" required="required" class="form-control">
+                        <option value="" disabled selected>----Select----</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teamA">Select Team A:</label>
+                        <select name="teamA" id="teamA" required="required" disabled class="form-control">
+                        <option value="" disabled selected>----Select----</option>
+                        {% for k,v in teams.items() %}
+                        <option value="{{ k }}">{{ v }}</option>
+                        {% endfor %}
+                        </select>
+                    </div></div></div>
+
+                <div class="container">
+                        <div class="jumbotron p-3">
+                    <h6>Team B Info:</h6>
+                    <div class="form-group">
+                        <label for="checkB">Will you update Team B?</label>
+                        <select name="checkB" id="checkB" required="required" class="form-control">
+                        <option value="" disabled selected>----Select----</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="teamB">Select Team B:</label>
+                        <select name="teamB" id="teamB" required="required" disabled class="form-control">
+                        <option value="" disabled selected>----Select----</option>
+                        {% for k,v in teams.items() %}
+                        <option value="{{ k }}">{{ v }}</option>
+                        {% endfor %}
+                        </select>
+                    </div></div></div>
+
+                    <div class="container">
+                        <div class="jumbotron p-3">
+                            <h6>Match Venue:</h6>
+                            <div class="form-group">
+                        <label for="checkV">Will you update Venue?</label>
+                        <select name="checkV" id="checkV" required="required" class="form-control">
+                        <option value="" disabled selected>----Select----</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                        </select>
+                    </div>
+                            <div class="form-group">
+                                <label for="venue">Enter Venue name:</label>
+                                <input type="text" class="form-control" id="venue" name="venue"
+                                       placeholder="Venue Name" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="hint" value="after"/>
+                    <input type="hidden" name="pomatch" value="{{ pomatch }}"/>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        <!-- Fotter -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('checkA').onchange = function(){
+    document.getElementById('teamA').disabled = (this.value === 'NO')
+    }
+
+    document.getElementById('checkB').onchange = function(){
+    document.getElementById('teamB').disabled = (this.value === 'NO')
+    }
+
+    document.getElementById('checkV').onchange = function(){
+    document.getElementById('venue').disabled = (this.value === 'NO')
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+<link
+        rel="stylesheet"
+        href="{{ url_for('static', filename= 'extended_beauty.css') }}"
+/>
+{% endblock %}
+
+{% block content %}
+    <br>
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h5>Match Number:-&nbsp;&nbsp;<b>{{ FR.Match_No }}</b></h5><br>
+                <h5>Match Date:-&nbsp;&nbsp;<b>{{ FR.Date.strftime('%d-%b-%Y') }}</b></h5><br>
+                <h5>Match between:-</h5>
+                <h5><b><img src="/static/images/squad_logos/{{ FR.Team_A }}.png"
+                            alt="user photo" width="26" height="26" />&nbsp;{{ fn[FR.Team_A] }}<br><br>
+                       <img src="/static/images/squad_logos/{{ FR.Team_B }}.png"
+                            alt="user photo" width="26" height="26" />&nbsp;{{ fn[FR.Team_B] }}</b></h5><br>
+      <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#mymodal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="mymodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Header -->
+            <div class="modal-header">
+                <h6 class="modal-title"><b>Delete Match result of </b><br>{{ FR.Team_A }}&nbsp;&nbsp;vs&nbsp;&nbsp;
+                       {{ FR.Team_B }}</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <form method="POST" action="/deletematch">
+                     <h6>Do you want to delete the match result?</h6>
+                    <input type="hidden" name="hint" value="after"/>
+                    <input type="hidden" name="dmatch" value="{{ dmatch }}"/>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                </form><br>
+                <!-- Fotter -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

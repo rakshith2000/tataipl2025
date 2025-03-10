@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='extended_beauty.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Body and Page Background */
+    body {
+        background-image: url('/static/images/banner_bg.jpg');
+        background-size: cover;
+        background-attachment: fixed;"
+        font-family: 'Exo 2', sans-serif;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .banner {
+        padding: 2rem 0;
+        text-align: center;
+        margin-top: -20px;
+    }
+
+    .title-banner {
+        font-size: 48px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+        margin-bottom: 1.5rem;
+    }
+
+    .team-logo {
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-icon {
+        width: 13px;
+        height: auto;
+    }
+
+    .modern-button {
+        background-color: #ff6b81;
+        color: white;
+        border-radius: 8px;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .form-img.blink {
+    animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+    0% {
+      transform: scale(0.9);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(0.9);
+    }
+    }
+
+    .modern-button:hover {
+        transform: translateY(-4px);
+        box-shadow: rgba(255, 105, 180, 0.5) -4px -4px 15px;
+    }
+
+    @media (max-width: 768px) {
+        .title-banner {
+            font-size: 32px;
+        }
+
+        .team-logo {
+            width: 25px;
+            height: 25px;
+        }
+
+        .form-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    body::-webkit-scrollbar {
+        width: 5px;
+        height: 12px;
+    }
+
+    body::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, .1);
+        border-radius: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb {
+        background-color: #ff6b81;
+        border-radius: 10px;
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+        background-color: #f7b733;
+    }
+
+    .table-container::-webkit-scrollbar {
+        height: 12px;
+    }
+
+    .table-container::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, .1);
+        border-radius: 10px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb {
+        background-color: #ff6b81;
+        border-radius: 10px;
+    }
+
+    .table-container::-webkit-scrollbar-thumb:hover {
+        background-color: #f7b733;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+{% set clr_dict = {
+    'Delhi Capitals': ['#2561ae', '#282968'], 
+    'Gujarat Giants': ['#e27602', '#ff6600'],
+    'Mumbai Indians': ['#0077b6', '#004ba0'],
+    'Royal Challengers Bangalore': ['#444444', '#2b2a29'],
+    'UP Worriorz': ['#b100cd', '#7600bc']
+} %}
+
+<div class="banner">
+<center>    <span class="title-banner">IPL 2025 Points Table</span>
+
+    <main class="table" id="customers_table">
+        <section class="table__body">
+            <table>
+                <thead>
+                    <tr>
+                         {% for cols in PT[0][:2] %}
+                        <th class="text-center" style="color: #fff;"> {{ cols }} </th>
+                        {% endfor %}
+                        <th style="color: #fff;"> {{ PT[0][2] }} </th>
+                        {% for cols in PT[0][3:] %}
+                        <th class="text-center" style="color: #fff;"> {{ cols }} </th>
+                        {% endfor %}
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(10) %}
+                    {% if i >= 3 %}{% set bgclr1 = '#ee7171' %}{% set bgclr2 = '#ee2929' %}{% else %}{% set bgclr1 = '#80ee76' %}{% set bgclr2 = '#39b329' %}{% endif %}
+                    <tr style="--c1: #2b2a29; --c2: #444444">
+                        <td class="text-center" style="background-color: #444444;"> {{ PT[1][i] }} </td>
+                        <td class="text-center" style="background-color: {{ clr[TABV[i]] }}">{% if PT[12][i] %}<div class="position-indicator"><span>Q</span>{% endif %}<img src="/static/images/squad_logos/{{ TABV[i] }}.png" alt=""></td>
+                        <td class="team-name" full="{{ PT[3][i] }}" short="{{ TABV[i] }}" style="background: linear-gradient(180deg, #2b2a29, #444444)"> <b>{{ PT[3][i] }}</b> </td>
+                        {% for j in range(4, 8) %}
+                            <td class="text-center">{{ PT[j][i] }}</td>
+                        {% endfor %}
+                        <td class="text-center" ><b>{{ PT[8][i] }}</b></td>
+                        <td class="text-center" ><b>{{ PT[9][i] }}</b></td>
+                        <td class="text-center" >
+                            {% for result in PT[10][i] %}
+                            {% if loop.last %}
+                                {% if result == 'W' %}
+                                    <img class="form-img blink" src="/static/images/W.png" alt="win icon" />
+                                {% else %}
+                                    <img class="form-img blink" src="/static/images/L.png" alt="loss icon" />
+                                {% endif %}
+                            {% else %}
+                                {% if result == 'W' %}
+                                    <img class="form-img" src="/static/images/W.png" alt="win icon" />
+                                {% else %}
+                                    <img class="form-img" src="/static/images/L.png" alt="loss icon" />
+                                {% endif %}
+                            {% endif %}
+
+                            {% endfor %}
+                        </td>
+                        <td class="text-center" >{{ PT[11][i] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        </main>
+    </center>
+</div>
+
+<script>
+    function updateTeamNames() {
+      const screenWidth = window.innerWidth;
+      const teamElements = document.querySelectorAll('.team-name');
+
+      teamElements.forEach(element => {
+        const fullName = element.getAttribute('full');
+        const shortName = element.getAttribute('short');
+
+        if (screenWidth <= 600) { // Mobile view breakpoint
+          element.textContent = shortName;
+        } else {
+          element.textContent = fullName;
+        }
+      });
+    }
+
+    // Update team names on load and window resize
+    window.addEventListener('resize', updateTeamNames);
+    window.addEventListener('load', updateTeamNames);
+  </script>
+
+<script>
+VanillaTilt.init(document.querySelector(".jumbotron"), {
+    max: 25,
+    speed: 400,
+});
+</script>
+
+{% endblock %}

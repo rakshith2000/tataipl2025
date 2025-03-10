@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename= 'extended_beauty.css') }}"
+/>
+<style>
+    /* Add a bit of customization for a modern look */
+    .form-container {
+        background-color: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        color: white;
+        padding: 2rem;
+    }
+    .form-container h2 {
+        font-size: 1.75rem;
+        font-weight: bold;
+        color: #333;
+    }
+    .text-center {
+        color: white;
+    }
+    .form-container .btn {
+        background-color: #3b82f6;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.3s;
+    }
+    .form-container .btn:hover {
+        background-color: #b2b804;
+    }
+    .form-group input {
+        border-radius: 0.375rem;
+        padding: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<center>
+<div class="min-h-screen flex justify-center items-center bg-gray-100" style="padding-top: 20px">
+    <div class="container mx-auto max-w-md">
+        <div class="form-container">
+            <span style="color: black; font-weight: bold; font-size: 25px">No Live Match Today!!!</span>
+            <div style="color: black; padding-top: 20px"><a style="color: blue; font-weight: bold; text-decoration: underline;" href="{{ url_for('main.displayFR') }}">Click here</a> to view the fixtures</div>
+        </div>
+    </div>
+</div>
+</center>
+{% endblock %}

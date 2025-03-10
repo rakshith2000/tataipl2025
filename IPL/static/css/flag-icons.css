@@ -1,0 +1,61 @@
+.fib, .fi {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.fi {
+  position: relative;
+  display: inline-block;
+  width: 1.333333em;
+  line-height: 1em;
+}
+.fi:before {
+  content: " ";
+}
+
+.fi-tba {
+  background-image: url(../images/team_flags/TBA.png);
+}
+
+.fi-csk {
+  background-image: url(../images/team_flags/CSK.png);
+}
+
+.fi-dc {
+  background-image: url(../images/team_flags/DC.png);
+}
+
+.fi-gt {
+  background-image: url(../images/team_flags/GT.png);
+}
+
+.fi-kkr {
+  background-image: url(../images/team_flags/KKR.png);
+}
+
+.fi-lsg {
+  background-image: url(../images/team_flags/LSG.png);
+}
+
+.fi-mi {
+  background-image: url(../images/team_flags/MI.png);
+}
+
+.fi-pbks {
+  background-image: url(../images/team_flags/PBKS.png);
+}
+
+.fi-rr {
+  background-image: url(../images/team_flags/RR.png);
+}
+
+.fi-rcb {
+  background-image: url(../images/team_flags/RCB.png);
+}
+
+.fi-srh {
+  background-image: url(../images/team_flags/SRH.png);
+}
+
+

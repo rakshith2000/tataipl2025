@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Live Cricket Score</title>
+        <script type="text/javascript">
+            var source = new EventSource("{{ url_for('main.live_cricket_score') }}");
+
+            source.onmessage = function(event) {
+                // Convert the JSON string back to an object
+                console.log(event.data);
+                var matchData = JSON.parse(event.data);
+
+                if (matchData.error) {
+                    document.getElementById("match_status").innerHTML = matchData.error;
+                    return;
+                }
+                // Assuming the structure of your external JSON is similar
+                var teamA = matchData.score_strip[0];
+                var teamB = matchData.score_strip[1];
+                var status = matchData.info;
+
+                // Render team scores
+                document.getElementById("team_a_name").innerHTML = teamA.name;
+                document.getElementById("team_a_score").innerHTML = teamA.score || 'Yet to Bat';
+
+                document.getElementById("team_b_name").innerHTML = teamB.name;
+                document.getElementById("team_b_score").innerHTML = teamB.score || 'Yet to Bat';
+
+                // Render batting players
+                /*var battingHTML = "";
+                teamA.players_batting.forEach(function(player) {
+                    battingHTML += "<li>" + player.name + ": " + player.runs + " runs off " + player.balls + " balls</li>";
+                });
+                document.getElementById("batting_players").innerHTML = battingHTML;
+
+                // Render bowling players
+                var bowlingHTML = "";
+                teamB.players_bowling.forEach(function(player) {
+                    bowlingHTML += "<li>" + player.name + ": " + player.wickets + " wickets, " + player.runs_conceded + " runs conceded in " + player.overs + " overs</li>";
+                });
+                document.getElementById("bowling_players").innerHTML = bowlingHTML;*/
+
+                // Render match status
+                document.getElementById("match_status").innerHTML = status;
+            };
+        </script>
+    </head>
+    <body>
+        <h1>Live Cricket Score</h1>
+
+        <!-- Team A details -->
+        <h2>Team A: <span id="team_a_name"></span></h2>
+        <p>Score: <span id="team_a_score"></span></p>
+
+        <!--<h3>Currently Batting</h3>
+        <ul id="batting_players"></ul>-->
+
+        <!-- Team B details -->
+        <h2>Team B: <span id="team_b_name"></span></h2>
+        <p>Score: <span id="team_b_score"></span></p>
+
+        <!--<h3>Currently Bowling</h3>
+        <ul id="bowling_players"></ul>-->
+
+        <!-- Match status -->
+        <h3>Match Status</h3>
+        <p id="match_status"></p>
+    </body>
+    </html>
