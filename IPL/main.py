@@ -123,7 +123,7 @@ def render_live_URL(tA, tB, mn, dt):
 
 @main.route('/')
 def index():
-    if db.session.execute(text('select count(*) from user')).scalar() != 0:
+    if db.session.execute(text('select count(*) from user')).scalar() == 0:
         user = User(email='adminipl2025@gmail.com', \
                     password=generate_password_hash('Admin@ipl2025', method='pbkdf2:sha256', salt_length=8), \
                     name='AdminIPL2025')
