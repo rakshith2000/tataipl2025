@@ -49,10 +49,10 @@
             <span class="bg-white font_14 d-block pt-2 pb-2 px-3 {{ fc }}"><b>{% if dt3['info'] %}{{ dt3['info'] }}{% else %}
 		    <div class="clockdiv" data-deadline="{{ dttm.strftime('%Y-%m-%dT%H:%M:%S') }}">
 			    <span> Starts in: </span>
-			    <span class="days" id="day" style="font-size: 22px;">90</span><span style="color: #a6a6a6a;"> Days</span>
-			    <span class="hours" id="hour" style="font-size: 22px;">23</span><span style="color: #a6a6a6;"> Hrs</span>
-			    <span class="minutes" id="minute" style="font-size: 22px;">59</span><span style="color: #a6a6a6;"> Mins</span>
-			    <span class="seconds" id="second" style="font-size: 22px;">59</span><span style="color: #a6a6a6;"> Secs</span>
+			    <span class="days" id="day" style="font-size: 22px;"></span><span style="color: #a6a6a6a;"> Days</span>
+			    <span class="hours" id="hour" style="font-size: 22px;"></span><span style="color: #a6a6a6;"> Hrs</span>
+			    <span class="minutes" id="minute" style="font-size: 22px;"></span><span style="color: #a6a6a6;"> Mins</span>
+			    <span class="seconds" id="second" style="font-size: 22px;"></span><span style="color: #a6a6a6;"> Secs</span>
 		    </div>
 		    {% endif %}</b></span>
 		   {% if dt3['info'] != "" and 'won' not in dt3['info'] and 'Break' not in dt3['info'] %}
