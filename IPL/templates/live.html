@@ -57,11 +57,11 @@
 		    {% if dt3['info'] == "" %}{% set fc = 'text-orange' %}{% elif 'won' in dt3['info'] %}{% set fc = 'text-blue' %}{% else %}{% set fc = 'text-danger' %}{% endif %}
             <span class="bg-white font_14 d-block pt-2 pb-2 px-3 {{ fc }}"><b>{% if dt3['info'] %}{{ dt3['info'] }}{% else %}
 		    <div class="clockdiv" data-deadline="{{ dttm.strftime('%Y-%m-%dT%H:%M:%S') }}">
-			    <span> Match Starts in </span>
-			    <span class="days" id="day" style="font-size: 25px;"></span><span> Days</span>
-			    <span class="hours" id="hour" style="font-size: 25px;">:</span><span> Hours</span>
-			    <span class="minutes" id="minute" style="font-size: 25px;">:</span><span> Minutes</span>
-			    <span class="seconds" id="second" style="font-size: 25px;"></span><span> Seconds</span>
+			    <span> Starts in: </span>
+			    <span class="days" id="day" style="font-size: 23px;"></span><span> Days</span>
+			    <span class="hours" id="hour" style="font-size: 23px;">:</span><span> Hrs</span>
+			    <span class="minutes" id="minute" style="font-size: 23px;">:</span><span> Mins</span>
+			    <span class="seconds" id="second" style="font-size: 23px;"></span><span> Secs</span>
 		    </div>
 		    {% endif %}</b></span>
 		   {% if dt3['info'] != "" and 'won' not in dt3['info'] and 'Break' not in dt3['info'] %}
