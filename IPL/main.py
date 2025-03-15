@@ -99,6 +99,11 @@ def oversSub(a, b):
 def ovToPer(n):
     return (int(n)+((n-int(n))*10)/6)
 
+def concat_DT(D, T):
+    dttm = D.strftime('%Y-%m-%d')+' '+ \
+                     T.strftime('%H:%M:%S')
+    return datetime.strptime(dttm, '%Y-%m-%d %H:%M:%S')
+
 def num_suffix(num):
     if num % 100 in [11, 12, 13]:
         return str(num) + "th"
@@ -259,38 +264,40 @@ def squad_details(team, name):
 def matchInfo(match):
     MatchDT = (db.session.execute(text('SELECT * FROM Fixture WHERE "Match_No" = :matchno'), {'matchno': match}).fetchall())[0]
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
-    print(MatchURL)
+    dttm = concat_DT(MatchDT[2], MatchDT[3])
     response = requests.get(MatchURL)
     MatchLDT = response.json()
     MatchDT2 = []
     MatchDT2.append(num_suffix(int(MatchDT[1]))+" Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day)+" "+MatchDT[2].strftime("%B %Y"))
-    return render_template('info.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID)
+    return render_template('info.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm)
 
 @main.route('/match-<match>/liveScore')
 def liveScore(match):
     MatchDT = (db.session.execute(text('SELECT * FROM Fixture WHERE "Match_No" = :matchno'),{'matchno': match}).fetchall())[0]
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
+    dttm = concat_DT(MatchDT[2], MatchDT[3])
     response = requests.get(MatchURL)
     MatchLDT = response.json()
     MatchDT2 = []
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
-    return render_template('live.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID)
+    return render_template('live.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm)
 
 @main.route('/match-<match>/scoreCard')
 def scoreCard(match):
     MatchDT = (db.session.execute(text('SELECT * FROM Fixture WHERE "Match_No" = :matchno'), {'matchno': match}).fetchall())[0]
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
+    dttm = concat_DT(MatchDT[2], MatchDT[3])
     response = requests.get(MatchURL)
     MatchLDT = response.json()
     MatchDT2 = []
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
-    return render_template('scorecard.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID)
+    return render_template('scorecard.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm)
 
 @main.route('/match-<match>/FRScore')
 def FRScore(match):
