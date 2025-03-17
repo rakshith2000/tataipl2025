@@ -39,7 +39,6 @@
 {% endmacro %}
 
     {% set teams = ['CSK', 'DC', 'GT', 'KKR', 'LSG', 'MI', 'PBKS', 'RR', 'RCB', 'SRH'] %}
-    <div class="t-filter" style="position: fixed; top: 75px; left: 0; width: 100%; z-index: 1000;">
     <a href="{{ url_for('main.displayFR', team='All') }}"
      class="custom-button {{ 'active' if hint == 'All' else '' }}">
      All
@@ -51,7 +50,7 @@
        {{ i }}
     </a>
   {% endfor %}
-    </div>
+
 <div style="padding-bottom: 35px;"></div>
 {% for i in FR[1:] %}
 {% if i[1] > current_date %}
