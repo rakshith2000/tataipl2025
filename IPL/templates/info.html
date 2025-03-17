@@ -162,7 +162,10 @@
       const secondsSpan = clockElement.querySelector(".seconds");
 
       const interval = setInterval(function () {
-        const now = new Date().getTime();
+        const Tnow = new Date();
+        const timeZone = 'Asia/Kolkata';
+        const dateInTimeZone = new Date(Tnow.toLocaleString('en-US', { timeZone }));
+        const now = dateInTimeZone.getTime();
         const t = deadline - now;
 
         if (t < 0) {
