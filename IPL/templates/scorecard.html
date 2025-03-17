@@ -240,7 +240,9 @@
     }
 
     // Initialize timers for all clock elements
-    document.querySelectorAll(".clockdiv").forEach(createTimer);
+    document.querySelectorAll(".clockdiv").forEach(function(clockElement) {
+  createTimer(clockElement); // This will start the timer instantly
+});
 </script>
 
 
