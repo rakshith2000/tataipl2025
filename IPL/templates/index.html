@@ -215,13 +215,13 @@ h3.section-title {
     </div>
 
     <div class="team-container">
-      <h3 class="section-title"><span class="section-title-highlight"><span style="color: #d5edff;">🔥 TATA IPL 2025 Teams 🔥</span></span></h3>
+      <h3 class="section-title"><span class="section-title-highlight"><span style="color: #d5edff;">🔥TATA IPL 2025🔥Teams</span></span></h3>
       <div class="flex-container">
         {% for i in teams[:-1] %}
         <div class="card-wrapper">
 			<a href="{{ url_for('main.squad', team=i) }}">
 			<div class="card-inner">
-				<div class="card-front" style="--c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }};">
+				<div class="card-front" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
 					<img class="card-image" src="/static/images/squad_logos/{{ i }}.png" alt="{{ i }}">
 				</div>
 				<div class="card-back" style="--c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }};">
