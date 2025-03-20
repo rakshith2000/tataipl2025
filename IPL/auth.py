@@ -20,6 +20,7 @@ def login_post():
     user = User.query.filter_by(email=email).first()
     print(user)
     if not user or not check_password_hash(user.password, password):
+        flash('Invalid username or password', category='error')
         return redirect(url_for('auth.login'))
 
     login_user(user, remember=remember)
