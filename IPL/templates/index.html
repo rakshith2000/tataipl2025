@@ -221,10 +221,10 @@ h3.section-title {
         <div class="card-wrapper">
 			<a href="{{ url_for('main.squad', team=i) }}">
 			<div class="card-inner">
-				<div class="card-front" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
+				<div class="card-front" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}  {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
 					<img class="card-image" src="/static/images/squad_logos/{{ i }}.png" alt="{{ i }}">
 				</div>
-				<div class="card-back" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
+				<div class="card-back" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}  {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
 				{{ i | upper }}
 				</div>
 			</div>

@@ -175,6 +175,10 @@
                             {% set gradient_color = clr[TABV[i]]['c2'] ~ ', ' ~ clr[TABV[i]]['c1'] %}
                         {% elif TABV[i] == 'KKR' %}
                             {% set gradient_color = clr[TABV[i]]['c2'] ~ ', ' ~ clr[TABV[i]]['c3'] %}
+                        {% elif TABV[i] == 'MI' %}
+                            {% set gradient_color = clr[TABV[i]]['c3'] ~ ', ' ~ clr[TABV[i]]['c2'] %}
+                        {% elif TABV[i] == 'GT' %}
+                            {% set gradient_color = clr[TABV[i]]['c3'] ~ ', ' ~ clr[TABV[i]]['c2'] %}
                         {% else %}
                             {% set gradient_color = clr[TABV[i]]['c1'] ~ ', ' ~ clr[TABV[i]]['c2'] %}
                         {% endif %}

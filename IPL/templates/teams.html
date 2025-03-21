@@ -224,7 +224,7 @@ body {
         <span>{{ fn[i] }}</span>
       </div>
       <a href="{{ url_for('main.squad', team=i) }}">
-        <div class="grad-card" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
+        <div class="grad-card" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
           <!-- Content Block Space for Middle -->
           <div class="card-content">
             <img class="team-players" src="/static/images/team_players/{{ i }}.png" alt="Team Logo" />
