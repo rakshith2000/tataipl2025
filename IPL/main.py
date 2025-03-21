@@ -42,7 +42,7 @@ teamID = {610:['CSK','Chennai Super Kings'],
              127770:['TBA','TBA'],
              127775:['TBA','TBA']}
 
-clr = {'CSK':{'c1':'#fdcd05', 'c2':'#f15c19', 'c3':'#00adef'},
+clr = {'CSK':{'c1':'#ffff3c', 'c2':'#fdcd05', 'c3':'#00adef'},  #fdcd05 f15c19,
         'DC':{'c1':'#d71921', 'c2':'#2561ae', 'c3':'#282968'},
         'GT':{'c1':'#1b2133', 'c2':'#242b64', 'c3':'#dbbe6e'},
         'KKR':{'c1':'#F9E278', 'c2':'#64517C', 'c3':'#3a225d'},
@@ -201,7 +201,7 @@ def displayPT():
         dt[10].append(wl)
         dt[11].append(nm)
         dt[12].append(i.qed)
-    return render_template('displayPT.html', PT=dt, TABV=teams_ABV, clr=ptclr)
+    return render_template('displayPT.html', PT=dt, TABV=teams_ABV, clr=clr)
 
 @main.route('/fixtures')
 def displayFR():
