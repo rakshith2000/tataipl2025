@@ -1,0 +1,256 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename= 'extended_beauty.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fixtures.css') }}">
+<style>
+:root {
+   --border_orange :#ffb09e;
+   --border_orange_light :#ffe4dd;
+}
+.plain-link {
+  text-decoration: none !important; /* Removes underline */
+  color: inherit;        /* Keeps color same as surrounding text */
+  cursor: pointer;       /* Normal text cursor */
+}
+.border {
+  border:1px solid #ffe4dd;
+}
+.border_orange {
+  border:1px solid #ffb09e;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="background-image: url('/static/images/banner_bg.jpg'); padding-top: 79px; background-size: cover;
+            background-attachment: fixed;">
+<center>
+  {% macro num_suffix(n) %}
+    {% if n % 100 in [11, 12, 13] %}
+        {{ n }}th
+    {% elif n % 10 == 1 %}
+        {{ n }}st
+    {% elif n % 10 == 2 %}
+        {{ n }}nd
+    {% elif n % 10 == 3 %}
+        {{ n }}rd
+    {% else %}
+        {{ n }}th
+    {% endif %}
+{% endmacro %}
+
+<div style="padding-bottom: 20px;"></div>
+{% for i in FR[1:] %}
+{% if i[1] > current_date %}
+<a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">
+<div class="main-container">
+  <div class="score-card border">
+    <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>
+    <div class="match-info">{% if i[0] | int(default=None) is not none%}{{ num_suffix(i[0] | int) ~ " " ~ "Match" }}{% else %}{{ i[0] }}{% endif %} &bull; {{ i[2] }}</div>
+    <!-- Team B -->
+      <div class="teams">
+      <div class="team">
+        <img src="/static/images/team_flags/{{ i[3] }}.png" alt="India Flag">
+        <span style="color: black; font-weight: bold">{{ fn[i[3]] }}</span>
+      </div>
+    </div>
+      <!-- Team B-->
+    <div class="teams">
+      <div class="team">
+        <img src="/static/images/team_flags/{{ i[4] }}.png" alt="India Flag">
+        <span style="color: black; font-weight: bold">{{ fn[i[4]] }}</span>
+      </div>
+    </div>
+      <!-- Result -->
+      <div class="result" style="color: #dc6604">Starts {{ i[1].strftime('%a, %d %b') }} &bull; {{ i[1].strftime('%I:%M %p') }} IST</div>
+  </div>
+
+  <div class="timer-card border">
+    <div class="header" style="text-align: center;">Match starts in</div>
+
+      <div class="clockdiv" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}" style="padding-top: 20px">
+    <div>
+        <span class="days" id="day"></span>
+        <div class="smalltext">Days</div>
+    </div>
+    <div>
+        <span class="hours" id="hour"></span>
+        <div class="smalltext">Hours</div>
+    </div>
+    <div>
+        <span class="minutes" id="minute"></span>
+        <div class="smalltext">Minutes</div>
+    </div>
+    <div>
+        <span class="seconds" id="second"></span>
+        <div class="smalltext">Seconds</div>
+    </div>
+</div>
+  </div>
+</div></a>
+
+{% elif i[1] <= current_date and i[7] == 'TBA' %}
+    <a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">
+<div class="main-container">
+  <div class="score-card border">
+    <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>
+    <div class="match-info">{% if i[0] | int(default=None) is not none%}{{ num_suffix(i[0] | int) ~ " " ~ "Match" }}{% else %}{{ i[0] }}{% endif %} &bull; {{ i[2] }}</div>
+     <!-- Team A -->
+      <div class="teams">
+      <div class="team">
+        <img src="/static/images/team_flags/{{ i[3] }}.png" alt="India Flag">
+        <span style="color: black; font-weight: bold">{{ fn[i[3]] }}</span>
+      </div>
+    </div>
+      <!-- Team B-->
+    <div class="teams">
+      <div class="team">
+        <img src="/static/images/team_flags/{{ i[4] }}.png" alt="India Flag">
+        <span style="color: black; font-weight: bold">{{ fn[i[4]] }}</span>
+      </div>
+    </div>
+      <!-- Result -->
+      <div class="result blink" style="color: #c11616">Match is In-Progress</div>
+  </div>
+  <div class="timer-card border">
+    <div class="header" style="text-align: center;">Match is In-Progress</div>
+      <div class="vsblock" style="padding-top: 35px;">
+		<img class="team-image" style="--c1: {{ clr[i[3]]['c1'] }}; --c2: {{ clr[i[3]]['c2'] }};" src="\static\images\squad_logos\{{ i[3] }}.webp" alt="Team Logo" />
+		<img class="vs-image" src="\static\images\vs.png" alt="Team Logo" />
+		<img class="team-image" style="--c1: {{ clr[i[4]]['c1'] }}; --c2: {{ clr[i[4]]['c2'] }};" src="\static\images\squad_logos\{{ i[4] }}.webp" alt="Team Logo" />
+</div>
+  </div>
+</div></a>
+
+{% elif i[7] != 'TBA' %}
+    <!--<a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">-->
+<div class="main-container">
+  <div class="score-card border">
+    <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>
+    <div class="match-info">{% if i[0] | int(default=None) is not none%}{{ num_suffix(i[0] | int) ~ " " ~ "Match" }}{% else %}{{ i[0] }}{% endif %} &bull; {{ i[2] }}</div>
+    {% if 'Super over' not in i[10] %}
+      {% if i[7] == i[3] and i[8] == "runs" %}
+      {% set TA, TB, TA_S, TB_S = i[3], i[4], i[5], i[6] %}
+      {% elif i[7] == i[3] and i[8] == "wickets" %}
+      {% set TA, TB, TA_S, TB_S = i[4], i[3], i[6], i[5] %}
+      {% elif i[7] == i[4] and i[8] == "runs" %}
+      {% set TA, TB, TA_S, TB_S = i[4], i[3], i[6], i[5] %}
+      {% else %}
+      {% set TA, TB, TA_S, TB_S = i[3], i[4], i[5], i[6] %}
+      {% endif %}
+    {% else %}
+      {% if i[7] == i[3] and i[8] == "runs" %}
+      {% set TA, TB, TA_S, TB_S = i[4], i[3], i[6], i[5] %}
+      {% elif i[7] == i[3] and i[8] == "wickets" %}
+      {% set TA, TB, TA_S, TB_S = i[3], i[4], i[5], i[6] %}
+      {% elif i[7] == i[4] and i[8] == "runs" %}
+      {% set TA, TB, TA_S, TB_S = i[3], i[4], i[5], i[6] %}
+      {% else %}
+      {% set TA, TB, TA_S, TB_S = i[4], i[3], i[6], i[5] %}
+      {% endif %}
+    {% endif %}
+
+      <!-- Team A -->
+      {% if TA == i[7] %}{% set TAclr = '#000000'%}{% else %}{% set TAclr = '#7f7f7f'%}{% endif %}
+      <div class="teams">
+      <div class="team">
+        <img src="/static/images/team_flags/{{ TA }}.png" alt="India Flag">
+        <span class="team-name" full="{{ fn[TA] }}" short="{{ TA }}" style="color: {{ TAclr }}; font-weight: bold">{{ fn[TA] }}</span>
+      </div>
+      <div class="score-wrapper">
+        <div class="score" style="color: {{ TAclr }}">{{ TA_S['runs'] }}-{{ TA_S['wkts'] }} ({{ TA_S['overs'] }})</div>
+      </div>
+  </div>
+      <!-- Team B -->
+      {% if TB == i[7] %}{% set TBclr = '#000000'%}{% else %}{% set TBclr = '#7f7f7f'%}{% endif %}
+      <div class="teams">
+      <div class="team">
+        <img src="/static/images/team_flags/{{ TB }}.png" alt="India Flag">
+        <span class="team-name" full="{{ fn[TB] }}" short="{{ TB }}" style="color: {{ TBclr }}; font-weight: bold">{{ fn[TB] }}</span>
+      </div>
+      <div class="score-wrapper">
+        <div class="score" style="color: {{ TBclr }}">{{ TB_S['runs'] }}-{{ TB_S['wkts'] }} ({{ TB_S['overs'] }})</div>
+      </div>
+  </div>
+      <div class="result"><span class="team-name" full="{{ fn[i[7]] }}" short="{{ i[7] }}">{{ fn[i[7]] }}</span> {{ i[10] }}</div>
+      </div>
+  <div class="timer-card border">
+    <div class="header" style="text-align: center;">Match Completed</div>
+      <div class="vsblock" style="padding-top: 10px;">
+		<img class="team-image" style="--c1: {{ clr[i[3]]['c1'] }}; --c2: {{ clr[i[3]]['c2'] }};" src="\static\images\squad_logos\{{ i[3] }}.webp" alt="Team Logo" />
+		<img class="vs-image" src="\static\images\vs.png" alt="Team Logo" />
+		<img class="team-image" style="--c1: {{ clr[i[4]]['c1'] }}; --c2: {{ clr[i[4]]['c2'] }};" src="\static\images\squad_logos\{{ i[4] }}.webp" alt="Team Logo" />
+</div>
+      <div class="result" style="width: 80%;">{{ fn[i[7]] }} {{ i[10] }}</div>
+  </div>
+</div></a>
+{% endif %}
+{% endfor %}
+</center>
+
+<script>
+      // Function to create a timer for a given clock element
+      function createTimer(clockElement) {
+      const deadline = new Date(clockElement.getAttribute("data-deadline")).getTime();
+
+      const daysSpan = clockElement.querySelector(".days");
+      const hoursSpan = clockElement.querySelector(".hours");
+      const minutesSpan = clockElement.querySelector(".minutes");
+      const secondsSpan = clockElement.querySelector(".seconds");
+
+      const interval = setInterval(function () {
+        const Tnow = new Date();
+        const timeZone = 'Asia/Kolkata';
+        const dateInTimeZone = new Date(Tnow.toLocaleString('en-US', { timeZone }));
+        const now = dateInTimeZone.getTime();
+        const t = deadline - now;
+
+        if (t < 0) {
+          clearInterval(interval);
+          daysSpan.textContent = "0";
+          hoursSpan.textContent = "0";
+          minutesSpan.textContent = "0";
+          secondsSpan.textContent = "0";
+          return;
+        }
+
+        const days = Math.floor(t / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((t % (1000 * 60)) / 1000);
+
+        daysSpan.textContent = days;
+        hoursSpan.textContent = hours;
+        minutesSpan.textContent = minutes;
+        secondsSpan.textContent = seconds;
+      }, 1000);
+    }
+
+    // Initialize timers for all clock elements
+    document.querySelectorAll(".clockdiv").forEach(function(clockElement) {
+  createTimer(clockElement); // This will start the timer instantly
+});
+
+    </script>
+    <script>
+    function updateTeamNames() {
+      const screenWidth = window.innerWidth;
+      const teamElements = document.querySelectorAll('.team-name, .result1');
+
+      teamElements.forEach(element => {
+        const fullName = element.getAttribute('full');
+        const shortName = element.getAttribute('short');
+
+        if (screenWidth <= 845) { // Mobile view breakpoint
+          element.textContent = shortName;
+        } else {
+          element.textContent = fullName;
+        }
+      });
+    }
+
+    // Update team names on load and window resize
+    window.addEventListener('resize', updateTeamNames);
+    window.addEventListener('load', updateTeamNames);
+  </script>
+
+{% endblock %}

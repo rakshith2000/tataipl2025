@@ -322,7 +322,34 @@ def todayMatch():
     if len(TodayFR) == 0:
         return render_template('no_live_match.html')
     else:
-        return redirect(url_for('main.FRScore', match=TodayFR[0][1]))
+        dt = [['Match No', 'Date', 'Venue', 'Team-A', 'Team-B', 'TA-Score', 'TB-Score', 'WT', 'WType', 'WBy', 'Result']]
+        for i in TodayFR:
+            dtt = []
+            dtt.append(i[1])  # Match No
+            dttm = i[2].strftime('%Y-%m-%d') + ' ' + \
+                   i[3].strftime('%H:%M:%S')
+            dtt.append(datetime.strptime(dttm, '%Y-%m-%d %H:%M:%S'))  # DateTime
+            dtt.append(i[6].split(', ')[1])  # Venue
+            dtt.append(i[4])  # Team A
+            dtt.append(i[5])  # Team B
+            A, B = i[8], i[9]
+            dtt.append(A)  # TA_Scr
+            dtt.append(B)  # TB_Scr
+            if i[10] is None:
+                dtt.append('TBA')  # Win-Team
+                dtt.append('TBA')
+                dtt.append('TBA')
+            else:
+                dtt.append(i[10])
+                WType = 'wickets' if 'wickets' in i[7] else 'runs'
+                dtt.append(WType)
+                WBy = re.findall(r'\d+', i[7])[0]
+                dtt.append(str(WBy))
+                dtt.append(i[7][i[7].index('won'):])
+            dt.append(dtt)
+        current_date = datetime.now(tz)
+        current_date = current_date.replace(tzinfo=None)
+        return render_template('liveMatches.html', FR=dt, fn=full_name, current_date=current_date, clr=clr)
 
 @main.route('/update')
 @login_required
