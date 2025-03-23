@@ -318,7 +318,7 @@ def FRScore(match):
 @main.route('/todayMatch')
 def todayMatch():
     current_date = datetime.now(tz).replace(tzinfo=None).date()
-    TodayFR = db.session.execute(text('SELECT * FROM Fixture WHERE "Date" = :current_date'),{'current_date': current_date}).fetchall()
+    TodayFR = db.session.execute(text('SELECT * FROM Fixture WHERE "Date" = :current_date order by id'),{'current_date': current_date}).fetchall()
     if len(TodayFR) == 0:
         return render_template('no_live_match.html')
     else:
