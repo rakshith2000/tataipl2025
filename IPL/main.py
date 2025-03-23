@@ -284,7 +284,7 @@ def liveScore(match):
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
-    return render_template('live.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm)
+    return render_template('live.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr)
 
 @main.route('/match-<match>/scoreCard')
 def scoreCard(match):

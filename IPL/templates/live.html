@@ -19,6 +19,61 @@
         background-size: cover;
         background-attachment: fixed;
     }
+    .container1{
+    width: 75%;
+    margin: 50px auto;
+    text-align: center;
+    }
+
+    .label-container {
+            width: 95%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            margin: 0 auto;
+            padding-bottom: 5px;
+        }
+
+        .label-container span {
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 80%;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 7px;
+            position: relative;
+			margin: 0 auto;
+        }
+
+        .l-bar {
+            height: 100%;
+            background-color: var(--c);
+            position: absolute;
+            left: 0;
+        }
+
+        .r-bar {
+            height: 100%;
+            background-color: var(--c);
+            position: absolute;
+            right: 0;
+        }
+
+        .text-container {
+            padding-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            margin: 0 auto;
+            width: 90%;
+        }
+
+        .text-container span {
+            font-size: 13px;
+        }
     </style>
 {% endblock %}
 
@@ -79,6 +134,26 @@
 		 <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.scoreCard', match=match) }}">Scorecard</a></li>
 		</ul>
 	    </div>
+
+          {% if dt3['innings'] | length != 0 %}
+          <div class="live_4 border rounded_10 bg-white mt-3 pt-3 pb-3">
+              <div class="container" style="width: 100%">
+            <div class="label-container">
+                <img src="{{ url_for('static', filename= 'images/squad_logos/'~dt1[4]~'.png') }}" width="40px" height="40px">
+                <span><b>Win Probability %</b></span>
+                <img src="{{ url_for('static', filename= 'images/squad_logos/'~dt1[5]~'.png') }}" width="40px" height="40px">
+            </div>
+            <div class="progress-bar">
+                <div class="l-bar" style="--c: {{ clr[dt1[4]] }}; width: {{ dt3['team_win_probability'][dt1[4]] }}%"></div>
+                <div class="r-bar" style="--c: {{ clr[dt1[5]] }}; width: {{ dt3['team_win_probability'][dt1[5]] }}%"></div>
+            </div>
+            <div class="text-container">
+                <span><b>{{ (dt3['team_win_probability'][dt1[4]] | float) | round(0) | int }}%</b></span>
+                <span><b>{{ (dt3['team_win_probability'][dt1[5]] | float) | round(0) | int }}%</b></span>
+            </div>
+            </div>
+          </div>{% endif %}
+
       {% if dt3['innings'] | length != 0 %}
 		<div class="live_3 border rounded_10 bg-white mt-3 pt-3">
 		  <div class="table-responsive">
