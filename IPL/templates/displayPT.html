@@ -182,7 +182,7 @@
                         {% else %}
                             {% set gradient_color = clr[TABV[i]]['c1'] ~ ', ' ~ clr[TABV[i]]['c2'] %}
                         {% endif %}
-                        <td class="text-center" style="background: linear-gradient(145deg, {{ gradient_color }})">{% if PT[12][i] %}<div class="position-indicator"><span>Q</span>{% endif %}<img src="/static/images/squad_logos/{{ TABV[i] }}.png" alt=""></td>
+                        <td class="text-center" style="background: linear-gradient(145deg, {{ gradient_color }})">{% if PT[12][i] %}<div class="position-indicator"><span>Q</span>{% endif %}</div><img src="/static/images/squad_logos/{{ TABV[i] }}.png" alt=""></td>
                         <td class="team-name" full="{{ PT[3][i] }}" short="{{ TABV[i] }}" style="background: linear-gradient(180deg, #2b2a29, #444444)"> <b>{{ PT[3][i] }}</b> </td>
                         {% for j in range(4, 8) %}
                             <td class="text-center">{{ PT[j][i] }}</td>
