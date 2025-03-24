@@ -20,8 +20,8 @@
         background-attachment: fixed;
     }
     .container1{
-    width: 75%;
-    margin: 50px auto;
+    width: 95%;
+    margin: 0 auto;
     text-align: center;
     }
 
@@ -137,7 +137,7 @@
 
           {% if dt3['team_win_probability'].items() | length != 0 %}
           <div class="live_4 border rounded_10 bg-white mt-3 pt-3 pb-3">
-              <div class="container" style="width: 100%">
+              <div class="container1">
             <div class="label-container">
                 <img src="{{ url_for('static', filename= 'images/squad_logos/'~dt1[4]~'.png') }}" width="40px" height="40px">
                 <span><b>Win Probability %</b></span>
