@@ -144,8 +144,8 @@
                 <img src="{{ url_for('static', filename= 'images/squad_logos/'~dt1[5]~'.png') }}" width="40px" height="40px">
             </div>
             <div class="progress-bar">
-                <div class="l-bar" style="--c: {{ clr[dt1[4]] }}; width: {{ dt3['team_win_probability'][dt1[4]] }}%"></div>
-                <div class="r-bar" style="--c: {{ clr[dt1[5]] }}; width: {{ dt3['team_win_probability'][dt1[5]] }}%"></div>
+                <div class="l-bar" style="--c: {{ clr[dt1[4]] }}; width: (dt3['team_win_probability'][dt1[4]] | float) | round(0) | int }}%"></div>
+                <div class="r-bar" style="--c: {{ clr[dt1[5]] }}; width: (dt3['team_win_probability'][dt1[5]] | float) | round(0) | int }}%"></div>
             </div>
             <div class="text-container">
                 <span><b>{{ (dt3['team_win_probability'][dt1[4]] | float) | round(0) | int }}%</b></span>
