@@ -133,7 +133,13 @@ body {
   height: 23px; /* Maintain aspect ratio */
 }
 
-
+.top-left-icon {
+  position: absolute; /* Positioning it absolutely within the card-content */
+  top: 15px; /* Adjust as needed */
+  left: 15px; /* Adjust as needed */
+  width: 24px; /* Set the width of the icon */
+  height: 23px; /* Maintain aspect ratio */
+}
 
 /* Image Styling */
 .team-image {
@@ -206,6 +212,8 @@ body {
                 <img class="team-players" src="/static/images/squads/{{ i.Team }}/{{ name.replace(' ','-') }}.png" alt="Team Logo" />
                 {% if i.Captain == 'Y' %}
               <img class="top-right-icon" src="/static/images/captain.png" alt="Icon" />{% endif %}
+              {% if i.Overseas == 'Y' %}
+              <img class="top-left-icon" src="/static/images/overseas.png" alt="Icon" />{% endif %}
             </div>
 
               <div class="card-footer">
@@ -216,9 +224,6 @@ body {
             <div class="row" style="justify-content: center;">
               {% if i.Keeper == 'Y' %}
               <img src="/static/images/keeper.png" width="22" height="21" />&nbsp;
-              {% endif %}
-              {% if i.Overseas == 'Y' %}
-              <img src="/static/images/overseas.png" width="22" height="21" />&nbsp;
               {% endif %}
               {% if i.Role == 'Batter' or i.Role == 'Wicket Keeper' %}
               <img src="/static/images/Batter.svg" width="22" height="21" />&nbsp;

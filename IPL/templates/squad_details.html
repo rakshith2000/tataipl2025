@@ -318,6 +318,8 @@ color: white;
         <img class="team-players" src="/static/images/squads/{{ sq.Team }}/{{ name.replace(' ','-') }}.png" width="200" height="200"/>
 	    {% if sq.Captain == 'Y' %}
               <img class="top-right-icon" src="/static/images/captain.png" alt="Icon" />{% endif %}
+            {% if i.Overseas == 'Y' %}
+              <img class="top-left-icon" src="/static/images/overseas.png" alt="Icon" />{% endif %}
         </div>
 
          <div class="card-footer">
@@ -328,9 +330,6 @@ color: white;
 	<div class="row" style="justify-content: center;">
         {% if sq.Keeper == 'Y' %}
 	<img src="/static/images/keeper.png" width="22" height="21"/>&nbsp;
-        {% endif %}
-        {% if sq.Overseas == 'Y' %}
-	<img src="/static/images/overseas.png" width="22" height="21"/>&nbsp;
         {% endif %}
         {% if sq.Role == 'Batter' or sq.Role == 'Wicket Keeper' %}
 	<img src="/static/images/Batter.svg" width="22" height="21"/>&nbsp;
