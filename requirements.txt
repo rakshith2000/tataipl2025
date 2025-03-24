@@ -9,3 +9,4 @@ psycopg2
 APScheduler
 flask_apscheduler
 newrelic
+matplotlib
