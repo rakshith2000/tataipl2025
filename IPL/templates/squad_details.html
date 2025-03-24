@@ -318,7 +318,7 @@ color: white;
         <img class="team-players" src="/static/images/squads/{{ sq.Team }}/{{ name.replace(' ','-') }}.png" width="200" height="200"/>
 	    {% if sq.Captain == 'Y' %}
               <img class="top-right-icon" src="/static/images/captain.png" alt="Icon" />{% endif %}
-            {% if i.Overseas == 'Y' %}
+            {% if sq.Overseas == 'Y' %}
               <img class="top-left-icon" src="/static/images/overseas.png" alt="Icon" />{% endif %}
         </div>
 
