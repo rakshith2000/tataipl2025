@@ -61,66 +61,65 @@
              {% endif %}
 
         <ul class="mb-0 bg-white rounded_bottom px-3 score_tab d-block">
-         <li class="mx-2 d-inline-block"><a class="active d-block" href="{{ url_for('main.matchInfo', match=match) }}">Info</a></li>
+         <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.matchInfo', match=match) }}">Info</a></li>
 		 <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.liveScore', match=match) }}">Live</a></li>
 		 <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.scoreCard', match=match) }}">Scorecard</a></li>
-			<li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
+			<li class="mx-2 d-inline-block"><a class="active d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
 		</ul>
 	    </div>
-		<div class="live_5 border rounded_10 bg-white mt-3 pt-3" style="padding-bottom: 20px">
-        <div class="row">
-		 <div class="col pt-2">
-             <span class="d-block px-3 pt-1 pb-1 bg-greenlight font_16"><b>Match Details</b></span>
-			 <center>
-		   <div class="table-responsive mt-2" style="width: 90%">
-		    <table class="table font_12 mb-0 align-middle">
+
+		  <div class="score_2_inner border rounded_10 bg-white mt-3">
+			     <b class="bg_green font_14 d-block px-3 text-white pt-3 pb-3 rounded_top">{{ tid[i['batting_team_id']][1] }} <span class="font_12">Innings</span> </b>
+				 <div class="table-responsive">
+		    <table class="table font_12 mb-0">
+  <thead class="border-0">
+    <tr class="bg-greenlight">
+      <th class="text-muted">BATTING</th>
+      <th class="text-muted">R</th>
+      <th class="text-muted">B</th>
+      <th class="text-muted">4s</th>
+	  <th class="text-muted">6s</th>
+	  <th class="text-muted">SR</th>
+    </tr>
+  </thead>
   <tbody>
-    <tr class="border border-end">
-	  <td class="bg-light fw-bold">Match</td>
-      <td class="border-start">{{ dt2[0] }}	</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Series</td>
-      <td class="border-start">TATA Indian Premier League 2025</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Date</td>
-      <td class="border-start">{{ dt1[2].strftime("%a, %b %d") }}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Time</td>
-      <td class="border-start">{{ dt1[3].strftime("%I:%M %p") }} IST	</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Venue</td>
-      <td class="border-start">{{ dt1[6] }}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Toss</td>
-      <td class="border-start">{% if "toss_won_by" in dt3 %}{{ tid[dt3['toss_won_by']][1]~" elected to "~dt3['toss_decision'] }}{% else %}{{ '-' }}{% endif %}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Umpires</td>
-      <td class="border-start">{% if dt3['umpires'] %}{{ dt3['umpires'].split(',')[:2] | join(',') }}{% else %}{{ 'TBA' }}{% endif %}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">3rd Umpire</td>
-      <td class="border-start">{% if dt3['umpires'] %}{{ dt3['umpires'].split(',')[2]~')' }}{% else %}{{ 'TBA' }}{% endif %}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Referee</td>
-      <td class="border-start">{% if dt3['referee'] %}{{ dt3['referee'] }}{% else %}{{ 'TBA' }}{% endif %}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">TV / Streaming</td>
-      <td class="border-start">Star Sports Network / JioHotstar	</td>
-     </tr>
+  {% for batsmen in i['batting'] %}
+    <tr class="border-0">
+      <td class="pb-0 text-blue" ><b>{{ batsmen['name'] }}</b></td>
+      <td class="pb-0" ><b>{{ batsmen['runs'] }}</b></td>
+      <td class="pb-0" >{{ batsmen['balls'] }}</td>
+	  <td class="pb-0" >{{ batsmen['fours'] }}</td>
+	  <td class="pb-0" >{{ batsmen['sixes'] }}</td>
+	  <td class="pb-0" >{{ batsmen['strike_rate'] }}</td>
+    </tr>
+    <tr class="border-bottom">
+        <td class="pt-0" colspan="6">{{ batsmen['out_str'] }}</td>
+    </tr>
+      {% endfor %}
+
+
+    <tr class="border-0">
+        <td class="pb-0" colspan="6"><b class="font_13 fw-bold">Yet to bat / Didn't bat:</b> </td>
+    </tr>
+  {% set not_batted_list = i['not_batted'].values() | list %}
+{% set sorted_not_batted = not_batted_list | sort(attribute='order') %}
+{% set names = sorted_not_batted | map(attribute='name') | join(', ') %}
+    <tr class="border-bottom">
+        <td class="pt-0" colspan="6">{{ names }}</td>
+    </tr>
+	<tr class="border-bottom">
+      <td>Extras</td>
+        <td colspan="6"><b>{{ i['extras'] }}</b> (b {{ i['bye'] }}, lb {{ i['legbye'] }}, w {{ i['wide'] }}, nb {{ i['noball'] }}, p {{ i['penalties'] }})</td>
+    </tr>
+	<tr class="bg-light">
+      <td><b class="font_14">TOTAL</b></td>
+      <td colspan="6"><b class="font_14">{{ i['runs'] }}/{{ i['wickets'] }} ({{ i['overs'] }} Ov) CRR: {{ i['run_rate'] }}</b></td>
+    </tr>
+
   </tbody>
 </table>
-		   </div></center>
-		 </div>
-		</div>
-		</div>
+		  </div>
+
 	  </div>
 	</div>
    </div>
