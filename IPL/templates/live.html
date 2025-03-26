@@ -135,7 +135,7 @@
          <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
 		</ul>
 	    </div>
-
+          {% if 'team_win_probability' in dt3 %}
           {% if dt3['team_win_probability'].items() | length != 0 %}
           <div class="live_4 border rounded_10 bg-white mt-3 pt-3 pb-3">
               <div class="container1">
@@ -153,7 +153,7 @@
                 <span><b>{{ (dt3['team_win_probability'][dt1[5]] | float) | round(0) | int }}%</b></span>
             </div>
             </div>
-          </div>{% endif %}
+          </div>{% endif %}{% endif %}
 
       {% if dt3['innings'] | length != 0 %}
 		<div class="live_3 border rounded_10 bg-white mt-3 pt-3">
