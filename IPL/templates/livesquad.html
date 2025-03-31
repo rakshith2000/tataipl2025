@@ -19,6 +19,22 @@
         background-size: cover;
         background-attachment: fixed;
     }
+    .cb-col{
+    	display: inline-block;
+    	box-sizing: border-box;
+    	float: left;
+    	min-height: 1px;
+    }
+    .cb-teams-hdr{
+    	display: flex;
+    	justify-content: space-between;
+    }
+    .cb-col-100{
+    	width: 100%;
+    }
+    .cb-col-50{
+    	width: 50%;
+    }
     </style>
 {% endblock %}
 
@@ -67,39 +83,110 @@
 			<li class="mx-2 d-inline-block"><a class="active d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
 		</ul>
 	    </div>
-
+			{% if dt3['squad'] is not none %}
 		  <div class="score_2_inner border rounded_10 bg-white mt-3">
-			     <b class="bg_green font_14 d-block px-3 text-white pt-3 pb-3 rounded_top"><span class="font_12">Innings</span> </b>
-				 <div class="table-responsive">
-		    <table class="table font_12 mb-0">
-  <thead class="border-0">
-    <tr class="bg-greenlight">
-      <th class="text-muted">BATTING</th>
-      <th class="text-muted">R</th>
-      <th class="text-muted">B</th>
-      <th class="text-muted">4s</th>
-	  <th class="text-muted">6s</th>
-	  <th class="text-muted">SR</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="border-0">
-      <td class="pb-0 text-blue" ><b>batsmen['name']</b></td>
-      <td class="pb-0" ><b>batsmen['runs']</b></td>
-      <td class="pb-0" >batsmen['balls']</td>
-	  <td class="pb-0" >batsmen['fours']</td>
-	  <td class="pb-0" >batsmen['sixes']</td>
-	  <td class="pb-0" >batsmen['strike_rate']</td>
-    </tr>
-    <tr class="border-bottom">
-        <td class="pt-0" colspan="6">batsmen['out_str']</td>
-    </tr>
+			     <div class="bg_green font_18 d-block px-2 fw-bold text-white pt-2 pb-2 rounded_top cb-teams-hdr">
+					 <span><span class="fi fi-{{ tid[dt3['score_strip'][0].team_id][0] | lower }} me-1"></span>{{ tid[dt3['score_strip'][0].team_id][0] }}</span>
+					 <span class="float-end">{{ tid[dt3['score_strip'][1].team_id][0] }}<span class="fi fi-{{ tid[dt3['score_strip'][1].team_id][0] | lower }} ms-1"></span></span>
+				 </div>
+				{% if dt3['squad'][0]['players'] is none %}
+			  <div class="bg-greenlight font_14 pt-1 pb-1 text-muted fw-bold" style="text-align: center;">
+				  Squad
+			  </div>
+			  <div class="d-flex w-100">
+			  <div class="d-flex w-50 border-right border-1 ms-2 flex-column">
+				  {% for sq in dt3['squad'][0]['bench_players'] %}
+				  <div class="d-flex border-bottom border-1">
+				  <div class="d-block w-100 p-1">
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
+				  </div>
+				  </div>{% endfor %}
+			  </div>
+			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
+				  {% for sq in dt3['squad'][1]['bench_players'] %}
+				  <div class="d-flex border-bottom border-1">
+				  <div class="d-block w-100 p-1">
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
+				  </div>
+				  </div>{% endfor %}
+			  </div>
+			  </div>
 
-  </tbody>
-</table>
-		  </div>
+			  {% else %}
+			  <div class="bg-greenlight font_14 pt-1 pb-1 text-muted fw-bold" style="text-align: center;">
+				  Playing XI
+			  </div>
+			  <div class="d-flex w-100">
+			  <div class="d-flex w-50 border-right border-1 ms-2 flex-column">
+				  {% for sq in dt3['squad'][0]['players'] %}
+				  <div class="d-flex border-bottom border-1">
+				  <div class="d-block w-100 p-1">
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
+				  </div>
+				  </div>{% endfor %}
+			  </div>
+			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
+				  {% for sq in dt3['squad'][1]['players'] %}
+				  <div class="d-flex border-bottom border-1">
+				  <div class="d-block w-100 p-1">
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
+				  </div>
+				  </div>{% endfor %}
+			  </div>
+			  </div>
+			  <div class="bg-greenlight font_14 pt-1 pb-1 text-muted fw-bold" style="text-align: center;">
+				   Substitutes
+			  </div>
+			  <div class="d-flex w-100">
+			  <div class="d-flex w-50 border-right border-1 ms-2 flex-column">
+				  {% for sq in dt3['squad'][0]['substitute_players'] %}
+				  <div class="d-flex border-bottom border-1">
+				  <div class="d-block w-100 p-1">
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
+				  </div>
+				  </div>{% endfor %}
+			  </div>
+			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
+				  {% for sq in dt3['squad'][1]['substitute_players'] %}
+				  <div class="d-flex border-bottom border-1">
+				  <div class="d-block w-100 p-1">
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
+				  </div>
+				  </div>{% endfor %}
+			  </div>
+			  </div>
+			  <div class="bg-greenlight font_14 pt-1 pb-1 text-muted fw-bold" style="text-align: center;">
+				  Bench
+			  </div>
+			  <div class="d-flex w-100">
+			  <div class="d-flex w-50 border-right border-1 ms-2 flex-column">
+				  {% for sq in dt3['squad'][0]['bench_players'] %}
+				  <div class="d-flex border-bottom border-1">
+				  <div class="d-block w-100 p-1">
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
+				  </div>
+				  </div>{% endfor %}
+			  </div>
+			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
+				  {% for sq in dt3['squad'][1]['bench_players'] %}
+				  <div class="d-flex border-bottom border-1">
+				  <div class="d-block w-100 p-1">
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
+				  </div>
+				  </div>{% endfor %}
+			  </div>
+			  </div>
+			  {% endif %}
 
-	  </div>
+	  </div>{% endif %}
 	</div>
    </div>
  </div>
