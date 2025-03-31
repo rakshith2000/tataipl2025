@@ -123,7 +123,7 @@
 				  {% for sq in dt3['squad'][0]['players'] %}
 				  <div class="d-flex border-bottom border-1">
 				  <div class="d-block w-100 p-1">
-					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}{% if sq['name'] == dt3['squad'][0]['impact_players'][1].name %}<img src="{{ url_for('static', filename= 'images/out.png') }}" width="8px" height="10px" class="ms-1">{% endif %}</div>
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}{% if dt3['squad'][0]['impact_players'][1] %}{% if sq['name'] == dt3['squad'][0]['impact_players'][1].name %}<img src="{{ url_for('static', filename= 'images/out.png') }}" width="8px" height="10px" class="ms-1">{% endif %}{% endif %}</div>
 					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
 				  </div>
 				  </div>{% endfor %}
@@ -132,7 +132,7 @@
 				  {% for sq in dt3['squad'][1]['players'] %}
 				  <div class="d-flex border-bottom border-1">
 				  <div class="d-block w-100 p-1">
-					  <div class="font_11 text-blue fw-bold p-0 m-0">{% if sq['name'] == dt3['squad'][1]['impact_players'][1].name %}<img src="{{ url_for('static', filename= 'images/out.png') }}" width="8px" height="10px" class="me-1">{% endif %}{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{% if dt3['squad'][1]['impact_players'][1] %}{% if sq['name'] == dt3['squad'][1]['impact_players'][1].name %}<img src="{{ url_for('static', filename= 'images/out.png') }}" width="8px" height="10px" class="me-1">{% endif %}{% endif %}{{ sq['name'] | replace('-',' ') }}</div>
 					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
 				  </div>
 				  </div>{% endfor %}
@@ -146,7 +146,7 @@
 				  {% for sq in dt3['squad'][0]['substitute_players'] %}
 				  <div class="d-flex border-bottom border-1">
 				  <div class="d-block w-100 p-1">
-					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}{% if sq['name'] == dt3['squad'][0]['impact_players'][0].name %}<img src="{{ url_for('static', filename= 'images/in.png') }}" width="8px" height="10px" class="ms-1">{% endif %}</div>
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}{% if dt3['squad'][0]['impact_players'][0] %}{% if sq['name'] == dt3['squad'][0]['impact_players'][0].name %}<img src="{{ url_for('static', filename= 'images/in.png') }}" width="8px" height="10px" class="ms-1">{% endif %}{% endif %}</div>
 					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
 				  </div>
 				  </div>{% endfor %}
@@ -155,7 +155,7 @@
 				  {% for sq in dt3['squad'][1]['substitute_players'] %}
 				  <div class="d-flex border-bottom border-1">
 				  <div class="d-block w-100 p-1">
-					  <div class="font_11 text-blue fw-bold p-0 m-0">{% if sq['name'] == dt3['squad'][1]['impact_players'][0].name %}<img src="{{ url_for('static', filename= 'images/in.png') }}" width="8px" height="10px" class="me-1">{% endif %}{{ sq['name'] | replace('-',' ') }}</div>
+					  <div class="font_11 text-blue fw-bold p-0 m-0">{% if dt3['squad'][1]['impact_players'][0] %}{% if sq['name'] == dt3['squad'][1]['impact_players'][0].name %}<img src="{{ url_for('static', filename= 'images/in.png') }}" width="8px" height="10px" class="me-1">{% endif %}{% endif %}{{ sq['name'] | replace('-',' ') }}</div>
 					  <div class="font_10 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
 				  </div>
 				  </div>{% endfor %}
