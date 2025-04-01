@@ -41,11 +41,25 @@
 {% block content %}
 {% macro check_captain(player_name, data) %}
     {% for player in data %}
-        {% if player[2] == player_name %}
+        {% if player[2] | lower == player_name | lower %}
             {% set captain = player[4] %}
             {% if captain == 'Y' %}
                 <span class="text-muted">(C)</span>
             {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+{% macro check_overseas(player_name, data, pos) %}
+    {% for player in data %}
+        {% if player[2] | lower == player_name | lower %}
+            {% set overseas = player[6] %}
+			{% if overseas == 'Y' and pos == 'L' %}
+				<div class="d-flex align-items-center me-2"><img src="{{ url_for('static', filename= 'images/overseas2.png') }}" width="11px" height="11px"></div>
+			{% endif %}
+			{% if overseas == 'Y' and pos == 'R' %}
+				<div class="d-flex align-items-center ms-2"><img src="{{ url_for('static', filename= 'images/overseas2.png') }}" width="11px" height="11px"></div>
+			{% endif %}
         {% endif %}
     {% endfor %}
 {% endmacro %}
@@ -112,11 +126,13 @@
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}&nbsp;{{ check_captain(sq['name'] | replace('-',' '), sqd) }}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
 				  </div>
+					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'L') }}
 				  </div>{% endfor %}
 			  </div>
 			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
 				  {% for sq in dt3['squad'][1]['bench_players'] %}
 				  <div class="d-flex border-bottom border-1">
+					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'R') }}
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ check_captain(sq['name'] | replace('-',' '), sqd) }}&nbsp;{{ sq['name'] | replace('-',' ') }}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
@@ -137,11 +153,13 @@
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}&nbsp;{{ check_captain(sq['name'] | replace('-',' '), sqd) }}{% if dt3['squad'][0]['impact_players'][1] %}{% if sq['name'] == dt3['squad'][0]['impact_players'][1].name %}<img src="{{ url_for('static', filename= 'images/out.png') }}" width="8px" height="10px" class="ms-1">{% endif %}{% endif %}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
 				  </div>
+					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'L') }}
 				  </div>{% endfor %}
 			  </div>
 			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
 				  {% for sq in dt3['squad'][1]['players'] %}
 				  <div class="d-flex border-bottom border-1">
+					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'R') }}
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{% if dt3['squad'][1]['impact_players'][1] %}{% if sq['name'] == dt3['squad'][1]['impact_players'][1].name %}<img src="{{ url_for('static', filename= 'images/out.png') }}" width="8px" height="10px" class="me-1">{% endif %}{% endif %}{{ check_captain(sq['name'] | replace('-',' '), sqd) }}&nbsp;{{ sq['name'] | replace('-',' ') }}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
@@ -160,11 +178,13 @@
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}&nbsp;{{ check_captain(sq['name'] | replace('-',' '), sqd) }}{% if dt3['squad'][0]['impact_players'][0] %}{% if sq['name'] == dt3['squad'][0]['impact_players'][0].name %}<img src="{{ url_for('static', filename= 'images/in.png') }}" width="8px" height="10px" class="ms-1">{% endif %}{% endif %}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
 				  </div>
+					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'L') }}
 				  </div>{% endfor %}
 			  </div>
 			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
 				  {% for sq in dt3['squad'][1]['substitute_players'] %}
 				  <div class="d-flex border-bottom border-1">
+					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'R') }}
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{% if dt3['squad'][1]['impact_players'][0] %}{% if sq['name'] == dt3['squad'][1]['impact_players'][0].name %}<img src="{{ url_for('static', filename= 'images/in.png') }}" width="8px" height="10px" class="me-1">{% endif %}{% endif %}{{ check_captain(sq['name'] | replace('-',' '), sqd) }}&nbsp;{{ sq['name'] | replace('-',' ') }}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
@@ -183,11 +203,13 @@
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}&nbsp;{{ check_captain(sq['name'] | replace('-',' '), sqd) }}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
 				  </div>
+					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'L') }}
 				  </div>{% endfor %}
 			  </div>
 			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
 				  {% for sq in dt3['squad'][1]['bench_players'] %}
 				  <div class="d-flex border-bottom border-1">
+					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'R') }}
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ check_captain(sq['name'] | replace('-',' '), sqd) }}&nbsp;{{ sq['name'] | replace('-',' ') }}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
