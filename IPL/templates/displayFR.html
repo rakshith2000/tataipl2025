@@ -170,7 +170,7 @@
         <span class="team-name" full="{{ fn[TA] }}" short="{{ TA }}" style="color: {{ TAclr }}; font-weight: bold">{{ fn[TA] }}</span>
       </div>
       <div class="score-wrapper">
-        <div class="score" style="color: {{ TAclr }}">{{ TA_S['runs'] }}-{{ TA_S['wkts'] }} ({{ TA_S['overs'] }})</div>
+        <div class="score" style="color: {{ TAclr }}">{{ TA_S['runs'] }}{{ "" if TA_S['wkts'] == 10 else '/' ~ TA_S['wkts'] }} ({{ TA_S['overs'] }})</div>
       </div>
   </div>
       <!-- Team B -->
@@ -181,7 +181,7 @@
         <span class="team-name" full="{{ fn[TB] }}" short="{{ TB }}" style="color: {{ TBclr }}; font-weight: bold">{{ fn[TB] }}</span>
       </div>
       <div class="score-wrapper">
-        <div class="score" style="color: {{ TBclr }}">{{ TB_S['runs'] }}-{{ TB_S['wkts'] }} ({{ TB_S['overs'] }})</div>
+        <div class="score" style="color: {{ TBclr }}">{{ TB_S['runs'] }}{{ "" if TB_S['wkts'] == 10 else '/' ~ TB_S['wkts'] }} ({{ TB_S['overs'] }})</div>
       </div>
   </div>
       <div class="result"><span class="team-name" full="{{ fn[i[7]] }}" short="{{ i[7] }}">{{ fn[i[7]] }}</span> {{ i[10] }}</div>
