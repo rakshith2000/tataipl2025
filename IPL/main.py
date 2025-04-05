@@ -119,7 +119,12 @@ def num_suffix(num):
 def render_live_URL(tA, tB, mn, dt):
     teamAB = full_name[tA].replace(" ", "-").lower() + "-vs-" + full_name[tB].replace(" ", "-").lower()
     if mn.isdigit():
-        matchNo = "match-" + mn
+        if int(mn) == 37:
+            matchNo = "match-36"
+        elif int(mn) == 49:
+            matchNo = "match49"
+        else:
+            matchNo = "match-" + mn
     else:
         matchNo = mn.lower().replace(' ','-') + "-ipl-2025"
     dt = dt.strftime("%d-%B-%Y").lower()
