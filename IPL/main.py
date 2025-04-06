@@ -127,7 +127,10 @@ def render_live_URL(tA, tB, mn, dt):
             matchNo = "match-" + mn
     else:
         matchNo = mn.lower().replace(' ','-') + "-ipl-2025"
-    dt = dt.strftime("%d-%B-%Y").lower()
+    if mn.isdigit() and mn == "19":
+        dt = "19-april-2025"
+    else:
+        dt = dt.strftime("%d-%B-%Y").lower()
     URL = liveURL_Prefix + teamAB + "-" + matchNo + "-" + dt + liveURL_Suffix
     return URL
 
