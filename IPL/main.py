@@ -125,6 +125,10 @@ def render_live_URL(tA, tB, mn, dt):
             matchNo = "match49"
         elif int(mn) == 21:
             matchNo = "match-19"
+        elif int(mn) == 19:
+            matchNo = "match-20"
+        elif int(mn) == 20:
+            matchNo = "match-21"
         else:
             matchNo = "match-" + mn
     else:
