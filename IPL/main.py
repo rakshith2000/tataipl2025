@@ -127,7 +127,7 @@ def render_live_URL(tA, tB, mn, dt):
             matchNo = "match-" + mn
     else:
         matchNo = mn.lower().replace(' ','-') + "-ipl-2025"
-    if mn.isdigit() and mn == "19":
+    if mn.isdigit() and mn == "21":
         dt = "06-april-2025"
     else:
         dt = dt.strftime("%d-%B-%Y").lower()
