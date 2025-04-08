@@ -401,7 +401,8 @@ def updatematch():
         match = str(request.form.get('match')).upper()
         match = int(match) if match.isdigit() else pofs[match]
         FR = Fixture.query.filter_by(Match_No=str(match)).first()
-        if match not in [i for i in range(1,21)]+list(pofs.values()):
+        rpnti
+        if match not in [i for i in range(1,71)]+list(pofs.values()):
             flash('Invalid Match number to update', category='error')
             return redirect(url_for('main.update', key=key))
         if FR.Win_T != None:
@@ -483,7 +484,7 @@ def deletematch():
         dmatch = str(request.form.get('dmatch')).upper()
         dmatch = int(dmatch) if dmatch.isdigit() else pofs[dmatch]
         FR = Fixture.query.filter_by(Match_No=str(dmatch)).first()
-        if dmatch not in [i for i in range(1, 21)] + list(pofs.values()):
+        if dmatch not in [i for i in range(1, 71)] + list(pofs.values()):
             flash('Invalid Match number to delete', category='error')
             return redirect(url_for('main.update', key=key))
         if FR.Win_T == None:
@@ -573,7 +574,7 @@ def updateplayoffs():
     key = 3
     if request.method == "POST" and hint == 'before':
         pomatch = request.form.get('pomatch').upper()
-        if pomatch not in [str(i) for i in range(1, 21)] + ['Q1', 'E', 'Q2', 'F']:
+        if pomatch not in [str(i) for i in range(1, 71)] + ['Q1', 'E', 'Q2', 'F']:
             flash('Invalid match, Select a valid Playoff Match', category='error')
             return redirect(url_for('main.update', key=key))
         FR = Fixture.query.filter_by(Match_No=pofs[pomatch]).first()
