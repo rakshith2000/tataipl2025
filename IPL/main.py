@@ -401,8 +401,7 @@ def updatematch():
         match = str(request.form.get('match')).upper()
         match = int(match) if match.isdigit() else pofs[match]
         FR = Fixture.query.filter_by(Match_No=str(match)).first()
-        rpnti
-        if match not in [i for i in range(1,71)]+list(pofs.values()):
+        if match not in [i for i in range(1, 71)]+list(pofs.values()):
             flash('Invalid Match number to update', category='error')
             return redirect(url_for('main.update', key=key))
         if FR.Win_T != None:
