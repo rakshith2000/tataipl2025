@@ -2,4 +2,5 @@ IPL/__pycache__/*
 venv/*
 .idea/*
 __pycache__/*
-*.sh
+flask_start.sh
+git_start.sh
