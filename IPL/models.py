@@ -22,7 +22,7 @@ class Pointstable(db.Model):
     For = db.Column(db.JSON)
     Against = db.Column(db.JSON)
     Win_List = db.Column(db.String)
-    qed = db.Column(db.Boolean)
+    qed = db.Column(db.String)
     qual = db.Column(db.String)
 
 class Fixture(db.Model):

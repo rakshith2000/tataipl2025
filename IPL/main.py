@@ -597,7 +597,18 @@ def updatequalification():
     key = 4
     qteam = request.form.get('qteam')
     PT = Pointstable.query.filter_by(team_name=qteam).first()
-    PT.qed = True
+    PT.qed = "Q"
     db.session.commit()
     flash('Updated Qualification status for {} successfully'.format(qteam), category='success')
+    return redirect(url_for('main.update', key=key))
+
+@main.route('/updateelimination', methods=['POST'])
+@login_required
+def updateelimination():
+    key = 5
+    eteam = request.form.get('eteam')
+    PT = Pointstable.query.filter_by(team_name=eteam).first()
+    PT.qed = "E"
+    db.session.commit()
+    flash('Updated Elimination status for {} successfully'.format(eteam), category='success')
     return redirect(url_for('main.update', key=key))

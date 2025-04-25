@@ -315,7 +315,7 @@ thead th.active,tbody td.active {
     color: #6c00bd;
 }
 
-.position-indicator {
+.position-indicatorQ {
             position: absolute;
             display: none; /* Change this to make it visible */
             top: 0;
@@ -325,7 +325,7 @@ thead th.active,tbody td.active {
             padding: 0px;
             transform: translate(-1.5rem, -1.5rem);
             z-index: 1;
-            background-color: #444444; /* You can modify color */
+            background-color: #006400; /* You can modify color */
             color: white;
             border-radius: 50%;
             display: flex;
@@ -335,9 +335,35 @@ thead th.active,tbody td.active {
             font-size: 0.8rem;
 			clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
         }
-.position-indicator span {
+.position-indicatorQ span {
     position: relative;
     bottom: -0.5rem; /* Adjust this to move Q vertically */
+    right: -0.5rem; /* Adjust this to move Q horizontally */
+}
+
+.position-indicatorE {
+            position: absolute;
+            display: none; /* Change this to make it visible */
+            top: 0;
+            left: 0;
+            width: 3rem; /* Adjust the size */
+            height: 3rem;
+            padding: 0px;
+            transform: translate(-1.5rem, -1.5rem);
+            z-index: 1;
+            background-color: #7d0000; /* You can modify color */
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+			clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
+        }
+.position-indicatorE span {
+    position: relative;
+    bottom: -0.6rem; /* Adjust this to move Q vertically */
     right: -0.5rem; /* Adjust this to move Q horizontally */
 }
 
