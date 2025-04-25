@@ -49,25 +49,25 @@ def setup_scheduler(app):
 
     ist = pytz.timezone('Asia/Kolkata')
 
-    @scheduler.task('interval', id='scrape', minutes=1)
-    def run_am_scrape():
-        with app.app_context():
-            app.logger.info("Starting 3 AM scrape")
-            update_points_table()
+    #@scheduler.task('interval', id='scrape', minutes=1)
+    #def run_am_scrape():
+    #    with app.app_context():
+    #        app.logger.info("Starting 3 AM scrape")
+    #        update_points_table()
 
     # Morning scrape (3 AM IST)
-    @scheduler.task('cron', id='scrape_am', hour=3, minute=0, timezone=ist)
-    def run_am_scrape():
-        with app.app_context():
-            app.logger.info("Starting 3 AM scrape")
-            update_points_table()
+    #@scheduler.task('cron', id='scrape_am', hour=3, minute=0, timezone=ist)
+    #def run_am_scrape():
+    #    with app.app_context():
+    #        app.logger.info("Starting 3 AM scrape")
+    #        update_points_table()
 
     # Afternoon scrape (3 PM IST)
-    @scheduler.task('cron', id='scrape_pm', hour=15, minute=0, timezone=ist)
-    def run_pm_scrape():
-        with app.app_context():
-            app.logger.info("Starting 3 PM scrape")
-            update_points_table()
+    #@scheduler.task('cron', id='scrape_pm', hour=15, minute=0, timezone=ist)
+    #def run_pm_scrape():
+    #    with app.app_context():
+    #        app.logger.info("Starting 3 PM scrape")
+    #        update_points_table()
 
     # Keepalive ping
     @scheduler.task('interval', id='ping', minutes=10,  misfire_grace_time=120)
