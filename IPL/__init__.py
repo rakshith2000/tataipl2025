@@ -49,6 +49,12 @@ def setup_scheduler(app):
 
     ist = pytz.timezone('Asia/Kolkata')
 
+    @scheduler.task('interval', id='scrape', minutes=1)
+    def run_am_scrape():
+        with app.app_context():
+            app.logger.info("Starting 3 AM scrape")
+            update_points_table()
+
     # Morning scrape (3 AM IST)
     @scheduler.task('cron', id='scrape_am', hour=3, minute=0, timezone=ist)
     def run_am_scrape():
