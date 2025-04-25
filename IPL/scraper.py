@@ -1,44 +1,37 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
+import requests
 from bs4 import BeautifulSoup
-import time
 
+# IPL team mapping
 teams = {
-    'Chennai Super Kings':'CSK',
-    'Delhi Capitals':'DC',
-    'Gujarat Titans':'GT',
-    'Kolkata Knight Riders':'KKR',
-    'Lucknow Super Giants':'LSG',
-    'Mumbai Indians':'MI',
-    'Punjab Kings':'PBKS',
-    'Rajasthan Royals':'RR',
-    'Royal Challengers Bengaluru':'RCB',
-    'Sunrisers Hyderabad':'SRH'
+    'Chennai Super Kings': 'CSK',
+    'Delhi Capitals': 'DC',
+    'Gujarat Titans': 'GT',
+    'Kolkata Knight Riders': 'KKR',
+    'Lucknow Super Giants': 'LSG',
+    'Mumbai Indians': 'MI',
+    'Punjab Kings': 'PBKS',
+    'Rajasthan Royals': 'RR',
+    'Royal Challengers Bengaluru': 'RCB',
+    'Sunrisers Hyderabad': 'SRH'
 }
+
 def update_points_table():
-    options = Options()
-    options.add_argument("--headless")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--remote-debugging-port=9222")
-    options.add_argument("--single-process")  # Reduces memory usage
+    API_KEY = '99efbe729d195fd8ed448bc227e4228a'  # Replace with your real key
+    url = 'https://www.ipltop4.com/'
 
-    driver = None
+    params = {
+        'api_key': API_KEY,
+        'url': url,
+        'render': 'true'
+    }
+
     try:
-        driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager().install()),
-            options=options
-        )
+        response = requests.get('http://api.scraperapi.com', params=params)
+        response.raise_for_status()
 
-        driver.get("https://www.ipltop4.com/")
-        time.sleep(3)
-
-        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        soup = BeautifulSoup(response.text, 'html.parser')
         table = soup.find('table', class_='w-full min-w-full table-sticky-columns table-hover')
 
-        # Import models HERE when needed
         from . import db
         from .models import Pointstable
 
@@ -49,16 +42,14 @@ def update_points_table():
 
             team = teams.get(team_name, team_name)
 
-            team = Pointstable.query.filter_by(team_name=team).first()
-            if team:
-                team.qual = qual_pct
+            team_obj = Pointstable.query.filter_by(team_name=team).first()
+            if team_obj:
+                team_obj.qual = qual_pct
                 db.session.commit()
 
     except Exception as e:
         db.session.rollback()
-        raise e  # Let Flask-APScheduler handle retries
+        raise e
 
     finally:
-        if driver:
-            driver.quit()
-        db.session.remove()  # Clean up DB connection
+        db.session.remove()
