@@ -183,8 +183,8 @@ def index():
 @main.route('/pointstable')
 def displayPT():
     dataPT = Pointstable.query.order_by(Pointstable.Points.desc(),Pointstable.NRR.desc(),Pointstable.id.asc()).all()
-    dt = [['#', 'Logo', 'Teams', 'P', 'W', 'L', 'NR', 'Points', 'NRR', 'Last 5', 'Next Match'], [i for i in range(1,11)],\
-         [], [], [], [], [], [], [], [], [], [], []]
+    dt = [['#', 'Logo', 'Teams', 'P', 'W', 'L', 'NR', 'Points', 'NRR', 'Last 5', 'Next Match', 'Qual %'], [i for i in range(1,11)],\
+         [], [], [], [], [], [], [], [], [], [], [], []]
     teams_ABV = []
     for i in dataPT:
         img = "/static/images/{}.png".format(i.team_name)
@@ -215,6 +215,7 @@ def displayPT():
         dt[10].append(wl)
         dt[11].append(nm)
         dt[12].append(i.qed)
+        dt[13].append(i.qual)
     return render_template('displayPT.html', PT=dt, TABV=teams_ABV, clr=clr)
 
 @main.route('/fixtures')
