@@ -44,8 +44,6 @@ def create_app():
         except Exception as e:
             print(f"Error pinging app: {e}")
     #
-    with app.app_context():
-        db.create_all()
 
     return app
 
