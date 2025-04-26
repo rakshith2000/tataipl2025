@@ -191,6 +191,20 @@ tbody tr:nth-child(even) {
     background-color: #0000000b;
 }
 
+/* Add this to your CSS */
+tbody tr:nth-child(4) {
+    border-bottom: 2px dashed lightgreen; /* You can adjust color and style */
+    position: relative;
+}
+
+/* Optional: Add some spacing after the separator */
+tbody tr:nth-child(4)::after {
+    content: '';
+    display: block;
+    height: 10px; /* Adjust spacing as needed */
+    background: transparent;
+}
+
 tbody tr {
     position: relative;
     --delay: .1s;
