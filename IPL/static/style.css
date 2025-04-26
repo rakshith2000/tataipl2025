@@ -193,7 +193,7 @@ tbody tr:nth-child(even) {
 
 /* Add this to your CSS */
 tbody tr:nth-child(4) {
-    border-bottom: 2px dashed lightgreen; /* You can adjust color and style */
+    border-bottom: 2.5px dashed white; /* You can adjust color and style */
     position: relative;
 }
 
