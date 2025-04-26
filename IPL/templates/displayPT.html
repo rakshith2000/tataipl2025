@@ -208,7 +208,7 @@
                             {% endfor %}
                         </td>
                         <td class="text-center">{{ PT[11][i] }}</td>
-                        {% if PT[13][i].split('%')[0] | int >= 70 %}{% set qualclr = "lightgreen" %}{% elif PT[13][i].split('%')[0] | int >= 40 %}{% set qualclr = "orange" %}{% else %}{% set qualclr = "red" %}{% endif %}
+                        {% if PT[13][i].split('%')[0] | int >= 70 %}{% set qualclr = "lightgreen" %}{% elif PT[13][i].split('%')[0] | int >= 40 %}{% set qualclr = "orange" %}{% else %}{% set qualclr = "#ff4d4d" %}{% endif %}
                         <td class="text-center" style="color: {{ qualclr }}"><b>{{ PT[13][i] }}</b></td>
                     </tr>
                     {% endfor %}
