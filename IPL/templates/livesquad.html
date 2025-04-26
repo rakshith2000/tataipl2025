@@ -149,7 +149,7 @@
 			  <div class="d-flex w-100">
 			  <div class="d-flex w-50 border-right border-1 ms-2 flex-column">
 				  {% for sq in dt3['squad'][0]['players'] %}
-				  <div class="d-flex border-bottom border-1">
+				  <div class="d-flex border-bottom border-1" {% if 'delta' in sq %}{% if sq['delta'] == 1 %}style="background-color: #abf7b1"{% elif sq['delta'] == -1 %}style="background-color: #fcc7c3"{% endif %}{% endif %}>
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}&nbsp;{{ check_captain(sq['name'] | replace('-',' '), sqd) }}{% if dt3['squad'][0]['impact_players'][1] %}{% if sq['name'] == dt3['squad'][0]['impact_players'][1].name %}<img src="{{ url_for('static', filename= 'images/out.png') }}" width="8px" height="10px" class="ms-1">{% endif %}{% endif %}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
@@ -159,7 +159,7 @@
 			  </div>
 			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
 				  {% for sq in dt3['squad'][1]['players'] %}
-				  <div class="d-flex border-bottom border-1">
+				  <div class="d-flex border-bottom border-1" {% if 'delta' in sq %}{% if sq['delta'] == 1 %}style="background-color: #abf7b1"{% elif sq['delta'] == -1 %}style="background-color: #fcc7c3"{% endif %}{% endif %}>
 					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'R') }}
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{% if dt3['squad'][1]['impact_players'][1] %}{% if sq['name'] == dt3['squad'][1]['impact_players'][1].name %}<img src="{{ url_for('static', filename= 'images/out.png') }}" width="8px" height="10px" class="me-1">{% endif %}{% endif %}{{ check_captain(sq['name'] | replace('-',' '), sqd) }}&nbsp;{{ sq['name'] | replace('-',' ') }}</div>
@@ -174,7 +174,7 @@
 			  <div class="d-flex w-100">
 			  <div class="d-flex w-50 border-right border-1 ms-2 flex-column">
 				  {% for sq in dt3['squad'][0]['substitute_players'] %}
-				  <div class="d-flex border-bottom border-1">
+				  <div class="d-flex border-bottom border-1" {% if 'delta' in sq %}{% if sq['delta'] == 1 %}style="background-color: #abf7b1"{% elif sq['delta'] == -1 %}style="background-color: #fcc7c3"{% endif %}{% endif %}>
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}&nbsp;{{ check_captain(sq['name'] | replace('-',' '), sqd) }}{% if dt3['squad'][0]['impact_players'][0] %}{% if sq['name'] == dt3['squad'][0]['impact_players'][0].name %}<img src="{{ url_for('static', filename= 'images/in.png') }}" width="8px" height="10px" class="ms-1">{% endif %}{% endif %}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
@@ -184,7 +184,7 @@
 			  </div>
 			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
 				  {% for sq in dt3['squad'][1]['substitute_players'] %}
-				  <div class="d-flex border-bottom border-1">
+				  <div class="d-flex border-bottom border-1" {% if 'delta' in sq %}{% if sq['delta'] == 1 %}style="background-color: #abf7b1"{% elif sq['delta'] == -1 %}style="background-color: #fcc7c3"{% endif %}{% endif %}>
 					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'R') }}
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{% if dt3['squad'][1]['impact_players'][0] %}{% if sq['name'] == dt3['squad'][1]['impact_players'][0].name %}<img src="{{ url_for('static', filename= 'images/in.png') }}" width="8px" height="10px" class="me-1">{% endif %}{% endif %}{{ check_captain(sq['name'] | replace('-',' '), sqd) }}&nbsp;{{ sq['name'] | replace('-',' ') }}</div>
@@ -199,7 +199,7 @@
 			  <div class="d-flex w-100">
 			  <div class="d-flex w-50 border-right border-1 ms-2 flex-column">
 				  {% for sq in dt3['squad'][0]['bench_players'] %}
-				  <div class="d-flex border-bottom border-1">
+				  <div class="d-flex border-bottom border-1" {% if 'delta' in sq %}{% if sq['delta'] == 1 %}style="background-color: #abf7b1"{% elif sq['delta'] == -1 %}style="background-color: #fcc7c3"{% endif %}{% endif %}>
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ sq['name'] | replace('-',' ') }}&nbsp;{{ check_captain(sq['name'] | replace('-',' '), sqd) }}</div>
 					  <div class="font_11 m-0 p-0">{{ sq['role'] | replace('-',' ') | capitalize }}</div>
@@ -209,7 +209,7 @@
 			  </div>
 			  <div class="d-flex w-50 border-left border-1 me-2 flex-column text-end">
 				  {% for sq in dt3['squad'][1]['bench_players'] %}
-				  <div class="d-flex border-bottom border-1">
+				  <div class="d-flex border-bottom border-1" {% if 'delta' in sq %}{% if sq['delta'] == 1 %}style="background-color: #abf7b1"{% elif sq['delta'] == -1 %}style="background-color: #fcc7c3"{% endif %}{% endif %}>
 					  {{ check_overseas(sq['name'] | replace('-',' '), sqd, 'R') }}
 				  <div class="d-block w-100 p-1">
 					  <div class="font_12 text-blue fw-bold p-0 m-0">{{ check_captain(sq['name'] | replace('-',' '), sqd) }}&nbsp;{{ sq['name'] | replace('-',' ') }}</div>
