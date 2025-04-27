@@ -194,12 +194,16 @@
                             {% if loop.last %}
                                 {% if result == 'W' %}
                                     <img class="form-img blink" src="/static/images/W.png" alt="win icon" />
+                                {% elif result == 'D' %}
+                                    <img class="form-img blink" src="/static/images/D.png" alt="NR/DR icon" />
                                 {% else %}
                                     <img class="form-img blink" src="/static/images/L.png" alt="loss icon" />
                                 {% endif %}
                             {% else %}
                                 {% if result == 'W' %}
                                     <img class="form-img" src="/static/images/W.png" alt="win icon" />
+                                {% elif result == 'D' %}
+                                    <img class="form-img" src="/static/images/D.png" alt="NR/DR icon" />
                                 {% else %}
                                     <img class="form-img" src="/static/images/L.png" alt="loss icon" />
                                 {% endif %}

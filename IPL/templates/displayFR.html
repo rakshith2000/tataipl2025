@@ -184,7 +184,11 @@
         <div class="score" style="color: {{ TBclr }}">{{ TB_S['runs'] }}{{ "" if TB_S['wkts'] == 10 else '/' ~ TB_S['wkts'] }} ({{ TB_S['overs'] }})</div>
       </div>
   </div>
+      {% if i[7] == "NA" %}
+      <div class="result">{{ i[10] }}</div>
+      {% else %}
       <div class="result"><span class="team-name" full="{{ fn[i[7]] }}" short="{{ i[7] }}">{{ fn[i[7]] }}</span> {{ i[10] }}</div>
+      {% endif %}
       </div>
   <div class="timer-card border">
     <div class="header" style="text-align: center;">Match Completed</div>

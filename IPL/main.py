@@ -216,6 +216,7 @@ def displayPT():
         dt[11].append(nm)
         dt[12].append(i.qed)
         dt[13].append(i.qual)
+        print(dt)
     return render_template('displayPT.html', PT=dt, TABV=teams_ABV, clr=clr)
 
 @main.route('/fixtures')
@@ -246,6 +247,11 @@ def displayFR():
             dtt.append('TBA') #Win-Team
             dtt.append('TBA')
             dtt.append('TBA')
+        elif i[10] == 'NA':
+            dtt.append('NA')
+            dtt.append('NA')
+            dtt.append('NA')
+            dtt.append(i[7])
         else:
             dtt.append(i[10])
             WType = 'wickets' if 'wickets' in i[7] else 'runs'
@@ -253,9 +259,11 @@ def displayFR():
             WBy = re.findall(r'\d+', i[7])[0]
             dtt.append(str(WBy))
             dtt.append(i[7][i[7].index('won'):])
+        #dtt.append(i[7])
         dt.append(dtt)
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
+    print(dt)
     return render_template('displayFR.html', FR=dt, hint=hint, fn=full_name, current_date=current_date, clr=clr)
 
 @main.route('/teams')
