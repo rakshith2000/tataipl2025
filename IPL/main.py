@@ -7,6 +7,10 @@ from flask import Blueprint, render_template, url_for, redirect, request, flash,
 from flask_login import login_required, current_user
 from sqlalchemy import and_, or_
 from sqlalchemy.sql import text
+import requests
+from bs4 import BeautifulSoup
+from fuzzywuzzy import fuzz, process
+from urllib.request import Request, urlopen
 
 main = Blueprint('main', __name__)
 
@@ -65,6 +69,101 @@ ptclr = {'CSK':'#f9cd05',
         'SRH':'#ff822a'}
 
 
+def normalize_name(name):
+    """Normalize names for better matching"""
+    # Remove special characters and extra spaces
+    name = re.sub(r'[^a-zA-Z ]', '', name.lower()).strip()
+    # Handle common name variations
+    name = name.replace('mohd', 'mohammed').replace('md', 'mohammed')
+    return ' '.join(sorted(name.split()))  # Sort name parts for order-independent matching
+
+
+def find_player(full_name, player_data, threshold=80):
+    """
+    Find the best matching player in the database
+
+    Args:
+        full_name (str): Name to search for (e.g., "Akash Naman Singh")
+        player_data (list): List of player tuples from database
+        threshold (int): Minimum match score (0-100)
+
+    Returns:
+        tuple: Best matching player record or None
+    """
+    # Extract just the names from player data (3rd element in each tuple)
+    player_names = [player[2] for player in player_data]
+
+    # First try exact match
+    normalized_search = normalize_name(full_name)
+    for i, player in enumerate(player_data):
+        if normalize_name(player[2]) == normalized_search:
+            return player
+
+    # Then try fuzzy matching with multiple strategies
+    strategies = [
+        (fuzz.token_set_ratio, "token set ratio"),
+        (fuzz.token_sort_ratio, "token sort ratio"),
+        (fuzz.partial_ratio, "partial ratio"),
+        (fuzz.WRatio, "weighted ratio")
+    ]
+
+    best_match = None
+    best_score = 0
+
+    for player in player_data:
+        db_name = player[2]
+        for strategy, _ in strategies:
+            score = strategy(full_name, db_name)
+            if score > best_score:
+                best_score = score
+                best_match = player
+                if best_score == 100:  # Perfect match
+                    return best_match
+
+    # Also check initials match (e.g., "A. N. Singh" vs "Akash Naman Singh")
+    if best_score < threshold:
+        search_initials = ''.join([word[0] for word in full_name.split() if len(word) > 1])
+        for player in player_data:
+            db_name = player[2]
+            db_initials = ''.join([word[0] for word in db_name.split() if len(word) > 1 and word[0].isupper()])
+            if db_initials and search_initials == db_initials:
+                return player
+
+    return best_match if best_score >= threshold else None
+
+def get_data_from_url(url):
+    headers = {
+        'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.447.124 Safari/537.36',
+        'Accept-Language' : 'en-US,en;q=0.9',
+    }
+    req = Request(url, headers=headers)
+    with urlopen(req) as response:
+        html = response.read().decode('utf-8')
+    SquadDT = (db.session.execute(text('SELECT * FROM Squad')).fetchall())
+    if response.getcode() == 200:
+        soup = BeautifulSoup(html, 'html.parser')
+        thead = soup.find('thead', class_="cb-srs-gray-strip")
+
+        headcells = soup.find_all('th')[1:]
+        headers = []
+        for i in headcells:
+            headers.append(i.text.strip())
+        tbody = soup.find('tbody')
+        data = []
+        for body in tbody.find_all('tr'):
+            bodycells = body.find_all('td')[1:]
+            d = {}
+            for i, val in enumerate(bodycells):
+                if i == 0:
+                    match = find_player(val.text.strip(), SquadDT)
+                    d['Team'] = match[3] if match else "NA"
+                    d[headers[i]] = match[2] if match else val.text.strip()
+                else:
+                    d[headers[i]] = val.text.strip()
+            data.append(d)
+        return data
+    else:
+        return None
 def calculate_age(dob, current_date):
     # Calculate the number of full years
     years = current_date.year - dob.year
@@ -216,7 +315,6 @@ def displayPT():
         dt[11].append(nm)
         dt[12].append(i.qed)
         dt[13].append(i.qual)
-        print(dt)
     return render_template('displayPT.html', PT=dt, TABV=teams_ABV, clr=clr)
 
 @main.route('/fixtures')
@@ -263,7 +361,6 @@ def displayFR():
         dt.append(dtt)
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
-    print(dt)
     return render_template('displayFR.html', FR=dt, hint=hint, fn=full_name, current_date=current_date, clr=clr)
 
 @main.route('/teams')
@@ -287,7 +384,6 @@ def squad_details(team, name):
 def matchInfo(match):
     MatchDT = (db.session.execute(text('SELECT * FROM Fixture WHERE "Match_No" = :matchno'), {'matchno': match}).fetchall())[0]
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
-    print(MatchURL)
     dttm = concat_DT(MatchDT[2], MatchDT[3])
     response = requests.get(MatchURL)
     MatchLDT = response.json()
@@ -327,8 +423,6 @@ def scoreCard(match):
 def liveSquad(match):
     MatchDT = (db.session.execute(text('SELECT * FROM Fixture WHERE "Match_No" = :matchno'), {'matchno': match}).fetchall())[0]
     SquadDT = (db.session.execute(text('SELECT * FROM Squad WHERE "Captain" = :captain OR "Overseas" = :overseas'), {'captain': 'Y', 'overseas': 'Y'}).fetchall())
-    print(len(SquadDT))
-    print(SquadDT)
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
     dttm = concat_DT(MatchDT[2], MatchDT[3])
     response = requests.get(MatchURL)
@@ -390,6 +484,48 @@ def todayMatch():
         current_date = datetime.now(tz)
         current_date = current_date.replace(tzinfo=None)
         return render_template('liveMatches.html', FR=dt, fn=full_name, current_date=current_date, clr=clr)
+
+@main.route('/battingstats')
+def battingstats():
+    stats = {}
+    stats['Most Runs'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-runs/0/0/IPL")
+    highest_scores = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/highest-score/0/0/IPL")
+    for hs in highest_scores:
+        hs['Vs'] = next(k for k, v in full_name.items() if v == hs['Vs'])
+    stats['Highest Scores'] = highest_scores
+    stats['Best Batting Average'] = get_data_from_url(
+        "https://www.cricbuzz.com/api/html/series/9237/highest-avg/0/0/IPL")
+    stats['Best Batting Strike Rate'] = get_data_from_url(
+        "https://www.cricbuzz.com/api/html/series/9237/highest-sr/0/0/IPL")
+    stats['Most Hundreds'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-hundreds/0/0/IPL")
+    stats['Most Fifties'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-fifties/0/0/IPL")
+    stats['Most Fours'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-fours/0/0/IPL")
+    stats['Most Sixes'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-sixes/0/0/IPL")
+    stats['Most Nineties'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-nineties/0/0/IPL")
+    for k, v in stats.items():
+        print(k)
+        for i in v:
+            print(i)
+    return render_template('battingStat.html', stats=stats)
+
+@main.route('/bowlingstats')
+def bowlingstats():
+    stats = {}
+    stats['Most Wickets'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-wickets/0/0/IPL")
+    stats['Best Bowling Average'] = get_data_from_url(
+        "https://www.cricbuzz.com/api/html/series/9237/lowest-avg/0/0/IPL")
+    best_bowling = get_data_from_url(
+        "https://www.cricbuzz.com/api/html/series/9237/best-bowling-innings/0/0/IPL")
+    for bb in best_bowling:
+        bb['Vs'] = next(k for k, v in full_name.items() if v == bb['Vs'])
+    stats['Best Bowling'] = best_bowling
+    stats['Most 5 Wickets Haul'] = get_data_from_url(
+        "https://www.cricbuzz.com/api/html/series/9237/most-five-wickets/0/0/IPL")
+    stats['Best Economy'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/lowest-econ/0/0/IPL")
+    stats['Best Bowling Strike Rate'] = get_data_from_url(
+        "https://www.cricbuzz.com/api/html/series/9237/lowest-sr/0/0/IPL")
+
+    return render_template('bowlingStat.html', stats=stats)
 
 @main.route('/update')
 @login_required

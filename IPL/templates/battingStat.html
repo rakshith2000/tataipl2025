@@ -1,0 +1,335 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+	<meta name="robots" content="noindex,nofollow" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}" rel="stylesheet" >
+	 <link href="{{ url_for('static', filename= 'fonts/css/fontawesome.min.css') }}" rel="stylesheet" >
+	<link href="{{ url_for('static', filename= 'fonts/css/brands.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename= 'fonts/css/solid.min.css') }}" rel="stylesheet" />
+	<link href="{{ url_for('static', filename= 'css/global.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename= 'css/index.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename= 'css/live.css') }}" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+   <link href="{{ url_for('static', filename= 'css/flag-icons.css') }}" rel="stylesheet">
+    <style>
+    body {
+        font-family: 'Exo 2', sans-serif;
+        background-image: url('/static/images/banner_bg.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .status{
+        display: block;
+    }
+    .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-toggle {
+    background-color: #00816a;
+    color: white;
+    padding: 7px 3px;
+    border: 1px solid #ffb09e;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 250px;
+    text-align: center;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 250px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border: 1px solid #ffb09e;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-weight: bold;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .dropdown-menu a {
+    color: #333;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 13px;
+  }
+
+  .dropdown-menu a:hover {
+    background-color: #f5f5f5;
+  }
+
+  .dropdown-menu a.activeD {
+    background-color: #00816a;
+    color: white;
+  }
+
+  .dropdown-menu a:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown.show .dropdown-menu {
+    display: block;
+  }
+
+  .table-wrapper a {
+    color: #0398dc !important;
+  }
+
+  .table-wrapper {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow-x: auto;
+  border: 1px solid #ffb09e;
+  background-color: white;
+}
+
+/* Updated table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+}
+
+/* Remove bottom border from last row */
+tr:last-child td {
+  border-bottom: none !important;
+}
+
+  th, td {
+    text-align: left;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 12px;
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  th {
+    background-color: #00816a;
+    color: white;
+  }
+
+  .team-logo {
+    width: 23px;
+    height: 23px;
+    vertical-align: middle;
+  }
+
+  .position {
+    text-align: center;
+  }
+
+  .logo-col {
+    text-align: center;
+  }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div style="padding-top: 55px;"></div>
+
+<section id="center" class="pt-3 pb-3 center_live">
+ <div class="container-xl">
+
+   <div class="row schedule2">
+    <div class="col-md-9">
+	  <div class="live">
+		  <div class="live_2 mt-2"><center><span class="text-white fw-bold" style="font-size: 25px">TATA IPL 2025 Stats</span></center></div>
+		  <div class="score_1 mt-2">
+		  <ul class="d-flex justify-content-center font_14 fw-bold nav nav-tabs border-0" id="inningsTabs">
+
+        <li class="me-2 mt-1 mb-1" style="font-size: 16px"><a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true"  href="{{ url_for('main.battingstats') }}">Batting</a></li>
+		<li class="me-2 mt-1 mb-1" style="font-size: 16px"><a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true"  href="{{ url_for('main.bowlingstats') }}">Bowling</a></li>
+
+          </ul>
+		</div>
+		  <center><div class="pt-3 dropdown">
+			  <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Most Runs <i class="fa fa-chevron-down font_10 ms-1"></i></button>
+			  <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
+				<a href="#" class="activeD" onclick="selectOption(this, 'Most Runs')" data-table="{{ stats['Most Runs'] }}">Most Runs</a>
+				<a href="#" onclick="selectOption(this, 'Highest Scores')" data-table="{{ stats['Highest Scores'] }}">Highest Scores</a>
+				<a href="#" onclick="selectOption(this, 'Best Batting Strike Rate')" data-table="{{ stats['Best Batting Strike Rate'] }}">Best Batting Strike Rate</a>
+			  </div>
+		  </div></center>
+		  <div id="tableContainer" class="table-wrapper"></div>
+	  </div>
+	</div>
+   </div>
+ </div>
+</section>
+<script>
+	const statsData = {
+        'Most Runs': {{ stats['Most Runs'] | tojson | safe }},
+        'Highest Scores': {{ stats['Highest Scores'] | tojson | safe }},
+        'Best Batting Strike Rate': {{ stats['Best Batting Strike Rate'] | tojson | safe }}
+    };
+
+
+  function toggleDropdown() {
+    document.querySelector('.dropdown').classList.toggle('show');
+  }
+
+  // Close dropdown when clicking outside
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropdown-toggle')) {
+      var dropdowns = document.getElementsByClassName("dropdown");
+      for (var i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+
+  function selectOption(element, optionTitle) {
+    // Remove active from all
+    const items = document.querySelectorAll('.dropdown-menu a');
+    items.forEach(item => item.classList.remove('activeD'));
+
+    // Set active to clicked one
+    element.classList.add('activeD');
+
+    // Update button text
+    document.getElementById('dropdownButton').innerHTML = `${optionTitle} <i class="fa fa-chevron-down font_10 ms-1"></i>`;
+
+    // Close dropdown
+    document.querySelector('.dropdown').classList.remove('show');
+
+    const tableData = statsData[optionTitle];
+
+	switch(optionTitle) {
+        case 'Most Runs':
+            mostRunsTable(tableData);
+            break;
+        case 'Highest Scores':
+            highestScoresTable(tableData);
+            break;
+        case 'Best Batting Strike Rate':
+            bestBattingStrikeRateTable(tableData);
+            break;
+    }
+  }
+
+  function mostRunsTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>I</th>'; // Innings column
+	tableHTML += '<th>R</th>'; // Runs column
+	tableHTML += '<th>Avg</th>'; // Average column
+	tableHTML += '<th>SR</th>'; // SR column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Player'])}">${row['Player']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Inns']}</td>`;
+        tableHTML += `<td><b>${row['Runs']}</b></td>`;
+        tableHTML += `<td>${row['Avg']}</td>`;
+        tableHTML += `<td>${row['Sr']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function highestScoresTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>R</th>'; // Match column
+	tableHTML += '<th>B</th>'; // Innings column
+	tableHTML += '<th>SR</th>'; // Runs column
+	tableHTML += '<th>Vs</th>'; // Average column
+	tableHTML += '<th>4s</th>'; // SR column
+	tableHTML += '<th>6s</th>'; // SR column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Batter'])}">${row['Batter']}</a></td>`;
+        tableHTML += `<td><b>${row['Runs']}</b></td>`;
+        tableHTML += `<td>${row['Balls']}</td>`;
+        tableHTML += `<td>${row['Sr']}</td>`;
+        tableHTML += `<td>${row['Vs']}</td>`;
+        tableHTML += `<td>${row['4s']}</td>`;
+        tableHTML += `<td>${row['6s']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  // Initial table render
+  const initialData = statsData['Most Runs']
+  mostRunsTable(initialData);
+
+  </script>
+{% endblock %}
