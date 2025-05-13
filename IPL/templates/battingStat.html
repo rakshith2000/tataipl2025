@@ -162,6 +162,9 @@ tr:last-child td {
 				<a href="#" onclick="selectOption(this, 'Best Batting Strike Rate')">Best Batting Strike Rate</a>
 				<a href="#" onclick="selectOption(this, 'Most Hundreds')">Most Hundreds</a>
 				<a href="#" onclick="selectOption(this, 'Most Fifties')">Most Fifties</a>
+				<a href="#" onclick="selectOption(this, 'Most Fours')">Most Fours</a>
+				<a href="#" onclick="selectOption(this, 'Most Sixes')">Most Sixes</a>
+				<a href="#" onclick="selectOption(this, 'Most Nineties')">Most Nineties</a>
 			  </div>
 		  </div></center>
 		  <div id="tableContainer" class="table-wrapper"></div>
@@ -177,7 +180,10 @@ tr:last-child td {
         'Best Batting Average': {{ stats['Best Batting Average'] | tojson | safe }},
         'Best Batting Strike Rate': {{ stats['Best Batting Strike Rate'] | tojson | safe }},
         'Most Hundreds': {{ stats['Most Hundreds'] | tojson | safe }},
-        'Most Fifties': {{ stats['Most Fifties'] | tojson | safe }}
+        'Most Fifties': {{ stats['Most Fifties'] | tojson | safe }},
+        'Most Fours': {{ stats['Most Fours'] | tojson | safe }},
+        'Most Sixes': {{ stats['Most Sixes'] | tojson | safe }},
+        'Most Nineties': {{ stats['Most Nineties'] | tojson | safe }}
     };
 
 
@@ -232,6 +238,15 @@ tr:last-child td {
             break;
         case 'Most Fifties':
             mostFiftiesTable(tableData);
+            break;
+        case 'Most Fours':
+            mostFoursTable(tableData);
+            break;
+        case 'Most Sixes':
+            mostSixesTable(tableData);
+            break;
+        case 'Most Nineties':
+            mostNinetiesTable(tableData);
             break;
     }
   }
@@ -540,6 +555,156 @@ tr:last-child td {
         tableHTML += `<td>${row['Runs']}</td>`;
         tableHTML += `<td class="fw-bold">${row['50s']}</td>`;
         tableHTML += `<td>${row['H.s']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function mostFoursTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>I</th>'; // Innings column
+	tableHTML += '<th>R</th>'; // Runs column
+	tableHTML += '<th>4s</th>'; // Average column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Batter'])}">${row['Batter']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Inns']}</td>`;
+        tableHTML += `<td>${row['Runs']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['4s']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function mostSixesTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>I</th>'; // Innings column
+	tableHTML += '<th>R</th>'; // Runs column
+	tableHTML += '<th>6s</th>'; // Average column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Batter'])}">${row['Batter']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Inns']}</td>`;
+        tableHTML += `<td>${row['Runs']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['6s']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function mostNinetiesTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>I</th>'; // Innings column
+	tableHTML += '<th>R</th>'; // Runs column
+	tableHTML += '<th>90s</th>'; // Average column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Batter'])}">${row['Batter']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Inns']}</td>`;
+        tableHTML += `<td>${row['Runs']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['90s']}</td>`;
 
       tableHTML += '</tr>';
     });

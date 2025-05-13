@@ -27,16 +27,16 @@
     display: inline-block;
   }
 
-  ..dropdown-toggle {
+  .dropdown-toggle {
     background-color: #00816a;
     color: white;
     padding: 7px 3px;
     border: 1px solid #ffb09e;
     border-radius: 25px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
-    min-width: 160px;
+    min-width: 250px;
     text-align: center;
   }
 
@@ -44,29 +44,31 @@
     display: none;
     position: absolute;
     background-color: white;
-    min-width: 220px;
+    min-width: 250px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border: 1px solid #ffb09e;
     border-radius: 8px;
     margin-top: 8px;
+    font-weight: bold;
     z-index: 1;
     overflow: hidden;
   }
 
   .dropdown-menu a {
     color: #333;
-    padding: 12px 16px;
+    padding: 5px 10px;
     text-decoration: none;
     display: block;
     border-bottom: 1px solid #eaeaea;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .dropdown-menu a:hover {
     background-color: #f5f5f5;
   }
 
-  .dropdown-menu a.active {
-    background-color: #00874b;
+  .dropdown-menu a.activeD {
+    background-color: #00816a;
     color: white;
   }
 
@@ -76,6 +78,59 @@
 
   .dropdown.show .dropdown-menu {
     display: block;
+  }
+
+  .table-wrapper a {
+    color: #0398dc !important;
+  }
+
+  .table-wrapper {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow-x: auto;
+  border: 1px solid #ffb09e;
+  background-color: white;
+}
+
+/* Updated table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+}
+
+/* Remove bottom border from last row */
+tr:last-child td {
+  border-bottom: none !important;
+}
+
+  th, td {
+    text-align: left;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 12px;
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  th {
+    background-color: #00816a;
+    color: white;
+  }
+
+  .team-logo {
+    width: 23px;
+    height: 23px;
+    vertical-align: middle;
+  }
+
+  .position {
+    text-align: center;
+  }
+
+  .logo-col {
+    text-align: center;
   }
     </style>
 {% endblock %}
@@ -98,9 +153,400 @@
 
           </ul>
 		</div>
+		  <center><div class="pt-3 dropdown">
+			  <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Most Wickets <i class="fa fa-chevron-down font_10 ms-1"></i></button>
+			  <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
+				<a href="#" class="activeD" onclick="selectOption(this, 'Most Wickets')">Most Wickets</a>
+				<a href="#" onclick="selectOption(this, 'Best Bowling Average')">Best Bowling Average</a>
+				<a href="#" onclick="selectOption(this, 'Best Bowling')">Best Bowling</a>
+				<a href="#" onclick="selectOption(this, 'Most 5 Wickets Haul')">Most 5 Wickets Haul</a>
+				<a href="#" onclick="selectOption(this, 'Best Economy')">Best Economy</a>
+				<a href="#" onclick="selectOption(this, 'Best Bowling Strike Rate')">Best Bowling Strike Rate</a>
+			  </div>
+		  </div></center>
+		  <div id="tableContainer" class="table-wrapper"></div>
 	  </div>
 	</div>
    </div>
  </div>
 </section>
+<script>
+	const statsData = {
+        'Most Wickets': {{ stats['Most Wickets'] | tojson | safe }},
+        'Best Bowling Average': {{ stats['Best Bowling Average'] | tojson | safe }},
+        'Best Bowling Strike Rate': {{ stats['Best Bowling Strike Rate'] | tojson | safe }},
+        'Best Bowling': {{ stats['Best Bowling'] | tojson | safe }},
+        'Most 5 Wickets Haul': {{ stats['Most 5 Wickets Haul'] | tojson | safe }},
+        'Best Economy': {{ stats['Best Economy'] | tojson | safe }}
+    };
+
+    function toggleDropdown() {
+    document.querySelector('.dropdown').classList.toggle('show');
+  }
+
+  // Close dropdown when clicking outside
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropdown-toggle')) {
+      var dropdowns = document.getElementsByClassName("dropdown");
+      for (var i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+
+  function selectOption(element, optionTitle) {
+    // Remove active from all
+    const items = document.querySelectorAll('.dropdown-menu a');
+    items.forEach(item => item.classList.remove('activeD'));
+
+    // Set active to clicked one
+    element.classList.add('activeD');
+
+    // Update button text
+    document.getElementById('dropdownButton').innerHTML = `${optionTitle} <i class="fa fa-chevron-down font_10 ms-1"></i>`;
+
+    // Close dropdown
+    document.querySelector('.dropdown').classList.remove('show');
+
+    const tableData = statsData[optionTitle];
+
+	switch(optionTitle) {
+        case 'Most Wickets':
+            mostWicketsTable(tableData);
+            break;
+        case 'Best Bowling Average':
+            bestBowlingAverageTable(tableData);
+            break;
+        case 'Best Bowling Strike Rate':
+            bestBowlingStrikeRateTable(tableData);
+            break;
+        case 'Best Bowling':
+            bestBowlingTable(tableData);
+            break;
+        case 'Most 5 Wickets Haul':
+            most5WicketsHaulTable(tableData);
+            break;
+        case 'Best Economy':
+            bestEconomyTable(tableData);
+            break;
+    }
+  }
+
+  function mostWicketsTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>O</th>'; // Innings column
+	tableHTML += '<th>B</th>'; // Runs column
+	tableHTML += '<th>R</th>'; // Average column
+	tableHTML += '<th>W</th>'; // Average column
+	tableHTML += '<th>Avg</th>'; // SR column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Player'])}">${row['Player']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Overs']}</td>`;
+        tableHTML += `<td>${row['Balls']}</td>`;
+        tableHTML += `<td>${row['Runs']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['Wkts']}</td>`;
+        tableHTML += `<td>${row['Avg']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function bestBowlingAverageTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>O</th>'; // Innings column
+	tableHTML += '<th>W</th>'; // Average column
+	tableHTML += '<th>Avg</th>'; // SR column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Bowler'])}">${row['Bowler']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Overs']}</td>`;
+        tableHTML += `<td>${row['Wkts']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['Avg']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function bestBowlingTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>O</th>'; // Match column
+	tableHTML += '<th>BBI</th>'; // Average column
+	tableHTML += '<th>Vs</th>'; // Average column
+	tableHTML += '<th>Econ</th>'; // SR column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Bowler'])}">${row['Bowler']}</a></td>`;
+        tableHTML += `<td>${row['Ovs']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['Bbi']}</td>`;
+        tableHTML += `<td>${row['Vs']}</td>`;
+        tableHTML += `<td>${row['Econ']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function most5WicketsHaulTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>O</th>'; // Innings column
+	tableHTML += '<th>R</th>'; // Average column
+	tableHTML += '<th>W</th>'; // Average column
+	tableHTML += '<th>5-fers</th>'; // SR column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Bowler'])}">${row['Bowler']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Overs']}</td>`;
+        tableHTML += `<td>${row['Runs']}</td>`;
+        tableHTML += `<td>${row['Wkts']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['5-fers']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function bestEconomyTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>I</th>'; // Innings column
+	tableHTML += '<th>O</th>'; // Runs column
+	tableHTML += '<th>W</th>'; // Average column
+	tableHTML += '<th>Eco</th>'; // Average column
+	tableHTML += '<th>Avg</th>'; // SR column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Bowler'])}">${row['Bowler']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Inns']}</td>`;
+        tableHTML += `<td>${row['Overs']}</td>`;
+        tableHTML += `<td>${row['Wkts']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['Eco']}</td>`;
+        tableHTML += `<td>${row['Avg']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  function bestBowlingStrikeRateTable(data) {
+    const container = document.getElementById('tableContainer');
+
+    if (!data || data.length === 0) {
+      container.innerHTML = '<p>No data available.</p>';
+      return;
+    }
+
+    // Extract headers from the first dictionary (excluding Team and Batter which we'll handle specially)
+    const headers = Object.keys(data[0]).filter(key => !['Team'].includes(key));
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Player</th>'; // Player name column
+	tableHTML += '<th>M</th>'; // Match column
+	tableHTML += '<th>O</th>'; // Innings column
+	tableHTML += '<th>W</th>'; // Average column
+	tableHTML += '<th>SR</th>'; // SR column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add rows
+    data.forEach((row, index) => {
+      tableHTML += '<tr>';
+
+      // Position number (1st column)
+      tableHTML += `<td class="position">${index + 1}</td>`;
+
+      // Team logo (2nd column)
+      const teamCode = row['Team'];
+      const logoUrl = `/static/images/squad_logos/${teamCode}.png`;
+      tableHTML += `<td class="logo-col"><img src="${logoUrl}" class="team-logo" alt="${teamCode}"></td>`;
+
+      // Remaining columns
+        tableHTML += `<td class="fw-bold text-blue"><a href="/${encodeURIComponent(row['Team'])}/squad_details/${encodeURIComponent(row['Bowler'])}">${row['Bowler']}</a></td>`;
+        tableHTML += `<td>${row['Matches']}</td>`;
+        tableHTML += `<td>${row['Overs']}</td>`;
+        tableHTML += `<td>${row['Wkts']}</td>`;
+        tableHTML += `<td class="fw-bold">${row['Sr']}</td>`;
+
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    container.innerHTML = tableHTML;
+  }
+
+  // Initial table render
+  const initialData = statsData['Most Wickets']
+  mostWicketsTable(initialData);
+</script>
 {% endblock %}
