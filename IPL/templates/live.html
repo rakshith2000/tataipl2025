@@ -26,6 +26,10 @@
     text-align: center;
     }
 
+    .table-responsive a{
+        color: #0398dc !important;
+    }
+
     .label-container {
             width: 95%;
             display: flex;
@@ -171,22 +175,30 @@
     </tr>
   </thead>
   <tbody>
+  {% if dt3['now_batting']['b1']['name'] != "" %}
     <tr>
-      <td class="text-blue"><b>{{ dt3['now_batting']['b1']['name']~'*' }}</b></td>
+        {% set result = find_player(dt3['now_batting']['b1']['name'], sqf) %}
+        {% set team = result[3] if result else "NA" %}
+        {% set name = result[2] if result else dt3['now_batting']['b1']['name'] %}
+        <td class="text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name~'*' }}</a></b></td>
       <td><b>{{ dt3['now_batting']['b1']['stats']['runs'] }}</b></td>
       <td>{{ dt3['now_batting']['b1']['stats']['balls'] }}</td>
       <td>{{ dt3['now_batting']['b1']['stats']['fours'] }}</td>
 	  <td>{{ dt3['now_batting']['b1']['stats']['sixes'] }}</td>
 	  <td>{{ dt3['now_batting']['b1']['stats']['strike_rate'] }}</td>
-    </tr>
+    </tr>{% endif %}
+  {% if dt3['now_batting']['b2']['name'] != "" %}
     <tr>
-      <td class="text-blue"><b>{{ dt3['now_batting']['b2']['name'] }}</b></td>
+        {% set result = find_player(dt3['now_batting']['b2']['name'], sqf) %}
+        {% set team = result[3] if result else "NA" %}
+        {% set name = result[2] if result else dt3['now_batting']['b2']['name'] %}
+        <td class="text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></b></td>
       <td><b>{{ dt3['now_batting']['b2']['stats']['runs'] }}</b></td>
       <td>{{ dt3['now_batting']['b2']['stats']['balls'] }}</td>
       <td>{{ dt3['now_batting']['b2']['stats']['fours'] }}</td>
 	  <td>{{ dt3['now_batting']['b2']['stats']['sixes'] }}</td>
 	  <td>{{ dt3['now_batting']['b2']['stats']['strike_rate'] }}</td>
-    </tr>
+    </tr>{% endif %}
     <tr class="bg-greenlight">
       <th class="text-muted">BOWLERS</th>
       <th class="text-muted">O</th>
@@ -195,22 +207,30 @@
 	  <th class="text-muted">W</th>
 	  <th class="text-muted">Econ</th>
     </tr>
+    {% if dt3['now_bowling']['b1']['name'] != "" %}
 	<tr>
-      <td class="text-blue"><b>{{ dt3['now_bowling']['b1']['name']~'*' }}</b></td>
+        {% set result = find_player(dt3['now_bowling']['b1']['name'], sqf) %}
+        {% set team = result[3] if result else "NA" %}
+        {% set name = result[2] if result else dt3['now_bowling']['b1']['name'] %}
+        <td class="text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name~'*' }}</a></b></td>
       <td>{{ dt3['now_bowling']['b1']['stats']['overs'] }}</td>
       <td>{{ dt3['now_bowling']['b1']['stats']['maiden_overs'] }}</td>
       <td>{{ dt3['now_bowling']['b1']['stats']['runs'] }}</td>
 	  <td><b>{{ dt3['now_bowling']['b1']['stats']['wickets'] }}</b></td>
 	  <td>{{ dt3['now_bowling']['b1']['stats']['economy'] }}</td>
-    </tr>
+    </tr>{% endif %}
+    {% if dt3['now_bowling']['b2']['name'] != "" %}
 	<tr>
-      <td class="text-blue"><b>{{ dt3['now_bowling']['b2']['name'] }}</b></td>
+        {% set result = find_player(dt3['now_bowling']['b2']['name'], sqf) %}
+        {% set team = result[3] if result else "NA" %}
+        {% set name = result[2] if result else dt3['now_bowling']['b2']['name'] %}
+        <td class="text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></b></td>
       <td>{{ dt3['now_bowling']['b2']['stats']['overs'] }}</td>
       <td>{{ dt3['now_bowling']['b2']['stats']['maiden_overs'] }}</td>
       <td>{{ dt3['now_bowling']['b2']['stats']['runs'] }}</td>
 	  <td><b>{{ dt3['now_bowling']['b2']['stats']['wickets'] }}</b></td>
 	  <td>{{ dt3['now_bowling']['b2']['stats']['economy'] }}</td>
-    </tr>
+    </tr>{% endif %}
   </tbody>
 </table>
 		  </div>

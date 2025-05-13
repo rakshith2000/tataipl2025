@@ -24,6 +24,10 @@
     .status{
         display: block;
     }
+
+    .table-responsive a{
+        color: #0398dc !important;
+    }
     </style>
 {% endblock %}
 
@@ -101,7 +105,10 @@
   <tbody>
   {% for batsmen in i['batting'] %}
     <tr class="border-0">
-      <td class="pb-0 text-blue" ><b>{{ batsmen['name'] }}</b></td>
+        {% set result = find_player(batsmen['name'], sqf) %}
+        {% set team = result[3] if result else "NA" %}
+        {% set name = result[2] if result else batsmen['name'] %}
+        <td class="pb-0 text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></b></td>
       <td class="pb-0" ><b>{{ batsmen['runs'] }}</b></td>
       <td class="pb-0" >{{ batsmen['balls'] }}</td>
 	  <td class="pb-0" >{{ batsmen['fours'] }}</td>
@@ -152,7 +159,10 @@
   <tbody>
   {% for bowler in i['bowling'] %}
     <tr class="border-top">
-      <td class="text-blue"><b>{{ bowler['name'] }}</b> </td>
+        {% set result = find_player(bowler['name'], sqf) %}
+        {% set team = result[3] if result else "NA" %}
+        {% set name = result[2] if result else bowler['name'] %}
+        <td class="text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></b> </td>
       <td>{{ bowler['overs'] }}</td>
       <td>{{ bowler['maiden_overs'] }}</td>
       <td>{{ bowler['runs'] }}</td>
