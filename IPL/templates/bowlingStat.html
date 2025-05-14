@@ -181,17 +181,33 @@ tr:last-child td {
     };
 
     function toggleDropdown() {
-    document.querySelector('.dropdown').classList.toggle('show');
+  	const chevron = document.querySelector('.dropdown-toggle .fa-chevron-down');
+  	const dropdown = document.querySelector('.dropdown');
+    dropdown.classList.toggle('show');
+
+    // Toggle between up and down chevron
+    if (dropdown.classList.contains('show')) {
+        chevron.classList.remove('fa-chevron-down');
+        chevron.classList.add('fa-chevron-up');
+    } else {
+        chevron.classList.remove('fa-chevron-up');
+        chevron.classList.add('fa-chevron-down');
+    }
   }
 
   // Close dropdown when clicking outside
   window.onclick = function(event) {
     if (!event.target.matches('.dropdown-toggle')) {
       var dropdowns = document.getElementsByClassName("dropdown");
+      var chevrons = document.querySelectorAll('.dropdown-toggle .fa-chevron-up');
       for (var i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
         if (openDropdown.classList.contains('show')) {
           openDropdown.classList.remove('show');
+          chevrons.forEach(chevron =>{
+          	chevron.classList.remove('fa-chevron-up');
+        	chevron.classList.add('fa-chevron-down');
+          });
         }
       }
     }
