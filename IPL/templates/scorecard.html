@@ -104,11 +104,12 @@
   </thead>
   <tbody>
   {% for batsmen in i['batting'] %}
+  {% if batsmen['out_str'] == "Not out" %}{% set bgcolor = '#2E7D32db' %}{% else %}{% set bgcolor = '#666666b0' %}{% endif %}
     <tr class="border-0">
         {% set result = find_player(batsmen['name'], sqf) %}
         {% set team = result[3] if result else "NA" %}
         {% set name = result[2] if result else batsmen['name'] %}
-        <td class="pb-0 text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></b></td>
+        <td class="pb-0 text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}{% if batsmen['is_captain'] == true %}&nbsp;<span class="text-muted">(C)</span>{% endif %}</a></b></td>
       <td class="pb-0" ><b>{{ batsmen['runs'] }}</b></td>
       <td class="pb-0" >{{ batsmen['balls'] }}</td>
 	  <td class="pb-0" >{{ batsmen['fours'] }}</td>
@@ -116,7 +117,7 @@
 	  <td class="pb-0" >{{ batsmen['strike_rate'] }}</td>
     </tr>
     <tr class="border-bottom">
-        <td class="pt-0" colspan="6">{{ batsmen['out_str'] }}</td>
+        <td class="pt-0 fw-bold font_11" colspan="6" style="color: {{ bgcolor }}">{{ batsmen['out_str'] }}</td>
     </tr>
       {% endfor %}
 
@@ -126,9 +127,15 @@
     </tr>
   {% set not_batted_list = i['not_batted'].values() | list %}
 {% set sorted_not_batted = not_batted_list | sort(attribute='order') %}
-{% set names = sorted_not_batted | map(attribute='name') | join(', ') %}
+{% set names = sorted_not_batted | map(attribute='name') | list %}
     <tr class="border-bottom">
-        <td class="pt-0" colspan="6">{{ names }}</td>
+        <td class="pt-0 fw-bold" colspan="6">
+            {% for nb in names %}
+                {% set result = find_player(nb, sqf) %}
+                {% set team = result[3] if result else "NA" %}
+                {% set name = result[2] if result else nb %}
+            <a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a>{% if not loop.last %},{% endif %}
+            {% endfor %}</td>
     </tr>
 	<tr class="border-bottom">
       <td>Extras</td>
