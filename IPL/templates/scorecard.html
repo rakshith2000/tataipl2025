@@ -123,7 +123,7 @@
 
 
     <tr class="border-0">
-        <td class="pb-0" colspan="6"><b class="font_13 fw-bold">Yet to bat / Didn't bat:</b> </td>
+        <td class="pb-0" colspan="6"><b class="font_13 fw-bold">{% if dt3['score_strip'][loop.index0]['currently_batting'] %}Yet to bat:{% else %}Didn't bat:{% endif %}</b> </td>
     </tr>
   {% set not_batted_list = i['not_batted'].values() | list %}
 {% set sorted_not_batted = not_batted_list | sort(attribute='order') %}
