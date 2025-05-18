@@ -479,6 +479,11 @@ def todayMatch():
                 dtt.append('TBA')  # Win-Team
                 dtt.append('TBA')
                 dtt.append('TBA')
+            elif i[10] == 'NA':
+                dtt.append('NA')
+                dtt.append('NA')
+                dtt.append('NA')
+                dtt.append(i[7])
             else:
                 dtt.append(i[10])
                 WType = 'wickets' if 'wickets' in i[7] else 'runs'
