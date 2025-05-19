@@ -2,7 +2,7 @@
 <meta name="robots" content="noindex,nofollow" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"/>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-        {% if dt3['info'] != "" and 'won' not in dt3['info'] and 'Break' not in dt3['info'] and 'abandoned' not in dt3['info'] | lower and 'no result' not in dt3['info'] | lower %}
+        {% if dt3['info'] != "" and 'won' not in dt3['info'] and 'abandoned' not in dt3['info'] | lower and 'no result' not in dt3['info'] | lower %}
         <meta http-equiv="refresh" content="8">{% endif %}
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}" rel="stylesheet" >
@@ -95,7 +95,7 @@
                                 <span class="seconds" id="second" style="font-size: 22px;"></span><span style="color: #a6a6a6;"> Secs</span></b>
                             </div>
                             {% endif %}</span>
-                           {% if dt3['info'] != "" and 'won' not in dt3['info'] and 'Break' not in dt3['info'] and 'abandoned' not in dt3['info'] | lower and 'no result' not in dt3['info'] | lower %}
+                           {% if dt3['info'] != "" and 'won' not in dt3['info'] and 'abandoned' not in dt3['info'] | lower and 'no result' not in dt3['info'] | lower %}
                                {% if dt3['score_strip'][0]['currently_batting'] == true %}
                                    <span class="d-block pt-2 pt-2 pb-2 px-3 font_12 bg-light">Current RR: <b>{{ dt3['score_strip'][0]['run_rate'].split(' ')[2] }}</b><br>Current Partnership: <b>{{ dt3['innings'][0]['current_partnership']['runs'] }} ({{ dt3['innings'][0]['current_partnership']['balls'] }})</b></span>
                                {% elif dt3['score_strip'][1]['currently_batting'] == true %}
