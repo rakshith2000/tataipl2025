@@ -252,7 +252,7 @@
             </div>
           </div>{% endif %}{% endif %}{% endif %}
 
-      {% if 'won' in dt3['info'] or 'abandoned' in dt3['info'] | lower or 'no result' in dt3['info'] | lower %}
+      {% if 'won' in dt3['info'] %}
           {% if "player_of_match" in dt3 %}
           {% set result = find_player(dt3['player_of_match']['player_name'], sqf) %}
           {% set team = result[3] if result else "NA" %}
@@ -260,9 +260,10 @@
           <div class="score_2_inner border rounded_10 bg-white mt-3">
               <b class="bg_green font_18 d-block px-3 text-white text-center pt-2 pb-2 rounded_top">Player of the Match</b>
               <div class="potm-content">
+                  <a href="{{ url_for('main.squad_details', team=team, name=name) }}">
                   <div class="potm-image" style="{% if team == 'RCB' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'GT' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }} {% elif team == 'MI' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }}  {% elif team == 'PBKS' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'KKR' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c3'] }} {% else %} --c1: {{ clr2[team]['c1'] }}; --c2: {{ clr2[team]['c2'] }} {% endif %};">
                       <img src="/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png" alt="{{ name }}">
-                  </div>
+                  </div></a>
                   <div class="potm-details">
                       <div class="potm-name"><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></div>
                       <div class="potm-team fw-bold">
@@ -292,9 +293,10 @@
           <div class="score_2_inner border rounded_10 bg-white mt-3">
               <b class="bg_green font_18 d-block px-3 text-white text-center pt-2 pb-2 rounded_top">Player of the Series</b>
               <div class="potm-content">
+                  <a href="{{ url_for('main.squad_details', team=team, name=name) }}">
                   <div class="potm-image" style="{% if team == 'RCB' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'GT' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }} {% elif team == 'MI' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }}  {% elif team == 'PBKS' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'KKR' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c3'] }} {% else %} --c1: {{ clr2[team]['c1'] }}; --c2: {{ clr2[team]['c2'] }} {% endif %};">
                       <img src="/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png" alt="{{ name }}">
-                  </div>
+                  </div></a>
                   <div class="potm-details">
                       <div class="potm-name"><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></div>
                       <div class="potm-team fw-bold">
