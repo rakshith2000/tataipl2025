@@ -386,7 +386,6 @@ def squad_details(team, name):
 def matchInfo(match):
     MatchDT = (db.session.execute(text('SELECT * FROM Fixture WHERE "Match_No" = :matchno'), {'matchno': match}).fetchall())[0]
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
-    print(MatchURL)
     dttm = concat_DT(MatchDT[2], MatchDT[3])
     response = requests.get(MatchURL)
     MatchLDT = response.json()
@@ -521,10 +520,6 @@ def battingstats():
     stats['Most Fours'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-fours/0/0/IPL")
     stats['Most Sixes'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-sixes/0/0/IPL")
     stats['Most Nineties'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-nineties/0/0/IPL")
-    for k, v in stats.items():
-        print(k)
-        for i in v:
-            print(i)
     return render_template('battingStat.html', stats=stats)
 
 @main.route('/bowlingstats')
