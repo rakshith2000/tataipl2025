@@ -92,11 +92,12 @@
           border-radius: 50%;
           overflow: hidden;
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-          border: 4px solid white;
+          border: 0px solid white;
           position: relative;
           z-index: 1;
           margin-right: 20px;
           transition: transform 0.3s ease;
+          background: linear-gradient(145deg, var(--c1), var(--c2));
         }
         .potm-image img {
           width: 100%;
@@ -259,7 +260,7 @@
           <div class="score_2_inner border rounded_10 bg-white mt-3">
               <b class="bg_green font_18 d-block px-3 text-white text-center pt-2 pb-2 rounded_top">Player of the Match</b>
               <div class="potm-content">
-                  <div class="potm-image">
+                  <div class="potm-image" style="{% if team == 'RCB' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'GT' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }} {% elif team == 'MI' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }}  {% elif team == 'PBKS' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'KKR' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c3'] }} {% else %} --c1: {{ clr2[team]['c1'] }}; --c2: {{ clr2[team]['c2'] }} {% endif %};">
                       <img src="/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png" alt="{{ name }}">
                   </div>
                   <div class="potm-details">
@@ -291,7 +292,7 @@
           <div class="score_2_inner border rounded_10 bg-white mt-3">
               <b class="bg_green font_18 d-block px-3 text-white text-center pt-2 pb-2 rounded_top">Player of the Series</b>
               <div class="potm-content">
-                  <div class="potm-image">
+                  <div class="potm-image" style="{% if team == 'RCB' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'GT' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }} {% elif team == 'MI' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }}  {% elif team == 'PBKS' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'KKR' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c3'] }} {% else %} --c1: {{ clr2[team]['c1'] }}; --c2: {{ clr2[team]['c2'] }} {% endif %};">
                       <img src="/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png" alt="{{ name }}">
                   </div>
                   <div class="potm-details">
