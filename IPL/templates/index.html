@@ -116,9 +116,12 @@ h3.section-title {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
-  padding: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   max-width: 90%;
-  margin: 30px auto;
+  margin: 10px auto;
   animation: fadeInContainer 1.2s ease-in-out;
 }
 
@@ -203,7 +206,7 @@ h3.section-title {
 </style>
 
 <center>
-  <div style="background-image: url('/static/images/banner_bg.jpg'); background-size: cover; background-attachment: fixed; padding: 40px 20px; background-color: rgba(255, 255, 255, 0.3);">
+  <div style="background-image: url('/static/images/banner_bg.jpg'); background-size: cover; background-attachment: fixed; padding: 30px 10px; background-color: rgba(255, 255, 255, 0.3);">
     <div class="marquee-container">
       <marquee style="font-weight: bold; font-family: 'Exo 2', sans-serif; transform: skew(-5deg)" width="60%" direction="left" scrollamount="8">
           <h1><b>Welcome to TATA IPL 2025 Info Tab</b></h1>
@@ -215,7 +218,7 @@ h3.section-title {
     </div>
 
     <div class="team-container">
-      <h3 class="section-title"><span class="section-title-highlight"><span style="color: #d5edff;">🔥TATA IPL 2025🔥Teams</span></span></h3>
+      <h3 class="section-title"><span class="section-title-highlight"><span style="color: #d5edff;">🔥TATA IPL 2025🔥<br>Teams</span></span></h3>
       <div class="flex-container">
         {% for i in teams[:-1] %}
         <div class="card-wrapper">

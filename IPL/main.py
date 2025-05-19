@@ -404,11 +404,12 @@ def liveScore(match):
     dttm = concat_DT(MatchDT[2], MatchDT[3])
     response = requests.get(MatchURL)
     MatchLDT = response.json()
+    print(MatchLDT['player_of_match'])
     MatchDT2 = []
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
-    return render_template('live.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr, sqf=SquadFull, find_player=find_player)
+    return render_template('live.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr, sqf=SquadFull, find_player=find_player, fn=full_name)
 
 @main.route('/match-<match>/scoreCard')
 def scoreCard(match):
