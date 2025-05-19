@@ -28,6 +28,95 @@
     .table-responsive a{
         color: #0398dc !important;
     }
+
+    .potm-content {
+          padding: 10px;
+          display: flex;
+          align-items: center;
+          position: relative;
+        }
+        .potm-image {
+          width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          overflow: hidden;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+          border: 4px solid white;
+          position: relative;
+          z-index: 1;
+          margin-right: 20px;
+          transition: transform 0.3s ease;
+        }
+        .potm-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .potm-details {
+          flex: 1;
+        }
+        .potm-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 5px;
+    }
+        .potm-team {
+      color: var(--dark);
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .team-logo {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      border-radius: 50%;
+    }
+        .potm-stats {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+        .stat-item {
+      background: var(--light);
+      padding: 5px 15px;
+      border-radius: 8px;
+      text-align: center;
+      flex: 1;
+      transition: all 0.3s ease;
+    }
+    /*
+    .stat-item:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
+    }
+
+    .stat-item:hover .stat-value {
+      color: white;
+    }*/
+
+    .stat-label {
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 3px;
+    }
+
+    .stat-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+        .potm-name a{
+        color: #0398dc !important;
+    }
     </style>
 {% endblock %}
 
@@ -75,6 +164,39 @@
             <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
 		</ul>
 	    </div>
+
+          {% if 'won' in dt3['info'] or 'abandoned' in dt3['info'] | lower or 'no result' in dt3['info'] | lower %}
+          {% if "player_of_match" in dt3 %}
+          {% set result = find_player(dt3['player_of_match']['player_name'], sqf) %}
+          {% set team = result[3] if result else "NA" %}
+          {% set name = result[2] if result else dt3['player_of_match']['player_name'] %}
+          <div class="score_2_inner border rounded_10 bg-white mt-3">
+              <b class="bg_green font_18 d-block px-3 text-white text-center pt-2 pb-2 rounded_top">Player of the Match</b>
+              <div class="potm-content">
+                  <div class="potm-image">
+                      <img src="/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png" alt="{{ name }}">
+                  </div>
+                  <div class="potm-details">
+                      <div class="potm-name"><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></div>
+                      <div class="potm-team fw-bold">
+                          <img src="/static/images/squad_logos/{{ team }}.png" alt="Team Logo" class="team-logo">
+                          {{ fn[team] }}
+                      </div>
+                      <div class="potm-stats">
+                          <div class="stat-item">
+                              <div class="stat-label">Bat</div>
+                              <div class="stat-value">{{ '-' if dt3['player_of_match']['batting_stat'] == '' else dt3['player_of_match']['batting_stat'] }}</div>
+                          </div>
+                          <div class="stat-item">
+                              <div class="stat-label">Bowl</div>
+                              <div class="stat-value">{{ '-' if dt3['player_of_match']['bowling_stat'] == '' else dt3['player_of_match']['bowling_stat'] }}</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      {% endif %}{% endif %}
+
 		<div class="score_1 mt-3">
 		  <ul class="d-flex flex-wrap font_12 fw-bold nav nav-tabs border-0" id="inningsTabs">
         {% for i in dt3['innings'][:2] %}
