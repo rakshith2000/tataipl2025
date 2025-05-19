@@ -394,7 +394,9 @@ def matchInfo(match):
     MatchDT2.append(num_suffix(int(MatchDT[1]))+" Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day)+" "+MatchDT[2].strftime("%B %Y"))
-    return render_template('info.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm)
+    current_date = datetime.now(tz)
+    current_date = current_date.replace(tzinfo=None)
+    return render_template('info.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm)
 
 @main.route('/match-<match>/liveScore')
 def liveScore(match):
@@ -408,7 +410,9 @@ def liveScore(match):
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
-    return render_template('live.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr, clr2=clr, sqf=SquadFull, find_player=find_player, fn=full_name)
+    current_date = datetime.now(tz)
+    current_date = current_date.replace(tzinfo=None)
+    return render_template('live.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr, clr2=clr, sqf=SquadFull, find_player=find_player, fn=full_name)
 
 @main.route('/match-<match>/scoreCard')
 def scoreCard(match):
@@ -422,7 +426,9 @@ def scoreCard(match):
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
-    return render_template('scorecard.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, sqf=SquadFull, clr2=clr, find_player=find_player, fn=full_name)
+    current_date = datetime.now(tz)
+    current_date = current_date.replace(tzinfo=None)
+    return render_template('scorecard.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, sqf=SquadFull, clr2=clr, find_player=find_player, fn=full_name)
 
 @main.route('/match-<match>/liveSquad')
 def liveSquad(match):
@@ -437,7 +443,9 @@ def liveSquad(match):
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
     MatchDT2.append(MatchDT[6].split(", ")[1])
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
-    return render_template('livesquad.html', match=match, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, sqd=SquadDT, sqf=SquadFull, find_player=find_player)
+    current_date = datetime.now(tz)
+    current_date = current_date.replace(tzinfo=None)
+    return render_template('livesquad.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, sqd=SquadDT, sqf=SquadFull, find_player=find_player)
 
 @main.route('/match-<match>/FRScore')
 def FRScore(match):
