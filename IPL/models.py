@@ -24,6 +24,7 @@ class Pointstable(db.Model):
     Win_List = db.Column(db.String)
     qed = db.Column(db.String)
     qual = db.Column(db.String)
+    top2 = db.Column(db.String)
 
 class Fixture(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -33,7 +33,7 @@ body::-webkit-scrollbar {
     }
 
 .team-image {
-  margin: 0 auto;
+  margin: 0 auto !important;
   width: 70px;
   height: 70px;
   border-radius: 50%;
