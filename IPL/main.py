@@ -230,6 +230,8 @@ def render_live_URL(tA, tB, mn, dt):
             matchNo = "match-21"
         else:
             matchNo = "match-" + mn
+    elif tA != "TBA" and tB != "TBA":
+        matchNo = mn.lower().replace(' ','-')
     else:
         matchNo = mn.lower().replace(' ','-') + "-ipl-2025"
     if mn.isdigit() and mn == "21":
