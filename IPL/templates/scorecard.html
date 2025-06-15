@@ -387,6 +387,23 @@
   createTimer(clockElement); // This will start the timer instantly
 });
 </script>
+<script>
+// Save active tab to localStorage when a tab is clicked
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('#inningsTabs a[data-bs-toggle="tab"]');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            localStorage.setItem('activeInningsTab', this.getAttribute('href'));
+        });
+    });
 
+    // Restore active tab from localStorage
+    const savedTab = localStorage.getItem('activeInningsTab');
+    if (savedTab) {
+        const tabInstance = new bootstrap.Tab(document.querySelector(`a[href="${savedTab}"]`));
+        tabInstance.show();
+    }
+});
+</script>
 
 {% endblock %}
