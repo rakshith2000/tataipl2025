@@ -4,3 +4,4 @@ venv/*
 __pycache__/*
 flask_start.sh
 git_start.sh
+qodana.yaml
