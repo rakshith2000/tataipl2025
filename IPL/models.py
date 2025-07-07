@@ -52,3 +52,4 @@ class Squad(db.Model):
     Bowling = db.Column(db.String)
     Nationality = db.Column(db.String)
     DOB = db.Column(db.Date)
+    Full_Name = db.Column(db.String)
