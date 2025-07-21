@@ -6,7 +6,7 @@
 
 {% block content %}
 <style>
-/* Flex Container and Card Styles */
+/* ---- Your existing styles remain ---- */
 .flex-container {
   display: flex;
   flex-wrap: wrap;
@@ -16,36 +16,28 @@
 }
 
 body {
-        background-image: url('/static/images/banner_bg.jpg');
-        background-size: cover;
-        background-attachment: fixed;"
-        font-family: 'Exo 2', sans-serif;
-        color: #fff;
-        margin: 0;
-        padding: 0;
-        padding-top: 75px;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
+  background-image: url('/static/images/banner_bg.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Exo 2', sans-serif;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  padding-top: 75px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 
- body::-webkit-scrollbar {
-        width: 5px;
-        height: 10px;
-    }
-
-    body::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, .1);
-        border-radius: 10px;
-    }
-
-    body::-webkit-scrollbar-thumb {
-        background-color: #ff6b81;
-        border-radius: 10px;
-    }
-
-    body::-webkit-scrollbar-thumb:hover {
-        background-color: #f7b733;
-    }
+body::-webkit-scrollbar { width: 5px; height: 10px; }
+body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, .1);
+  border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #ff6b81;
+  border-radius: 10px;
+}
+body::-webkit-scrollbar-thumb:hover { background-color: #f7b733; }
 
 .flex-item {
   background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
@@ -90,7 +82,7 @@ body {
   z-index: 2;
 }
 
-/* Watermark Text Styling */
+/* Watermark */
 .card-content::before {
   content: attr(data-watermark);
   position: absolute;
@@ -104,11 +96,10 @@ body {
   text-transform: uppercase;
   text-align: center;
   word-break: break-word;
-  max-width: 80%; /* To ensure wrapping */
+  max-width: 80%;
 }
 
-/* Watermark text container */
-    .watermark {
+.watermark {
   position: absolute;
   top: 0;
   left: 0;
@@ -118,21 +109,18 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  pointer-events: none; /* Ensure the watermark doesn't interfere with clicks */
-  z-index: 1; /* Place it behind the content */
+  pointer-events: none;
+  z-index: 1;
 }
-
-/* Repeated tilted text */
 .watermark span {
-  font-size: 1.8rem; /* Increased font size */
+  font-size: 1.8rem;
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.05); /* White transparent text */
+  color: rgba(255,255,255,0.05);
   white-space: nowrap;
-  transform: rotate(-10deg); /* Reduced tilt angle */
-  margin: 5px 0; /* Spacing between lines */
+  transform: rotate(-10deg);
+  margin: 5px 0;
 }
 
-/* Watermark Styling */
 .card-content {
   position: relative;
   z-index: 2;
@@ -142,9 +130,6 @@ body {
   color: #fefefe;
 }
 
-
-
-/* Image Styling */
 .team-image {
   margin: 0 auto;
   width: 110px;
@@ -155,9 +140,7 @@ body {
   transition: transform 0.3s ease-in-out;
 }
 
-.team-image:hover {
-  transform: scale(1.2);
-}
+.team-image:hover { transform: scale(1.2); }
 
 .team-players {
   margin: 0 auto;
@@ -169,11 +152,8 @@ body {
   position: relative;
 }
 
-.team-players:hover {
-  transform: scale(1.2);
-}
+.team-players:hover { transform: scale(1.2); }
 
-/* Footer Section */
 .card-footer {
   background: rgba(255, 255, 255, 0.1);
   padding: 10px;
@@ -194,6 +174,81 @@ body {
   color: transparent;
   font-size: 20px;
 }
+
+/* ---------------- ADD THESE FOR FLIP EFFECT ONLY ---------------- */
+.card-flip { height: 100%; background: linear-gradient(145deg, var(--c1), var(--c2));}
+.card-flip-inner {
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(.4,2.08,.55,.44);
+  transform-style: preserve-3d;
+  position: relative;
+}
+.grad-card:hover .card-flip-inner,
+.grad-card:focus .card-flip-inner {
+  transform: rotateY(180deg);
+}
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  left: 0; top: 0;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card-front { z-index: 3; }
+.card-back {
+  transform: rotateY(180deg);
+  z-index: 2;
+}
+
+/* Optional: back face content light background */
+.card-back .card-content {
+  /* background: rgba(255,255,255,0.1);*/
+  color: #fff;
+  border-radius: 30px 30px 0 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding: 0;
+}
+
+.card-back .card-footer {
+  background: rgba(255,255,255,0.1);
+  color: #222;
+  border-radius: 20px; /* 0 20px 20px; */
+  margin: 0 0 auto 0;
+  padding: 16px 0 12px 0;
+}
+
+/* Trophy image on the back */
+.card-back .card-content img {
+  width: 120px;
+  margin: 32px auto 20px auto;
+  display: block;
+}
+
+/* Years grid styling */
+.card-back .card-footer > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.card-back .card-footer .years-line {
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 4px 0;
+  word-spacing: 5px;
+  letter-spacing: 1px;
+}
+
+.card-back .card-footer .champ-year {
+  color:  #fff; /* #E76F51;*/
+}
+/* --------------------------------------------------------------- */
 </style>
 
 <!-- Background Section -->
@@ -207,7 +262,6 @@ body {
       </div>
     </marquee>
   </center>
-{% set testlist = ['PBKS', 'KKR'] %}
   <div class="flex-container">
     {% for i in fn.keys() %}
     {% if i != 'TBA' %}
@@ -224,19 +278,59 @@ body {
         <span>{{ fn[i] }}</span>
       </div>
       <a href="{{ url_for('main.squad', team=i) }}">
-        <div class="grad-card" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
-          <!-- Content Block Space for Middle -->
-          <div class="card-content">
-            <img class="team-players" src="/static/images/team_players/{{ i }}.png" alt="Team Logo" />
-          </div>
+        {% if champions[i] %}
+        <div class="grad-card card-flip" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
+          <div class="card-flip-inner">
+            <!-- FRONT FACE: your unchanged content -->
+            <div class="card-face card-front">
+              <div class="card-content">
+                <img class="team-players" src="/static/images/team_players/{{ i }}.png" alt="Team Logo" />
+              </div>
+              <div class="card-footer">
+                <img class="team-image" src="/static/images/squad_logos/{{ i }}.png" alt="Team Logo" />
+                <div class="team-name gradient-text" style="color: white;">{{ fn[i] }}</div>
+              </div>
+            </div>
 
-          <!-- Footer for Logo and Name -->
-          <div class="card-footer">
-            <img class="team-image" src="/static/images/squad_logos/{{ i }}.png" alt="Team Logo" />
-            <div class="team-name gradient-text" style="color: white;">{{ fn[i] }}</div>
+            <!-- BACK FACE: trophy and champion years, with all spacing and alignment -->
+            <div class="card-face card-back">
+              <div class="card-content">
+                <img src="/static/images/trophy.svg" alt="Trophy" />
+              </div>
+              <div class="card-footer">
+                <div>
+                  {% set years = champions[i] %}
+                  {% for y in years|batch(3) %}
+                  <div class="years-line">
+                    {% for year in y %}
+                      <span class="champ-year">{{ year }}</span>{% if not loop.last %} | {% endif %}
+                    {% endfor %}
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
           </div>
-
         </div>
+        {% else %}
+        <!-- Non-flipping card for non-champions (plain grad-card) -->
+      <div class="grad-card"
+           style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }}
+                  {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}
+                  {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}
+                  {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }}
+                  {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }}
+                  {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}
+                  {% endif %};">
+        <div class="card-content">
+          <img class="team-players" src="/static/images/team_players/{{ i }}.png" alt="Team Logo" />
+        </div>
+        <div class="card-footer">
+          <img class="team-image" src="/static/images/squad_logos/{{ i }}.png" alt="Team Logo" />
+          <div class="team-name gradient-text" style="color: white;">{{ fn[i] }}</div>
+        </div>
+      </div>
+        {% endif %}
       </a>
     </div>
     {% endif %}

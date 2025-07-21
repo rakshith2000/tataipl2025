@@ -21,6 +21,20 @@ pofs = {'Q1':'Qualifier 1', 'E':'Eliminator', 'Q2':'Qualifier 2', 'F':'Final'}
 liveURL_Prefix = "https://cmc2.sportskeeda.com/live-cricket-score/"
 liveURL_Suffix = "/ajax"
 
+champions = {
+    'MI':    ['2013', '2015', '2017', '2019', '2020'],
+    'KKR':   ['2012', '2014', '2024'],
+    'CSK':   ['2010', '2011', '2018', '2021', '2023'],
+    'RR':    ['2008'],
+    'DC':    [],
+    'RCB':   ['2025'],
+    'SRH':   ['2016'],
+    'GT':    ['2022'],
+    'PBKS':  [],
+    'LSG':   [],
+}
+
+
 full_name = {'CSK':'Chennai Super Kings',
              'DC':'Delhi Capitals',
              'KKR':'Kolkata Knight Riders',
@@ -367,7 +381,7 @@ def displayFR():
 
 @main.route('/teams')
 def teams():
-    return render_template('teams.html', fn=full_name, clr=clr)
+    return render_template('teams.html', fn=full_name, champions=champions, clr=clr)
 
 @main.route('/<team>')
 def squad(team):
