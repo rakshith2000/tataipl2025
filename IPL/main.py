@@ -82,6 +82,19 @@ ptclr = {'CSK':'#f9cd05',
         'RCB':'#ec1c24',
         'SRH':'#ff822a'}
 
+sqclr = {
+    'CSK': {'c1': 'hsl(51 100% 52%)', 'c2': 'hsl(197, 100%, 47%)'},  # Yellow to Navy Blue
+    'MI': {'c1': 'hsl(32 24% 56%)', 'c2': 'hsl(208 100% 31%)'},    # Blue to Gold
+    'RCB': {'c1': 'hsl(356 99% 45%)', 'c2': 'hsl(0 0% 3%)'},       # Red to Black
+    'KKR': {'c1': 'hsl(275 88% 26%)', 'c2': 'hsl(51 100% 52%)'},   # Purple to Gold
+    'SRH': {'c1': 'hsl(19 100% 52%)', 'c2': 'hsl(0 0% 3%)'},       # Orange to Black
+    'DC': {'c1': 'hsl(346 100% 44%)', 'c2': 'hsl(213 100% 25%)'},    # Blue to Red
+    'PBKS': {'c1': 'hsl(0 94% 52%)', 'c2': 'hsl(51 100% 52%)'},    # Red to Gold
+    'RR': {'c1': 'hsl(310 89% 52%)', 'c2': 'hsl(208 100% 31%)'},   # Pink to Blue
+    'GT': {'c1': 'hsl(225, 31%, 15%)', 'c2': 'hsl(44, 60%, 65%)'},   # Navy to Gold
+    'LSG': {'c1': 'hsl(195 89% 52%)', 'c2': 'hsl(32 95% 53%)'}     # Light Blue to Gold
+}
+
 
 def normalize_name(name):
     """Normalize names for better matching"""
@@ -381,12 +394,12 @@ def displayFR():
 
 @main.route('/teams')
 def teams():
-    return render_template('teams.html', fn=full_name, champions=champions, clr=clr)
+    return render_template('teams.html', fn=full_name, champions=champions, clr=clr, sqclr=sqclr)
 
 @main.route('/<team>')
 def squad(team):
     sq = Squad.query.filter_by(Team=team).order_by(Squad.Player_ID).all()
-    return render_template('squad.html', team=team, sq=sq, fn=full_name[team], clr=clr[team])
+    return render_template('squad.html', team=team, sq=sq, fn=full_name[team], clr=clr[team], sqclr=sqclr[team])
 
 @main.route('/<team>/squad_details/<name>')
 def squad_details(team, name):
@@ -394,7 +407,7 @@ def squad_details(team, name):
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
     age = calculate_age(sq.DOB, current_date)
-    return render_template('squad_details.html', sq=sq, clr=clr[team], team=team, age=age)
+    return render_template('squad_details.html', sq=sq, clr=clr[team], team=team, age=age, sqclr=sqclr[team])
 
 @main.route('/match-<match>/matchInfo')
 def matchInfo(match):

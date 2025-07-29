@@ -72,7 +72,7 @@ body {
 }
 
 .grad1 {
-  background: linear-gradient(180deg, var(--c1), var(--c2), var(--c3));
+  background: linear-gradient(to bottom, var(--c1), var(--c2));
   padding: 25px;
   text-align: center;
   height: 100%;
@@ -206,7 +206,7 @@ body {
   {% macro display(i) %}
   <div class="flex-item">
     <a style="text-decoration: none" href="{{ url_for('main.squad_details', team=i.Team, name=i.Name) }}">
-      <div class="grad1" style="--c1: {{ clr['c1'] }}; --c2: {{ clr['c2'] }}; --c3: {{ clr['c3'] }}">
+      <div class="grad1" style="--c1: {{ sqclr['c1'] }}; --c2: {{ sqclr['c2'] }}">
         {% set name=i.Name %}
         <center>
             <div class="card-content">
@@ -219,7 +219,7 @@ body {
 
               <div class="card-footer">
                 <img class="team-image" src="/static/images/squad_logos/{{ i.Team }}.png" alt="Team Logo" />
-                <div class="team-name gradient-text">{{ i.Name }}</div>
+                <div class="team-name">{{ i.Name }}</div>
 
 
             <div class="row" style="justify-content: center;">

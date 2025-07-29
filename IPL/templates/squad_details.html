@@ -122,7 +122,7 @@ color: white;
 }
 
 .grad2{
-  background: linear-gradient(145deg, var(--c1), var(--c2), var(--c3));
+  background: linear-gradient(to bottom, var(--c1), var(--c2));
   padding: 25px;
   text-align: center;
   min-height: 450px;
@@ -166,7 +166,7 @@ color: white;
 }
 
 .grad1 {
-  background: linear-gradient(180deg, var(--c1), var(--c2), var(--c3));
+  background: linear-gradient(to bottom, var(--c1), var(--c2));
   padding: 25px;
   text-align: center;
   height: 100%;
@@ -358,7 +358,7 @@ color: white;
 <div class="player-container">
     <div class="flex-item1">
         <div class="flex-item">
-            <div class="grad1" style="--c1: {{ clr['c1'] }}; --c2: {{ clr['c2'] }}; --c3: {{ clr['c3'] }}">
+            <div class="grad1" style="--c1: {{ sqclr['c1'] }}; --c2: {{ sqclr['c2'] }}">
             {% set name=sq.Name %}
 	    <center>
         <div class="card-content">
@@ -371,7 +371,7 @@ color: white;
 
          <div class="card-footer">
                 <img class="team-image" src="/static/images/squad_logos/{{ team }}.png" alt="Team Logo" />
-                <div class="team-name gradient-text">{{ sq.Name }}</div>
+                <div class="team-name">{{ sq.Name }}</div>
 
 
 	<div class="row" style="justify-content: center;">
@@ -392,7 +392,7 @@ color: white;
     </div>
 </div>
     <div class="flex-item2">
-        <div class="grad2" style="--c1: {{ clr['c1'] }}; --c2: {{ clr['c2'] }}; --c3: {{ clr['c3'] }}">
+        <div class="grad2" style="--c1: {{ sqclr['c1'] }}; --c2: {{ sqclr['c2'] }}">
             <div class="details-grid">
             <div class="info-card">
               <img src="/static/images/squad_logos/{{ team }}.png" alt="Role Icon">
