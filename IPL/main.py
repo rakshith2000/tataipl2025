@@ -86,7 +86,7 @@ sqclr = {
     'CSK': {'c1': 'hsl(51 100% 52%)', 'c2': 'hsl(197, 100%, 47%)'},  # Yellow to Navy Blue
     'MI': {'c1': 'hsl(32 24% 56%)', 'c2': 'hsl(208 100% 31%)'},    # Blue to Gold
     'RCB': {'c1': 'hsl(356 99% 45%)', 'c2': 'hsl(0 0% 3%)'},       # Red to Black
-    'KKR': {'c1': 'hsl(275 88% 26%)', 'c2': 'hsl(51 100% 52%)'},   # Purple to Gold
+    'KKR': {'c1': 'hsl(264, 80%, 20%)', 'c2': 'hsl(51 90% 39%)'},   # Purple to Gold
     'SRH': {'c1': 'hsl(19 100% 52%)', 'c2': 'hsl(0 0% 3%)'},       # Orange to Black
     'DC': {'c1': 'hsl(346 100% 44%)', 'c2': 'hsl(213 100% 25%)'},    # Blue to Red
     'PBKS': {'c1': 'hsl(0 94% 52%)', 'c2': 'hsl(51 100% 52%)'},    # Red to Gold
