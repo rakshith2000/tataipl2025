@@ -571,7 +571,16 @@ def bowlingstats():
 
 @main.route('/alltimeipl')
 def alltimeipl():
-    return render_template('all-time-ipl.html')
+    stats = {}
+    currentTeams = db.session.execute(text('select * from current_teams order by id')).fetchall()
+    defunctTeams = db.session.execute(text('select * from defunct_teams order by id')).fetchall()
+    tournamentSummary = db.session.execute(text('select * from tournament_summary order by id')).fetchall()
+    editionsAndResults = db.session.execute(text('select * from editions_and_results order by id')).fetchall()
+    stats['Editions and Results'] = [dict(row._mapping) for row in editionsAndResults]
+    stats['Tournament Summary'] = [dict(row._mapping) for row in tournamentSummary]
+    stats['Defunct Teams'] = [dict(row._mapping) for row in defunctTeams]
+    stats['Current Teams'] = [dict(row._mapping) for row in currentTeams]
+    return render_template('all-time-ipl.html', stats=stats, fn=full_name, clr=clr, sqclr=sqclr)
 
 @main.route('/update')
 @login_required

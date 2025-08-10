@@ -1,16 +1,16 @@
 {% extends "base.html" %} {% block head %} {{ super() }}
-	<meta name="robots" content="noindex,nofollow" />
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}" rel="stylesheet" >
-	 <link href="{{ url_for('static', filename= 'fonts/css/fontawesome.min.css') }}" rel="stylesheet" >
-	<link href="{{ url_for('static', filename= 'fonts/css/brands.min.css') }}" rel="stylesheet" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}" rel="stylesheet" >
+   <link href="{{ url_for('static', filename= 'fonts/css/fontawesome.min.css') }}" rel="stylesheet" >
+  <link href="{{ url_for('static', filename= 'fonts/css/brands.min.css') }}" rel="stylesheet" />
     <link href="{{ url_for('static', filename= 'fonts/css/solid.min.css') }}" rel="stylesheet" />
-	<link href="{{ url_for('static', filename= 'css/global.css') }}" rel="stylesheet">
-	<link href="{{ url_for('static', filename= 'css/index.css') }}" rel="stylesheet">
-	<link href="{{ url_for('static', filename= 'css/live.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename= 'css/global.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename= 'css/index.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename= 'css/live.css') }}" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
    <link href="{{ url_for('static', filename= 'css/flag-icons.css') }}" rel="stylesheet">
     <style>
     body {
@@ -105,7 +105,7 @@ tr:last-child td {
 }
 
   th, td {
-    text-align: left;
+    text-align: center;
     padding-top: 7px;
     padding-bottom: 7px;
     padding-right: 5px;
@@ -132,6 +132,26 @@ tr:last-child td {
   .logo-col {
     text-align: center;
   }
+  
+  .text-green {
+    color: #28a745 !important; /* Bootstrap success green */
+  }
+  
+  .text-dark-green {
+    color: #155724 !important; /* Dark green */
+  }
+  
+  .bg-gold {
+    background-color: #ffd9004f !important; /* Gold background */
+  }
+
+  .bg-silver {
+    background-color: #c0c0c04f !important; /* Silver background */
+  }
+
+  .no-bottom-border {
+  border-bottom: none !important;
+}
     </style>
 {% endblock %}
 
@@ -143,37 +163,46 @@ tr:last-child td {
 
    <div class="row schedule2">
     <div class="col-md-9">
-	  <div class="live">
-		  <div class="live_2 mt-2"><center><span class="text-white fw-bold" style="font-size: 25px">All Time IPL Data</span></center></div>
-		  <div class="score_1 mt-2">
-		</div>
-		  <center><div class="pt-3 dropdown">
-			  <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Current Teams <i class="fa fa-chevron-down font_10 ms-1"></i></button>
-			  <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
-				<a href="#" class="activeD" onclick="selectOption(this, 'Current Teams')">Current Teams</a>
-				<a href="#" onclick="selectOption(this, 'Defunct Teams')">Defunct Teams</a>
-				<a href="#" onclick="selectOption(this, 'Tournament Summary')">Tournament Summary</a>
-				<a href="#" onclick="selectOption(this, 'Editions and Results')">Editions and Results</a>
-				<a href="#" onclick="selectOption(this, 'Performance by Teams')">Performance by Teams</a>
+    <div class="live">
+      <div class="live_2 mt-2"><center><span class="text-white fw-bold" style="font-size: 25px">All Time IPL Data</span></center></div>
+      <div class="score_1 mt-2">
+    </div>
+      <center><div class="pt-3 dropdown">
+        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Current Teams<i class="fa fa-chevron-down font_10 ms-1"></i></button>
+        <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
+        <a href="#" class="activeD" onclick="selectOption(this, 'Current Teams')">Current Teams</a>
+        <a href="#" onclick="selectOption(this, 'Defunct Teams')">Defunct Teams</a>
+        <a href="#" onclick="selectOption(this, 'Tournament Summary')">Tournament Summary</a>
+        <a href="#" onclick="selectOption(this, 'Editions and Results')">Editions and Results</a>
+        <a href="#" onclick="selectOption(this, 'Performance by Teams')">Performance by Teams</a>
                 <a href="#" onclick="selectOption(this, 'Position Each Season')">Position Each Season</a>
-				<a href="#" onclick="selectOption(this, 'All-time Standings')">All-time Standings</a>
-				<a href="#" onclick="selectOption(this, 'Batting Records')">Batting Records</a>
-				<a href="#" onclick="selectOption(this, 'Bowling Records')">Bowling Records</a>
-				<a href="#" onclick="selectOption(this, 'Fielding Records')">Fielding Records</a>
+        <a href="#" onclick="selectOption(this, 'All-time Standings')">All-time Standings</a>
+        <a href="#" onclick="selectOption(this, 'Batting Records')">Batting Records</a>
+        <a href="#" onclick="selectOption(this, 'Bowling Records')">Bowling Records</a>
+        <a href="#" onclick="selectOption(this, 'Fielding Records')">Fielding Records</a>
                 <a href="#" onclick="selectOption(this, 'Team Records')">Team Records</a>
                 <a href="#" onclick="selectOption(this, 'Most Appearences')">Most Appearences</a>
-			  </div>
-		  </div></center>
-		  <div id="tableContainer" class="table-wrapper"></div>
-	  </div>
-	</div>
+        </div>
+      </div></center>
+      <div id="tableContainer" class="table-wrapper"></div>
+    </div>
+  </div>
    </div>
  </div>
 </section>
 <script>
+  const statsData = {
+        'Current Teams': {{ stats['Current Teams']|tojson|safe }},
+        'Defunct Teams': {{ stats['Defunct Teams']|tojson|safe }},
+        'Tournament Summary': {{ stats['Tournament Summary']|tojson|safe }},
+        'Editions and Results': {{ stats['Editions and Results']|tojson|safe }}
+    };
+    
+    const fullNames = {{ fn|tojson|safe }};
+
     function toggleDropdown() {
-  	const chevron = document.querySelector('.dropdown-toggle .fa-chevron-down');
-  	const dropdown = document.querySelector('.dropdown');
+    const chevron = document.querySelector('.dropdown-toggle .fa-chevron-down');
+    const dropdown = document.querySelector('.dropdown');
     dropdown.classList.toggle('show');
 
     // Toggle between up and down chevron
@@ -196,8 +225,8 @@ tr:last-child td {
         if (openDropdown.classList.contains('show')) {
           openDropdown.classList.remove('show');
           chevrons.forEach(chevron =>{
-          	chevron.classList.remove('fa-chevron-up');
-        	chevron.classList.add('fa-chevron-down');
+            chevron.classList.remove('fa-chevron-up');
+          chevron.classList.add('fa-chevron-down');
           });
         }
       }
@@ -220,7 +249,7 @@ tr:last-child td {
 
     const tableData = statsData[optionTitle];
 
-	switch(optionTitle) {
+  switch(optionTitle) {
         case 'Current Teams':
             currentTeamsTable(tableData);
             break;
@@ -262,7 +291,245 @@ tr:last-child td {
 
   function currentTeamsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
+
+     // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
+    tableHTML += '<th>Team Name</th>'; // Player name column
+  tableHTML += '<th>City</th>'; // Match column
+  tableHTML += '<th>Home Ground</th>'; // Innings column
+  tableHTML += '<th>Debut</th>'; // Runs column
+  tableHTML += '<th>Captain</th>'; // Average column
+  tableHTML += '<th>Head Coach</th>'; // SR column
+  tableHTML += '<th>Owner</th>'; // 4s column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach((team, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="position">${index + 1}</td>`; // Position
+            const logoUrl = `/static/images/squad_logos/${team.team}.png`;
+            tableHTML += `<td class="logo-col"><img src="${logoUrl}" alt="${team.team}" class="team-logo" onerror="this.style.display='none'"></td>`; // Logo
+            const teamFullName = fullNames[team.team] || team.team; // Use full name if available, fallback to short name
+            tableHTML += `<td class="fw-bold text-blue">${teamFullName}</td>`; // Team name (full name)
+            tableHTML += `<td>${team.city}</td>`; // City
+            tableHTML += `<td class="fw-bold">${team.home_ground}</td>`; // Home Ground
+            tableHTML += `<td class="fw-bold text-green">${team.debut}</td>`; // Debut
+            tableHTML += `<td class="fw-bold">${team.captain}</td>`; // Captain
+            tableHTML += `<td class="fw-bold">${team.head_coach}</td>`; // Head Coach
+            
+            // Format owner column
+            let ownerText = '';
+            if (team.owner && typeof team.owner === 'object') {
+                const owners = Object.entries(team.owner);
+                if (owners.length === 1 && owners[0][1] === '100') {
+                    // Single owner with 100% - show only name
+                    ownerText = owners[0][0];
+                } else {
+                    // Multiple owners or not 100% - show name (percentage%)
+                    ownerText = owners.map(([name, percentage]) => `${name} <i>(${percentage}%)</i>`).join(', ');
+                }
+            }
+            tableHTML += `<td>${ownerText}</td>`; // Owner
+            
+            tableHTML += '</tr>';
+        });
+    }
+
+  tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function defunctTeamsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+     // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th>Team Name</th>'; // Player name column
+    tableHTML += '<th>City</th>'; // Match column
+    tableHTML += '<th>State</th>'; // Innings column
+    tableHTML += '<th>Home Ground</th>'; // Runs column
+    tableHTML += '<th>Debut</th>'; // Innings column
+    tableHTML += '<th>Dissolved</th>'; // Runs column
+    tableHTML += '<th>Owner</th>'; // Average column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach((team, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="position">${index + 1}</td>`; // Position
+            tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
+            tableHTML += `<td>${team.city}</td>`; // City
+            tableHTML += `<td>${team.state}</td>`; // State
+            tableHTML += `<td class="fw-bold">${team.home_ground}</td>`; // Home Ground
+            tableHTML += `<td class="fw-bold text-green">${team.debut}</td>`; // Debut
+            tableHTML += `<td class="fw-bold text-orange">${team.dissolved}</td>`; // Dissolved
+            tableHTML += `<td>${team.owner}</td>`; // Owner
+            tableHTML += '</tr>';
+        });
+    }
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function tournamentSummaryTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+     // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th>Team</th>'; // Team column
+    tableHTML += '<th>Won</th>'; // Won column
+    tableHTML += '<th>Runners-up</th>'; // Runners-up column
+    tableHTML += '<th>Playoffs Played</th>'; // Playoffs Played column
+    tableHTML += '<th>Seasons Played</th>'; // Finals Played column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach((summary, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="position">${index + 1}</td>`; // Position
+            tableHTML += `<td class="fw-bold text-blue">${summary.team}</td>`; // Team
+            
+            // Format Won data
+            let wonText = '-';
+            let wonClass = '';
+            if (summary.won && typeof summary.won === 'object') {
+                const wonEntries = Object.entries(summary.won);
+                if (wonEntries.length > 0) {
+                    wonText = wonEntries.map(([champsCount, years]) => {
+                        const yearsList = Array.isArray(years) ? years.join(', ') : years;
+                        return `<b>${champsCount}</b> (${yearsList})`;
+                    }).join('<br>');
+                    wonClass = 'bg-gold'; // Add gold background if data exists
+                }
+            }
+            tableHTML += `<td class="${wonClass}">${wonText}</td>`; // Won
+            
+            // Format Runner-up data
+            let runnerUpText = '-';
+            let runnerUpClass = '';
+            if (summary.runner_up && typeof summary.runner_up === 'object') {
+                const runnerUpEntries = Object.entries(summary.runner_up);
+                if (runnerUpEntries.length > 0) {
+                    runnerUpText = runnerUpEntries.map(([runnersCount, years]) => {
+                        const yearsList = Array.isArray(years) ? years.join(', ') : years;
+                        return `<b>${runnersCount}</b> (${yearsList})`;
+                    }).join('<br>');
+                    runnerUpClass = 'bg-silver'; // Add silver background if data exists
+                }
+            }
+            tableHTML += `<td class="${runnerUpClass}">${runnerUpText}</td>`; // Runners-up
+
+            tableHTML += `<td>${summary.playoffs || '-'}</td>`; // Playoffs Played
+            tableHTML += `<td>${summary.played || '-'}</td>`; // Seasons Played
+            tableHTML += '</tr>';
+        });
+    }
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function editionsAndResultsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+     // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th rowspan="2">Year</th>'; // Season column
+    tableHTML += '<th colspan="3" class="no-bottom-border" style="text-align: center;">Final</th>'; // Winner column
+    tableHTML += '<th rowspan="2">Venue</th>'; // Runner-up column
+    tableHTML += '<th rowspan="2">POTM</th>'; // Playoffs Played column
+    tableHTML += '<th rowspan="2">POTS</th>'; // Finals Played column
+    tableHTML += '</tr>';
+    tableHTML += '<tr>';
+    tableHTML += '<th>Winner</th>'; // Winner column
+    tableHTML += '<th>Result</th>'; // Runner-up column
+    tableHTML += '<th>Runner-up</th>'; // Result column
+    tableHTML += '</tr></thead><tbody>';
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach((edition, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td>${edition.year}</td>`; // Year
+            
+            // Winner
+            let winnerCell = '';
+            if (edition.winner && typeof edition.winner === 'object') {
+                const t = edition.winner.Team || '-';
+                const r = edition.winner.Runs || '-';
+                const w = edition.winner.Wkts || '-';
+                const o = edition.winner.Overs || '-';
+                winnerCell = `<span class='fw-bold text-blue'>${t}</span><br><span>${r}/${w} (${o} overs)</span>`;
+            } else {
+                winnerCell = `<span class='fw-bold text-blue'>${edition.winner}</span>`;
+            }
+            tableHTML += `<td>${winnerCell}</td>`;
+            
+            // Result
+            tableHTML += `<td>${edition.result || '-'}</td>`;
+            
+            // Runner-up
+            let runnerUpCell = '';
+            if (edition.runner_up && typeof edition.runner_up === 'object') {
+                const t = edition.runner_up.Team || '-';
+                const r = edition.runner_up.Runs || '-';
+                const w = edition.runner_up.Wkts || '-';
+                const o = edition.runner_up.Overs || '-';
+                runnerUpCell = `<span class='fw-bold text-blue'>${t}</span><br><span>${r}/${w} (${o} overs)</span>`;
+            } else {
+                runnerUpCell = `<span class='fw-bold text-blue'>${edition.runner_up}</span>`;
+            }
+            tableHTML += `<td>${runnerUpCell}</td>`;
+            
+            tableHTML += `<td>${edition.venue || '-'}</td>`; // Venue
+            // POTM
+            let potmCell = '';
+            if (edition.potm && typeof edition.potm === 'object') {
+                const n = edition.potm.Name || '-';
+                const t = edition.potm.Team || '-';
+                potmCell = `${n} (${t})`;
+            } else {
+                potmCell = edition.potm || '-';
+            }
+            tableHTML += `<td>${potmCell}</td>`;
+            // POTS
+            let potsCell = '';
+            if (edition.pots && typeof edition.pots === 'object') {
+                const n = edition.pots.Name || '-';
+                const t = edition.pots.Team || '-';
+                potsCell = `${n} (${t})`;
+            } else {
+                potsCell = edition.pots || '-';
+            }
+            tableHTML += `<td>${potsCell}</td>`;
+            
+            tableHTML += '</tr>';
+        });
+    }
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
     
   }
+
+  // Initial table render - same approach as battingStat.html
+  const initialData = statsData['Current Teams'];
+  currentTeamsTable(initialData);
+
 </script>
 {% endblock %}
