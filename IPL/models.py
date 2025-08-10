@@ -53,3 +53,77 @@ class Squad(db.Model):
     Nationality = db.Column(db.String)
     DOB = db.Column(db.Date)
     Full_Name = db.Column(db.String)
+
+class CurrentTeams(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    team = db.Column(db.String)
+    city = db.Column(db.String)
+    home_ground = db.Column(db.String)
+    debut = db.Column(db.Integer)
+    captain = db.Column(db.String)
+    head_coach = db.Column(db.String)
+    owner = db.Column(db.JSON)
+
+class DefunctTeams(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    team = db.Column(db.String)
+    city = db.Column(db.String)
+    state = db.Column(db.String)
+    home_ground = db.Column(db.String)
+    debut = db.Column(db.Integer)
+    dissolved = db.Column(db.Integer)
+    owner = db.Column(db.String)
+
+class TournamentSummary(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    team = db.Column(db.String)
+    won = db.Coumn(db.JSON)
+    runner_up = db.Column(db.JSON)
+    playoffs = db.Column(db.Integer)
+    played = db.Column(db.Integer)
+
+class EditionsAndResults(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    year = db.Column(db.Integer)
+    winner = db.Column(db.JSON)
+    result = db.Column(db.String)
+    runner_up = db.Column(db.JSON)
+    venue = db.Column(db.String)
+    potm = db.Column(db.JSON)
+    pots = db.Column(db.JSON)
+
+class PerformanceByTeams(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    team = db.Column(db.String)
+    season_stats = db.Column(db.JSON)
+    defunct = db.Column(db.Boolean, default=False)
+
+class PositionEachSeason(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    year = db.Column(db.Integer)
+    stats = db.Column(db.JSON)
+
+class AllTimeStandings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    team = db.Column(db.String)
+    total = db.Column(db.Integer)
+    first = db.Column(db.Integer)
+    latest = db.Column(db.Integer)
+    best_result = db.Column(db.JSON)
+    played = db.Column(db.Integer)
+    won = db.Column(db.Integer)
+    lost = db.Column(db.Integer)
+    tiedW = db.Column(db.Integer)
+    tiedL = db.Column(db.Integer)
+    NR = db.Column(db.Integer)
+    winP = db.Column(db.Float)
+    defunct = db.Column(db.Boolean, default=False)
+
+class MostAppearances(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    player = db.Column(db.String)
+    team = db.Column(db.JSON)
+    years = db.Column(db.Integer)
+    apps = db.Column(db.Integer)
+    runs = db.Column(db.Integer)
+    wkts = db.Column(db.Integer)

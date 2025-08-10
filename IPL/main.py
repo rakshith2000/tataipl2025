@@ -569,6 +569,10 @@ def bowlingstats():
 
     return render_template('bowlingStat.html', stats=stats)
 
+@main.route('/alltimeipl')
+def alltimeipl():
+    return render_template('all-time-ipl.html')
+
 @main.route('/update')
 @login_required
 def update():

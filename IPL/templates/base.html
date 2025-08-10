@@ -112,6 +112,9 @@
           <li class="nav-item">
             <a href="{{ url_for('main.battingstats') }}" class="btn">Stats</a>
           </li>
+          <li class="nav-item">
+            <a href="{{ url_for('main.alltimeipl') }}" class="btn">All-time IPL</a>
+          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
           {% if not current_user.is_authenticated %}
