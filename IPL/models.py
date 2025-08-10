@@ -77,7 +77,7 @@ class DefunctTeams(db.Model):
 class TournamentSummary(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team = db.Column(db.String)
-    won = db.Coumn(db.JSON)
+    won = db.Column(db.JSON)
     runner_up = db.Column(db.JSON)
     playoffs = db.Column(db.Integer)
     played = db.Column(db.Integer)
