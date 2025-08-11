@@ -195,7 +195,8 @@ tr:last-child td {
         'Current Teams': {{ stats['Current Teams']|tojson|safe }},
         'Defunct Teams': {{ stats['Defunct Teams']|tojson|safe }},
         'Tournament Summary': {{ stats['Tournament Summary']|tojson|safe }},
-        'Editions and Results': {{ stats['Editions and Results']|tojson|safe }}
+        'Editions and Results': {{ stats['Editions and Results']|tojson|safe }},
+        'Performance by Teams': {{ stats['Performance by Teams']|tojson|safe }}
     };
     
     const fullNames = {{ fn|tojson|safe }};
@@ -481,8 +482,8 @@ tr:last-child td {
             tableHTML += `<td>${winnerCell}</td>`;
             
             // Result
-            tableHTML += `<td>${edition.result || '-'}</td>`;
-            
+            tableHTML += `<td class="fw-bold">${edition.result || '-'}</td>`;
+
             // Runner-up
             let runnerUpCell = '';
             if (edition.runner_up && typeof edition.runner_up === 'object') {
@@ -525,6 +526,162 @@ tr:last-child td {
     tableHTML += '</tbody></table>';
     tableContainer.innerHTML = tableHTML;
     
+  }
+
+  function performanceByTeamsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .merged-cell {
+        text-align: center;
+      }
+      .performance-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .performance-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .cell-champion {
+        background-color: gold !important;
+      }
+      .cell-runner-up {
+        background-color: silver !important;
+      }
+      .cell-semifinal {
+        background-color: #90EE90 !important; /* light green */
+      }
+      .cell-inactive {
+        background-color: #E0E0E0 !important; /* light grey */
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    // Get years from the first team's season_stats
+    const years = Object.keys(data[0].season_stats).sort();
+
+    // Build HTML table
+    let tableHTML = '<table class="performance-table"><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Team</th>'; // Team column
+    
+    // Add year columns
+    years.forEach(year => {
+        tableHTML += `<th>${year}</th>`;
+    });
+    
+    tableHTML += '</tr></thead><tbody>';
+
+    // Function to get cell class based on result
+    function getCellClass(result) {
+        if (result === 'C') return 'cell-champion';
+        if (result === 'RU') return 'cell-runner-up';
+        if (result === '3rd' || result === '4th') return 'cell-semifinal';
+        if (result === '–' || result === 'Suspended') return 'cell-inactive';
+        return '';
+    }
+
+    // Split teams into non-defunct and defunct
+    const nonDefunctTeams = data.filter(team => !team.defunct);
+    const defunctTeams = data.filter(team => team.defunct);
+
+    // Render non-defunct teams
+    nonDefunctTeams.forEach(team => {
+        tableHTML += '<tr>';
+        tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
+
+        // Process year stats to handle merging
+        let currentSpan = 0;
+        let currentValue = '';
+
+        for (let i = 0; i < years.length; i++) {
+            const yearStats = team.season_stats[years[i]] || '–';
+            
+            // Skip if this cell should be part of a previous merge
+            if (currentSpan > 0) {
+                currentSpan--;
+                continue;
+            }
+
+            // Check for mergeable cells ahead
+            let spanCount = 1;
+            while (i + spanCount < years.length) {
+                const nextStats = team.season_stats[years[i + spanCount]] || '–';
+                if ((yearStats === '–' || yearStats === 'Suspended') && 
+                    (nextStats === '–' || nextStats === 'Suspended')) {
+                    spanCount++;
+                } else {
+                    break;
+                }
+            }
+
+            // Add the cell with appropriate colspan and background color
+            const cellClass = getCellClass(yearStats);
+            if (spanCount > 1) {
+                tableHTML += `<td class="fw-bold merged-cell ${cellClass}" colspan="${spanCount}">${yearStats}</td>`;
+                currentSpan = spanCount - 1;
+            } else {
+                tableHTML += `<td class="fw-bold ${cellClass}">${yearStats}</td>`;
+            }
+        }
+        
+        tableHTML += '</tr>';
+    });
+
+    // Add Defunct Teams label row if there are any defunct teams
+    if (defunctTeams.length > 0) {
+        tableHTML += `<tr><td colspan="${years.length + 1}" style="text-align:center; font-weight:bold; background:#f8d7da;">Defunct Teams</td></tr>`;
+    }
+
+    // Render defunct teams
+    defunctTeams.forEach(team => {
+        tableHTML += '<tr>';
+        tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
+
+        // Process year stats to handle merging
+        let currentSpan = 0;
+        let currentValue = '';
+
+        for (let i = 0; i < years.length; i++) {
+            const yearStats = team.season_stats[years[i]] || '–';
+            
+            // Skip if this cell should be part of a previous merge
+            if (currentSpan > 0) {
+                currentSpan--;
+                continue;
+            }
+
+            // Check for mergeable cells ahead
+            let spanCount = 1;
+            while (i + spanCount < years.length) {
+                const nextStats = team.season_stats[years[i + spanCount]] || '–';
+                if ((yearStats === '–' || yearStats === 'Suspended') && 
+                    (nextStats === '–' || nextStats === 'Suspended')) {
+                    spanCount++;
+                } else {
+                    break;
+                }
+            }
+
+            // Add the cell with appropriate colspan and background color
+            const cellClass = getCellClass(yearStats);
+            if (spanCount > 1) {
+                tableHTML += `<td class="fw-bold merged-cell ${cellClass}" colspan="${spanCount}">${yearStats}</td>`;
+                currentSpan = spanCount - 1;
+            } else {
+                tableHTML += `<td class="fw-bold ${cellClass}">${yearStats}</td>`;
+            }
+        }
+        
+        tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
   }
 
   // Initial table render - same approach as battingStat.html
