@@ -553,10 +553,10 @@ tr:last-child td {
         background-color: silver !important;
       }
       .cell-semifinal {
-        background-color: #90EE90 !important; /* light green */
+        background-color: #cfc !important; /* light green */
       }
       .cell-inactive {
-        background-color: #E0E0E0 !important; /* light grey */
+        background-color: #ececec !important; /* light grey */
       }
     `;
     document.head.appendChild(styleElement);
@@ -581,7 +581,7 @@ tr:last-child td {
     function getCellClass(result) {
         if (result === 'C') return 'cell-champion';
         if (result === 'RU') return 'cell-runner-up';
-        if (result === '3rd' || result === '4th') return 'cell-semifinal';
+        if (result === '3rd' || result === '4th' || result === 'SF') return 'cell-semifinal';
         if (result === '–' || result === 'Suspended') return 'cell-inactive';
         return '';
     }
@@ -709,10 +709,10 @@ tr:last-child td {
         background-color: silver !important;
       }
       .cell-semifinal {
-        background-color: #90EE90 !important; /* light green */
+        background-color: #cfc !important; /* light green */
       }
       .cell-inactive {
-        background-color: #E0E0E0 !important; /* light grey */
+        background-color: #ececec !important; /* light grey */
       }
     `;
     document.head.appendChild(styleElement);
