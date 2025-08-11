@@ -196,7 +196,8 @@ tr:last-child td {
         'Defunct Teams': {{ stats['Defunct Teams']|tojson|safe }},
         'Tournament Summary': {{ stats['Tournament Summary']|tojson|safe }},
         'Editions and Results': {{ stats['Editions and Results']|tojson|safe }},
-        'Performance by Teams': {{ stats['Performance by Teams']|tojson|safe }}
+        'Performance by Teams': {{ stats['Performance by Teams']|tojson|safe }},
+        'Position Each Season': {{ stats['Position Each Season']|tojson|safe }}
     };
     
     const fullNames = {{ fn|tojson|safe }};
@@ -680,6 +681,81 @@ tr:last-child td {
         tableHTML += '</tr>';
     });
 
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function positionEachSeasonTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .merged-cell {
+        text-align: center;
+      }
+      .performance-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .performance-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .cell-champion {
+        background-color: gold !important;
+      }
+      .cell-runner-up {
+        background-color: silver !important;
+      }
+      .cell-semifinal {
+        background-color: #90EE90 !important; /* light green */
+      }
+      .cell-inactive {
+        background-color: #E0E0E0 !important; /* light grey */
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    // Function to get cell class based on result
+    function getCellClass(result) {
+        if (result === 'C') return 'cell-champion';
+        if (result === 'R') return 'cell-runner-up';
+        if (result === 'P') return 'cell-semifinal';
+        if (result === '–') return 'cell-inactive';
+        return '';
+    }
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    const sampleRow = data[0].stats; // Use first season's row for header
+    const posHeaders = sampleRow.map(item => item.pos);
+
+    // Add custom headers
+    tableHTML += '<th rowspan="2">Year</th>'; // Team column
+    tableHTML += '<th colspan="10" class="no-bottom-border" style="text-align:center;">League Table</th>'; // Year column
+    tableHTML += '</tr>';
+    tableHTML += '<tr>';
+    // Add league table headers
+    posHeaders.forEach(header => {
+        tableHTML += `<th>${header}</th>`;
+    });
+    tableHTML += '</tr><tbody>';
+    data.forEach(entry => {
+        tableHTML += '<tr>';
+        tableHTML += `<td class="fw-bold">${entry.year}</td>`;
+        entry.stats.forEach(stat => {
+          const cellClass = getCellClass(stat.place);
+          if (stat.team === '–') {
+            tableHTML += `<td class="fw-bold ${cellClass}"></td>`;
+          }
+          else {
+            tableHTML += `<td class="fw-bold text-blue ${cellClass}">${stat.team}</td>`;
+          }
+        });
+        tableHTML += '</tr>';
+    });
     tableHTML += '</tbody></table>';
     tableContainer.innerHTML = tableHTML;
   }

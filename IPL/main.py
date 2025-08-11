@@ -577,11 +577,13 @@ def alltimeipl():
     tournamentSummary = db.session.execute(text('select * from tournament_summary order by id')).fetchall()
     editionsAndResults = db.session.execute(text('select * from editions_and_results order by id')).fetchall()
     performanceByTeams = db.session.execute(text('select * from performance_by_teams order by id')).fetchall()
+    positionEachSeason = db.session.execute(text('select * from position_each_season order by id')).fetchall()
     stats['Editions and Results'] = [dict(row._mapping) for row in editionsAndResults]
     stats['Tournament Summary'] = [dict(row._mapping) for row in tournamentSummary]
     stats['Defunct Teams'] = [dict(row._mapping) for row in defunctTeams]
     stats['Current Teams'] = [dict(row._mapping) for row in currentTeams]
     stats['Performance by Teams'] = [dict(row._mapping) for row in performanceByTeams]
+    stats['Position Each Season'] = [dict(row._mapping) for row in positionEachSeason]
     return render_template('all-time-ipl.html', stats=stats, fn=full_name, clr=clr, sqclr=sqclr)
 
 @main.route('/update')
