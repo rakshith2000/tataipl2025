@@ -127,3 +127,10 @@ class MostAppearances(db.Model):
     apps = db.Column(db.Integer)
     runs = db.Column(db.Integer)
     wkts = db.Column(db.Integer)
+
+class IPLAwards(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    season = db.Column(db.Integer)
+    player = db.Column(db.JSON)
+    statistics = db.Column(db.JSON)
+    award = db.Column(db.String)
