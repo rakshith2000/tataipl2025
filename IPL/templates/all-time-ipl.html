@@ -198,7 +198,8 @@ tr:last-child td {
         'Editions and Results': {{ stats['Editions and Results']|tojson|safe }},
         'Performance by Teams': {{ stats['Performance by Teams']|tojson|safe }},
         'Position Each Season': {{ stats['Position Each Season']|tojson|safe }},
-        'All Time Standings': {{ stats['All Time Standings']|tojson|safe }}
+        'All Time Standings': {{ stats['All Time Standings']|tojson|safe }},
+        'Most Appearences': {{ stats['Most Appearances']|tojson|safe }}
     };
 
     const fullNames = {{ fn|tojson|safe }};
@@ -864,6 +865,77 @@ tr:last-child td {
             tableHTML += '</tr>';
         });
     }
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function mostAppearancesTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .merged-cell {
+        text-align: center;
+      }
+      .mostapps-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .mostapps-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .mostapps-table td.no-wrap {
+        white-space: nowrap;
+      }
+      .cell-champion {
+        background-color: gold !important;
+      }
+      .cell-runner-up {
+        background-color: silver !important;
+      }
+      .cell-semifinal {
+        background-color: #cfc !important; /* light green */
+      }
+      .cell-lightgrey {
+        background-color: #ececec !important; /* light grey */
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    // Build HTML table
+    let tableHTML = '<table class="mostapps-table"><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th class="position">Rank</th>'; // Rank column
+    tableHTML += '<th>Player</th>'; // Player name column
+    tableHTML += '<th>Team</th>'; // Team column
+    tableHTML += '<th>Years Active</th>'; // Years Active column
+    tableHTML += '<th>Apps</th>'; // Apps column
+    tableHTML += '<th>Runs</th>'; // Runs column
+    tableHTML += '<th>Wkts</th>'; // Wkts column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    console.log('Most Appearances Data:', data);
+    if (data && Array.isArray(data)) {
+        data.forEach((player, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="position">${index + 1}</td>`; // Rank
+            tableHTML += `<td class="fw-bold text-blue">${player.player}</td>`; // Player name
+            
+            // Team column: if array, join with comma
+            let teamText = Array.isArray(player.team) ? player.team.join(', ') : player.team;
+            tableHTML += `<td>${teamText}</td>`; // Team
+            tableHTML += `<td>${player.years}</td>`; // Years Active
+            tableHTML += `<td class="fw-bold cell-lightgrey">${player.apps}</td>`; // Apps
+            tableHTML += `<td>${player.runs}</td>`; // Runs
+            tableHTML += `<td>${player.wkts}</td>`; // Wkts
+            tableHTML += '</tr>';
+        });
+    }
+
     tableHTML += '</tbody></table>';
     tableContainer.innerHTML = tableHTML;
   }
