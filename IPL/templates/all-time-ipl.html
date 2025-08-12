@@ -175,8 +175,8 @@ tr:last-child td {
         <a href="#" onclick="selectOption(this, 'Tournament Summary')">Tournament Summary</a>
         <a href="#" onclick="selectOption(this, 'Editions and Results')">Editions and Results</a>
         <a href="#" onclick="selectOption(this, 'Performance by Teams')">Performance by Teams</a>
-                <a href="#" onclick="selectOption(this, 'Position Each Season')">Position Each Season</a>
-        <a href="#" onclick="selectOption(this, 'All-time Standings')">All-time Standings</a>
+        <a href="#" onclick="selectOption(this, 'Position Each Season')">Position Each Season</a>
+        <a href="#" onclick="selectOption(this, 'All Time Standings')">All Time Standings</a>
         <a href="#" onclick="selectOption(this, 'Batting Records')">Batting Records</a>
         <a href="#" onclick="selectOption(this, 'Bowling Records')">Bowling Records</a>
         <a href="#" onclick="selectOption(this, 'Fielding Records')">Fielding Records</a>
@@ -197,9 +197,10 @@ tr:last-child td {
         'Tournament Summary': {{ stats['Tournament Summary']|tojson|safe }},
         'Editions and Results': {{ stats['Editions and Results']|tojson|safe }},
         'Performance by Teams': {{ stats['Performance by Teams']|tojson|safe }},
-        'Position Each Season': {{ stats['Position Each Season']|tojson|safe }}
+        'Position Each Season': {{ stats['Position Each Season']|tojson|safe }},
+        'All Time Standings': {{ stats['All Time Standings']|tojson|safe }}
     };
-    
+
     const fullNames = {{ fn|tojson|safe }};
 
     function toggleDropdown() {
@@ -270,7 +271,8 @@ tr:last-child td {
         case 'Position Each Season':
             positionEachSeasonTable(tableData);
             break;
-        case 'All-time Standings':
+        case 'All Time Standings':
+            console.log('All Time Standings Data rendering');
             allTimeStandingsTable(tableData);
             break;
         case 'Batting Records':
@@ -756,6 +758,61 @@ tr:last-child td {
         });
         tableHTML += '</tr>';
     });
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function allTimeStandingsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th rowspan="2">Team</th>'; // Team column
+    tableHTML += '<th colspan="3" class="no-bottom-border" style="text-align:center;">Appearances</th>'; // Appearances column
+    tableHTML += '<th rowspan="2">Best Result</th>'; // Best Result column
+    tableHTML += '<th colspan="7" class="no-bottom-border" style="text-align:center;">Statistics</th>'; // Statistics column
+    tableHTML += '</tr>';
+    tableHTML += '<tr>';
+    tableHTML += '<th>Total</th>'; // Total column
+    tableHTML += '<th>First</th>'; // First column
+    tableHTML += '<th>Lastest</th>'; // Lastest column
+    tableHTML += '<th>Played</th>'; // Played column
+    tableHTML += '<th>Won</th>'; // Won column
+    tableHTML += '<th>Lost</th>'; // Lost column
+    tableHTML += '<th>Tied+W</th>'; // Tied+W column
+    tableHTML += '<th>Tied+L</th>'; // Tied+L column
+    tableHTML += '<th>NR</th>'; // No Result column
+    tableHTML += '<th>Win%</th>'; // Win% column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach(team => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
+            
+            // Appearances
+            tableHTML += `<td class="fw-bold">${team.total}</td>`; // Total appearances
+            tableHTML += `<td class="fw-bold">${team.first}</td>`; // First appearance
+            tableHTML += `<td class="fw-bold">${team.lastest}</td>`; // Lastest appearance
+            
+            // Best Result
+            tableHTML += `<td class="fw-bold">${team.best_result}</td>`; // Best Result
+            
+            // Statistics
+            tableHTML += `<td>${team.played}</td>`; // Played
+            tableHTML += `<td>${team.won}</td>`; // Won
+            tableHTML += `<td>${team.lost}</td>`; // Lost
+            tableHTML += `<td>${team.tiedW}</td>`; // Tied+W
+            tableHTML += `<td>${team.tiedL}</td>`; // Tied+L
+            tableHTML += `<td>${team.NR}</td>`; // No Result
+            tableHTML += `<td class="fw-bold text-green">${team.winP}%</td>`; // Win%
+            
+            tableHTML += '</tr>';
+        });
+    }
     tableHTML += '</tbody></table>';
     tableContainer.innerHTML = tableHTML;
   }

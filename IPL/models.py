@@ -123,7 +123,7 @@ class MostAppearances(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     player = db.Column(db.String)
     team = db.Column(db.JSON)
-    years = db.Column(db.Integer)
+    years = db.Column(db.String)
     apps = db.Column(db.Integer)
     runs = db.Column(db.Integer)
     wkts = db.Column(db.Integer)
