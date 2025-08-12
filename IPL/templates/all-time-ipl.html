@@ -765,6 +765,38 @@ tr:last-child td {
   function allTimeStandingsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
 
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .merged-cell {
+        text-align: center;
+      }
+      .performance-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .performance-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .cell-champion {
+        background-color: gold !important;
+      }
+      .cell-runner-up {
+        background-color: silver !important;
+      }
+      .cell-semifinal {
+        background-color: #cfc !important; /* light green */
+      }
+      .cell-inactive {
+        background-color: #ececec !important; /* light grey */
+      }
+      .defunct-team {
+        background-color: #f8d7da; /* Red color for defunct teams */
+      }
+    `;
+    document.head.appendChild(styleElement);
+
     // Build HTML table
     let tableHTML = '<table><thead><tr>';
 
@@ -790,16 +822,35 @@ tr:last-child td {
     // Add data rows
     if (data && Array.isArray(data)) {
         data.forEach(team => {
-            tableHTML += '<tr>';
+            // Check if team is defunct
+            const isDefunct = team.defunct ? 'defunct-team' : '';
+            tableHTML += '<tr class="' + isDefunct + '">';
             tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
             
             // Appearances
             tableHTML += `<td class="fw-bold">${team.total}</td>`; // Total appearances
             tableHTML += `<td class="fw-bold">${team.first}</td>`; // First appearance
-            tableHTML += `<td class="fw-bold">${team.lastest}</td>`; // Lastest appearance
-            
+            tableHTML += `<td class="fw-bold">${team.latest}</td>`; // Latest appearance
+
             // Best Result
-            tableHTML += `<td class="fw-bold">${team.best_result}</td>`; // Best Result
+            let bestResultText = '-';
+            let bestResultClass = '';
+            if (team.best_result && typeof team.best_result === 'object') {
+                const entries = Object.entries(team.best_result);
+                if (entries.length > 0) {
+                    // Only use the first entry (e.g., Champions or Runners-up)
+                    const [resultType, years] = entries[0];
+                    bestResultText = `<b>${resultType}</b> (${years.join(', ')})`;
+                    if (resultType === 'Champions') {
+                        bestResultClass = 'cell-champion';
+                    } else if (resultType === 'Runners-up') {
+                        bestResultClass = 'cell-runner-up';
+                    }
+                }
+            } else if (typeof team.best_result === 'string') {
+                bestResultText = team.best_result;
+            }
+            tableHTML += `<td class="${bestResultClass}">${bestResultText}</td>`; // Best Result
             
             // Statistics
             tableHTML += `<td>${team.played}</td>`; // Played
@@ -808,7 +859,7 @@ tr:last-child td {
             tableHTML += `<td>${team.tiedW}</td>`; // Tied+W
             tableHTML += `<td>${team.tiedL}</td>`; // Tied+L
             tableHTML += `<td>${team.NR}</td>`; // No Result
-            tableHTML += `<td class="fw-bold text-green">${team.winP}%</td>`; // Win%
+            tableHTML += `<td class="fw-bold">${team.winP}%</td>`; // Win%
             
             tableHTML += '</tr>';
         });
