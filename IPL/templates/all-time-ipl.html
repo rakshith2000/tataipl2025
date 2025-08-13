@@ -1078,6 +1078,100 @@ tr:last-child td {
     tableContainer.innerHTML = tableHTML;
   }
 
+  function fieldingRecordsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .fielding-records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .fielding-records-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .fielding-records-table th {
+        background-color: #f8f9fa; /* Light grey for headers */
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Record</th>'; // Record column
+    tableHTML += '<th>Player</th>'; // Player name column
+    tableHTML += '<th>Stats</th>'; // Value column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    data.slice(13, 15).forEach((record) => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${record.category}</td>`; // Record category
+      let player = Object.values(record.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`; // Player name and team
+      let stats = Object.values(record.stats);
+      tableHTML += `<td class="fw-bold">${stats[0]}</td>`; // Stats value
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function teamRecordsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .team-records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .team-records-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .team-records-table th {
+        background-color: #f8f9fa; /* Light grey for headers */
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Record</th>'; // Record column
+    tableHTML += '<th>Team</th>'; // Team name column
+    tableHTML += '<th>Stats</th>'; // Value column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${data[15].category}</td>`; // Record category
+      let player = Object.values(data[15].player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]}</td>`; // Player name and team
+      let stats = ["HT", "vs", "Date"].map(key => data[15].stats[key]);
+      tableHTML += `<td><b>${stats[0]}</b> vs <b>${stats[1]}</b><br>(${stats[2]})</td>`; // Stats value
+      tableHTML += '</tr>';
+
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${data[16].category}</td>`; // Record category
+      let player1 = Object.values(data[16].player);
+      tableHTML += `<td class="fw-bold text-blue">${player1[0]}</td>`; // Player name and team
+      let stats1 = ["LT", "vs", "Date"].map(key => data[16].stats[key]);
+      tableHTML += `<td><b>${stats1[0]}</b> vs <b>${stats1[1]}</b><br>(${stats1[2]})</td>`; // Stats value
+      tableHTML += '</tr>';
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
   // Initial table render - same approach as battingStat.html
   const initialData = statsData['Current Teams'];
   currentTeamsTable(initialData);
