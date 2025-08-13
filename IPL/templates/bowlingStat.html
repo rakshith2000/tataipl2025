@@ -41,7 +41,7 @@
   }
 
   .dropdown-menu {
-    display: none;
+    display: block;
     position: absolute;
     background-color: white;
     min-width: 250px;
@@ -52,6 +52,15 @@
     font-weight: bold;
     z-index: 1;
     overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .dropdown.show .dropdown-menu {
+    max-height: 500px;
+    opacity: 1;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
   }
 
   .dropdown-menu a {
@@ -181,17 +190,18 @@ tr:last-child td {
     };
 
     function toggleDropdown() {
-  	const chevron = document.querySelector('.dropdown-toggle .fa-chevron-down');
-  	const dropdown = document.querySelector('.dropdown');
+    const chevron = document.querySelector('.dropdown-toggle .fa-chevron-down, .dropdown-toggle .fa-chevron-up');
+    const dropdown = document.querySelector('.dropdown');
+    const menu = document.getElementById('dropdownMenu');
     dropdown.classList.toggle('show');
-
-    // Toggle between up and down chevron
     if (dropdown.classList.contains('show')) {
         chevron.classList.remove('fa-chevron-down');
         chevron.classList.add('fa-chevron-up');
+        menu.style.display = 'block';
     } else {
         chevron.classList.remove('fa-chevron-up');
         chevron.classList.add('fa-chevron-down');
+        setTimeout(() => { menu.style.display = 'none'; }, 500); // Wait for animation
     }
   }
 

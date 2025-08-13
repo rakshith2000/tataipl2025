@@ -168,29 +168,35 @@ def get_data_from_url(url):
         html = response.read().decode('utf-8')
     SquadDT = (db.session.execute(text('SELECT * FROM Squad')).fetchall())
     if response.getcode() == 200:
-        soup = BeautifulSoup(html, 'html.parser')
-        thead = soup.find('thead', class_="cb-srs-gray-strip")
+        try:
+            soup = BeautifulSoup(html, 'html.parser')
+            thead = soup.find('thead', class_="cb-srs-gray-strip")
+            if thead is None:
+                return None
 
-        headcells = soup.find_all('th')[1:]
-        headers = []
-        for i in headcells:
-            headers.append(i.text.strip())
-        tbody = soup.find('tbody')
-        data = []
-        for body in tbody.find_all('tr'):
-            bodycells = body.find_all('td')[1:]
-            d = {}
-            for i, val in enumerate(bodycells):
-                if i == 0:
-                    match = find_player(val.text.strip(), SquadDT)
-                    d['Team'] = match[3] if match else "NA"
-                    d[headers[i]] = match[2] if match else val.text.strip()
-                else:
-                    d[headers[i]] = val.text.strip()
-            data.append(d)
-        return data
+            headcells = soup.find_all('th')[1:]
+            headers = []
+            for i in headcells:
+                headers.append(i.text.strip())
+            tbody = soup.find('tbody')
+            data = []
+            for body in tbody.find_all('tr'):
+                bodycells = body.find_all('td')[1:]
+                d = {}
+                for i, val in enumerate(bodycells):
+                    if i == 0:
+                        match = find_player(val.text.strip(), SquadDT)
+                        d['Team'] = match[3] if match else "NA"
+                        d[headers[i]] = match[2] if match else val.text.strip()
+                    else:
+                        d[headers[i]] = val.text.strip()
+                data.append(d)
+            return data
+        except Exception:
+            return None
     else:
         return None
+
 def calculate_age(dob, current_date):
     # Calculate the number of full years
     years = current_date.year - dob.year
