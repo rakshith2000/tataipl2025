@@ -1020,6 +1020,64 @@ tr:last-child td {
     tableContainer.innerHTML = tableHTML;
   }
 
+  function bowlingRecordsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .bowling-records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .bowling-records-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .bowling-records-table th {
+        background-color: #f8f9fa; /* Light grey for headers */
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Record</th>'; // Record column
+    tableHTML += '<th>Player</th>'; // Player name column
+    tableHTML += '<th>Stats</th>'; // Value column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    tableHTML += '<tr>';
+    tableHTML += `<td class="fw-bold">${data[9].category}</td>`;
+    let player = Object.values(data[9].player);
+    tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+    let stats = Object.values(data[9].stats);
+    tableHTML += `<td class="fw-bold">${stats[0]}</td>`;
+    tableHTML += '</tr>';
+
+    tableHTML += '<tr>';
+    tableHTML += `<td class="fw-bold">${data[10].category}</td>`;
+    let player1 = Object.values(data[10].player);
+    tableHTML += `<td class="fw-bold text-blue">${player1[0]} <span class="fw-normal text-black">(${player1[1]})</span></td>`;
+    let stats1 = ["BBF", "vs", "Date"].map(key => data[10].stats[key]);
+    tableHTML += `<td><b>${stats1[0]}</b> vs <b>${stats1[1]}</b><br>(${stats1[2]})</td>`;
+    tableHTML += '</tr>';
+
+    tableHTML += '<tr>';
+    tableHTML += `<td class="fw-bold">${data[11].category}</td>`;
+    let player2 = Object.values(data[11].player);
+    let player3 = Object.values(data[12].player);
+    tableHTML += `<td class="fw-bold text-blue">${player2[0]} <span class="fw-normal text-black">(${player2[1]})</span><br>${player3[0]} <span class="fw-normal text-black">(${player3[1]})</span></td>`;
+    let stats2 = Object.values(data[11].stats);
+    let stats3 = Object.values(data[12].stats);
+    tableHTML += `<td><b>${stats2[0]}</b> (${stats2[1]})<br><b>${stats3[0]}</b> (${stats3[1]})</td>`;
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
   // Initial table render - same approach as battingStat.html
   const initialData = statsData['Current Teams'];
   currentTeamsTable(initialData);
