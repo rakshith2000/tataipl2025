@@ -199,7 +199,8 @@ tr:last-child td {
         'Performance by Teams': {{ stats['Performance by Teams']|tojson|safe }},
         'Position Each Season': {{ stats['Position Each Season']|tojson|safe }},
         'All Time Standings': {{ stats['All Time Standings']|tojson|safe }},
-        'Most Appearences': {{ stats['Most Appearances']|tojson|safe }}
+        'Most Appearences': {{ stats['Most Appearances']|tojson|safe }},
+        'Records': {{ stats['Records']|tojson|safe }}
     };
 
     const fullNames = {{ fn|tojson|safe }};
@@ -250,8 +251,13 @@ tr:last-child td {
 
     // Close dropdown
     document.querySelector('.dropdown').classList.remove('show');
-
-    const tableData = statsData[optionTitle];
+    let tableData;
+    if (optionTitle.includes('Records')) {
+        tableData = statsData['Records'];
+    } else {
+        tableData = statsData[optionTitle];
+    }
+    
 
   switch(optionTitle) {
         case 'Current Teams':
@@ -273,7 +279,6 @@ tr:last-child td {
             positionEachSeasonTable(tableData);
             break;
         case 'All Time Standings':
-            console.log('All Time Standings Data rendering');
             allTimeStandingsTable(tableData);
             break;
         case 'Batting Records':
@@ -918,7 +923,6 @@ tr:last-child td {
     tableHTML += '</tr></thead><tbody>';
 
     // Add data rows
-    console.log('Most Appearances Data:', data);
     if (data && Array.isArray(data)) {
         data.forEach((player, index) => {
             tableHTML += '<tr>';
@@ -935,6 +939,82 @@ tr:last-child td {
             tableHTML += '</tr>';
         });
     }
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function battingRecordsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .batting-records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .batting-records-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .batting-records-table th {
+        background-color: #f8f9fa; /* Light grey for headers */
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Record</th>'; // Record column
+    tableHTML += '<th>Player</th>'; // Player name column
+    tableHTML += '<th>Stats</th>'; // Value column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    data.slice(0,5).forEach((record, index) => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${record.category}</td>`; // Record category
+      let player = Object.values(record.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`; // Player name and team
+      let stats = Object.values(record.stats);
+      tableHTML += `<td class="fw-bold">${stats[0]}</td>`; // Stats value
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '<tr>';
+    tableHTML += `<td class="fw-bold">${data[5].category}</td>`;
+    let player = Object.values(data[5].player);
+    tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+    let stats = Object.values(data[5].stats);
+    tableHTML += `<td><b>${stats[0]}</b> (${stats[1]})</td>`;
+    tableHTML += '</tr>';
+
+    tableHTML += '<tr>';
+    tableHTML += `<td class="fw-bold">${data[6].category}</td>`;
+    let player1 = Object.values(data[6].player);
+    tableHTML += `<td class="fw-bold text-blue">${player1[0]} <span class="fw-normal text-black">(${player1[1]})</span></td>`;
+    let stats1 = Object.values(data[6].stats);
+    tableHTML += `<td class="fw-bold">${stats1[0]}</td>`;
+    tableHTML += '</tr>';
+
+    tableHTML += '<tr>';
+    tableHTML += `<td class="fw-bold">${data[7].category}</td>`;
+    let player2 = Object.values(data[7].player);
+    tableHTML += `<td class="fw-bold text-blue">${player2[0]} <span class="fw-normal text-black">(${player2[1]})</span></td>`;
+    let stats2 = ["HS", "vs", "Date"].map(key => data[7].stats[key]);
+    tableHTML += `<td><b>${stats2[0]}</b> vs <b>${stats2[1]}</b><br>(${stats2[2]})</td>`;
+    tableHTML += '</tr>';
+
+    tableHTML += '<tr>';
+    tableHTML += `<td class="fw-bold">${data[8].category}</td>`;
+    let player3 = Object.values(data[8].player);
+    tableHTML += `<td class="fw-bold text-blue">${player3[0][0]} <span class="fw-normal text-black">and</span> ${player3[0][1]} <span class="fw-normal text-black">(${player3[1]})</span></td>`;
+    let stats3 = ["HP", "vs", "Date"].map(key => data[8].stats[key]);
+    tableHTML += `<td><b>${stats3[0]}</b> vs <b>${stats3[1]}</b><br>(${stats3[2]})</td>`;
+    tableHTML += '</tr>';
 
     tableHTML += '</tbody></table>';
     tableContainer.innerHTML = tableHTML;

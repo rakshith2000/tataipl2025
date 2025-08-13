@@ -134,3 +134,9 @@ class IPLAwards(db.Model):
     player = db.Column(db.JSON)
     statistics = db.Column(db.JSON)
     award = db.Column(db.String)
+
+class Records(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String)
+    player = db.Column(db.JSON)
+    stats = db.Column(db.JSON)
