@@ -157,6 +157,23 @@ tr:last-child td {
   .no-bottom-border {
   border-bottom: none !important;
 }
+
+/* Add to <style> for horizontal scrollable tabs */
+.tab-scroll-wrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 10px;
+}
+.tab-scroll-wrapper ul.nav-tabs {
+  flex-wrap: nowrap !important;
+  display: inline-flex;
+  min-width: max-content;
+}
+.tab-scroll-wrapper ul.nav-tabs li {
+  float: none;
+  display: inline-block;
+}
     </style>
 {% endblock %}
 
@@ -171,7 +188,20 @@ tr:last-child td {
     <div class="live">
       <div class="live_2 mt-2"><center><span class="text-white fw-bold" style="font-size: 25px">All Time IPL Data</span></center></div>
       <div class="score_1 mt-2">
-    </div>
+        <div class="tab-scroll-wrapper">
+          <ul class="d-flex justify-content-center font_14 fw-bold nav nav-tabs border-0" id="inningsTabs">
+            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+              <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.alltimeipl') }}">IPL Overview</a>
+            </li>
+            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.alltimeipl') }}">IPL Awards</a>
+            </li>
+            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.alltimeipl') }}">IPL Points Table</a>
+            </li>
+          </ul>
+        </div>
+      </div>
       <center><div class="pt-3 dropdown">
         <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Current Teams<i class="fa fa-chevron-down font_10 ms-1"></i></button>
         <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
@@ -308,8 +338,25 @@ tr:last-child td {
   function currentTeamsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
 
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .merged-cell {
+        text-align: center;
+      }
+      .currentTeams-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .currentTeams-table td:nth-child(9) {
+        white-space: nowrap;
+        text-align: left;
+      }
+    `;
+    document.head.appendChild(styleElement);
+
      // Build HTML table
-    let tableHTML = '<table><thead><tr>';
+    let tableHTML = '<table class="currentTeams-table"><thead><tr>';
 
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
@@ -347,7 +394,7 @@ tr:last-child td {
                     ownerText = owners[0][0];
                 } else {
                     // Multiple owners or not 100% - show name (percentage%)
-                    ownerText = owners.map(([name, percentage]) => `${name} <i>(${percentage}%)</i>`).join(', ');
+                    ownerText = owners.map(([name, percentage]) => `${name} <i>(${percentage}%)</i>`).join('<br> ');
                 }
             }
             tableHTML += `<td>${ownerText}</td>`; // Owner
@@ -362,9 +409,25 @@ tr:last-child td {
 
   function defunctTeamsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .merged-cell {
+        text-align: center;
+      }
+      .defunctTeams-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .defunctTeams-table td:nth-child(8) {
+        white-space: nowrap;
+        text-align: left;
+      }
+    `;
+    document.head.appendChild(styleElement);
 
      // Build HTML table
-    let tableHTML = '<table><thead><tr>';
+    let tableHTML = '<table class="defunctTeams-table"><thead><tr>';
 
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
