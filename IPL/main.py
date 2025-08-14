@@ -598,6 +598,12 @@ def alltimeipl():
     stats['Records'] = [dict(row._mapping) for row in records]
     return render_template('all-time-ipl.html', stats=stats, fn=full_name, clr=clr, sqclr=sqclr)
 
+@main.route('/iplawards')
+def iplawards():
+    stats = db.session.execute(text('select * from ipl_awards order by id')).fetchall()
+    stats = [dict(row._mapping) for row in stats]
+    return render_template('ipl-awards.html', stats=stats, fn=full_name, clr=clr, sqclr=sqclr)
+
 @main.route('/update')
 @login_required
 def update():

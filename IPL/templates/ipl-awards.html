@@ -1,0 +1,576 @@
+{% extends "base.html" %} {% block head %} {{ super() }}
+  <meta name="robots" content="noindex,nofollow" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{{ url_for('static', filename= 'css/bootstrap.min.css') }}" rel="stylesheet" >
+   <link href="{{ url_for('static', filename= 'fonts/css/fontawesome.min.css') }}" rel="stylesheet" >
+  <link href="{{ url_for('static', filename= 'fonts/css/brands.min.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename= 'fonts/css/solid.min.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename= 'css/global.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename= 'css/index.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename= 'css/live.css') }}" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+   <link href="{{ url_for('static', filename= 'css/flag-icons.css') }}" rel="stylesheet">
+    <style>
+    body {
+        font-family: 'Exo 2', sans-serif;
+        background-image: url('/static/images/banner_bg.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    .status{
+        display: block;
+    }
+    .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-toggle {
+    background-color: #00816a;
+    color: white;
+    padding: 7px 3px;
+    border: 1px solid #ffb09e;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 250px;
+    text-align: center;
+  }
+
+  .dropdown-menu {
+    display: block;
+    position: absolute;
+    background-color: white;
+    min-width: 250px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border: 1px solid #ffb09e;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-weight: bold;
+    z-index: 1;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .dropdown-menu a {
+    color: #333;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 13px;
+  }
+
+  .dropdown-menu a:hover {
+    background-color: #f5f5f5;
+  }
+
+  .dropdown-menu a.activeD {
+    background-color: #00816a;
+    color: white;
+  }
+
+  .dropdown-menu a:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown.show .dropdown-menu {
+    max-height: 500px;
+    opacity: 1;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .table-wrapper a {
+    color: #0398dc !important;
+  }
+
+  .table-wrapper {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow-x: auto;
+  border: 1px solid #ffb09e;
+  background-color: white;
+}
+
+/* Updated table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+}
+
+/* Remove bottom border from last row */
+tr:last-child td {
+  border-bottom: none !important;
+}
+
+  th, td {
+    text-align: center;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 12px;
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  th {
+    background-color: #00816a;
+    color: white;
+  }
+
+  .team-logo {
+    width: 23px;
+    height: 23px;
+    vertical-align: middle;
+  }
+
+  .position {
+    text-align: center;
+  }
+
+  .logo-col {
+    text-align: center;
+  }
+  
+  .text-green {
+    color: #28a745 !important; /* Bootstrap success green */
+  }
+  
+  .text-dark-green {
+    color: #155724 !important; /* Dark green */
+  }
+  
+  .bg-gold {
+    background-color: #ffd9004f !important; /* Gold background */
+  }
+
+  .bg-silver {
+    background-color: #c0c0c04f !important; /* Silver background */
+  }
+
+  .no-bottom-border {
+  border-bottom: none !important;
+}
+
+/* Add to <style> for horizontal scrollable tabs */
+.tab-scroll-wrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 10px;
+}
+.tab-scroll-wrapper ul.nav-tabs {
+  flex-wrap: nowrap !important;
+  display: inline-flex;
+  min-width: max-content;
+}
+.tab-scroll-wrapper ul.nav-tabs li {
+  float: none;
+  display: inline-block;
+}
+    </style>
+{% endblock %}
+
+{% block content %}
+<div style="padding-top: 55px;"></div>
+
+<section id="center" class="pt-3 pb-3 center_live">
+ <div class="container-xl">
+
+   <div class="row schedule2">
+    <div class="col-md-9">
+    <div class="live">
+      <div class="live_2 mt-2"><center><span class="text-white fw-bold" style="font-size: 25px">All Time IPL Data</span></center></div>
+      <div class="score_1 mt-2">
+        <div class="tab-scroll-wrapper">
+          <ul class="d-flex justify-content-center font_14 fw-bold nav nav-tabs border-0" id="inningsTabs">
+            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.alltimeipl') }}">IPL Overview</a>
+            </li>
+            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+              <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.iplawards') }}">IPL Awards</a>
+            </li>
+            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.alltimeipl') }}">IPL Points Table</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <center><div class="pt-3 dropdown">
+        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Orange Cap<i class="fa fa-chevron-down font_10 ms-1"></i></button>
+        <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
+        <a href="#" class="activeD" onclick="selectOption(this, 'Orange Cap')">Orange Cap</a>
+        <a href="#" onclick="selectOption(this, 'Purple Cap')">Purple Cap</a>
+        <a href="#" onclick="selectOption(this, 'Most Sixes')">Most Sixes</a>
+        <a href="#" onclick="selectOption(this, 'Most Fours')">Most Fours</a>
+        <a href="#" onclick="selectOption(this, 'Most Valuable Player')">Most Valuable Player</a>
+        <a href="#" onclick="selectOption(this, 'Player of the Final')">Player of the Final</a>
+        <a href="#" onclick="selectOption(this, 'Emerging Player')">Emerging Player</a>
+        <a href="#" onclick="selectOption(this, 'Highest Strike Rate')">Highest Strike Rate</a>
+        <a href="#" onclick="selectOption(this, 'Best Catch')">Best Catch</a>
+        <a href="#" onclick="selectOption(this, 'Fair Play Award')">Fair Play Award</a>
+        </div>
+      </div></center>
+      <div id="tableContainer" class="table-wrapper"></div>
+    </div>
+  </div>
+   </div>
+ </div>
+</section>
+<script>
+  const statsData = {{ stats|tojson|safe }};
+    const fullNames = {{ fn|tojson|safe }};
+
+    function toggleDropdown() {
+    const chevron = document.querySelector('.dropdown-toggle .fa-chevron-down, .dropdown-toggle .fa-chevron-up');
+    const dropdown = document.querySelector('.dropdown');
+    const menu = document.getElementById('dropdownMenu');
+    dropdown.classList.toggle('show');
+    if (dropdown.classList.contains('show')) {
+        chevron.classList.remove('fa-chevron-down');
+        chevron.classList.add('fa-chevron-up');
+        menu.style.display = 'block';
+    } else {
+        chevron.classList.remove('fa-chevron-up');
+        chevron.classList.add('fa-chevron-down');
+        setTimeout(() => { menu.style.display = 'none'; }, 500); // Wait for animation
+    }
+  }
+
+  // Close dropdown when clicking outside
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropdown-toggle')) {
+      var dropdowns = document.getElementsByClassName("dropdown");
+      var chevrons = document.querySelectorAll('.dropdown-toggle .fa-chevron-up');
+      for (var i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+          chevrons.forEach(chevron =>{
+            chevron.classList.remove('fa-chevron-up');
+          chevron.classList.add('fa-chevron-down');
+          });
+        }
+      }
+    }
+  }
+
+  function selectOption(element, optionTitle) {
+    // Remove active from all
+    const items = document.querySelectorAll('.dropdown-menu a');
+    items.forEach(item => item.classList.remove('activeD'));
+
+    // Set active to clicked one
+    element.classList.add('activeD');
+
+    // Update button text
+    document.getElementById('dropdownButton').innerHTML = `${optionTitle} <i class="fa fa-chevron-down font_10 ms-1"></i>`;
+
+    // Close dropdown
+    document.querySelector('.dropdown').classList.remove('show');
+    let tableData;
+    tableData = statsData.filter(item => item.award === optionTitle);
+    
+
+  switch(optionTitle) {
+        case 'Orange Cap':
+            orangeCapTable(tableData);
+            break;
+        case 'Purple Cap':
+            purpleCapTable(tableData);
+            break;
+        case 'Most Sixes':
+            mostSixesTable(tableData);
+            break;
+        case 'Most Fours':
+            mostFoursTable(tableData);
+            break;
+        case 'Most Valuable Player':
+            mostValuablePlayerTable(tableData);
+            break;
+        case 'Player of the Final':
+            playerOfTheFinalTable(tableData);
+            break;
+        case 'Emerging Player':
+            emergingPlayerTable(tableData);
+            break;
+        case 'Highest Strike Rate':
+            highestStrikeRateTable(tableData);
+            break;
+        case 'Best Catch':
+            bestCatchTable(tableData);
+            break;
+        case 'Fair Play Award':
+            fairPlayAwardTable(tableData);
+            break;
+    }
+  }
+
+  function orangeCapTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '<th>Matches</th>'; // Matches column
+    tableHTML += '<th>Runs</th>'; // Runs column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      let statistics = Object.values(item.statistics);
+      tableHTML += `<td>${statistics[0]}</td>`;
+      tableHTML += `<td class="fw-bold">${statistics[1]}</td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function purpleCapTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '<th>Matches</th>'; // Matches column
+    tableHTML += '<th>Wickets</th>'; // Wickets column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      let statistics = Object.values(item.statistics);
+      tableHTML += `<td>${statistics[0]}</td>`;
+      tableHTML += `<td class="fw-bold">${statistics[1]}</td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function mostSixesTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '<th>Matches</th>'; // Matches column
+    tableHTML += '<th>Sixes</th>'; // Sixes column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      let statistics = Object.values(item.statistics);
+      tableHTML += `<td>${statistics[0]}</td>`;
+      tableHTML += `<td class="fw-bold">${statistics[1]}</td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function mostFoursTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '<th>Matches</th>'; // Matches column
+    tableHTML += '<th>Fours</th>'; // Fours column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      let statistics = Object.values(item.statistics);
+      tableHTML += `<td>${statistics[0]}</td>`;
+      tableHTML += `<td class="fw-bold">${statistics[1]}</td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function mostValuablePlayerTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '<th>Points</th>'; // Points column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      let statistics = Object.values(item.statistics);
+      tableHTML += `<td class="fw-bold">${statistics[0]}</td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function playerOfTheFinalTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function emergingPlayerTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function highestStrikeRateTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '<th>Strike Rate</th>'; // Strike Rate column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      let statistics = Object.values(item.statistics);
+      tableHTML += `<td class="fw-bold">${statistics[0]}</td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function bestCatchTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Player</th>'; // Player column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let player = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${player[0]} <span class="fw-normal text-black">(${player[1]})</span></td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  function fairPlayAwardTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+
+    // Build HTML table
+    let tableHTML = '<table><thead><tr>';
+
+    // Add custom headers
+    tableHTML += '<th>Season</th>'; // Season column
+    tableHTML += '<th>Team</th>'; // Team column
+    tableHTML += '</tr></thead><tbody>';
+
+    data.forEach(item => {
+      tableHTML += '<tr>';
+      tableHTML += `<td class="fw-bold">${item.season}</td>`;
+      let team = Object.values(item.player);
+      tableHTML += `<td class="fw-bold text-blue">${team[0]}</span></td>`;
+      tableHTML += '</tr>';
+    });
+
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+  }
+
+  // Initial table render - same approach as battingStat.html
+  const initialData = statsData.filter(item => item.award === 'Orange Cap');
+  orangeCapTable(initialData);
+
+</script>
+{% endblock %}
