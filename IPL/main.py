@@ -47,6 +47,14 @@ full_name = {'CSK':'Chennai Super Kings',
              'SRH':'Sunrisers Hyderabad',
              'TBA':'TBA'}
 
+defuncTeams_fn = {
+    'DCH' : 'Deccan Chargers',
+    'RPS' : 'Rising Pune Supergiants',
+    'GL' : 'Gujarat Lions',
+    'PWI' : 'Pune Warriors India',
+    'KTK' : 'Kochi Tuskers Kerala'
+}
+
 teamID = {610:['CSK','Chennai Super Kings'],
              612:['DC','Delhi Capitals'],
              123216:['GT','Gujarat Titans'],
@@ -596,7 +604,7 @@ def alltimeipl():
     stats['All Time Standings'] = [dict(row._mapping) for row in allTimeStandings]
     stats['Most Appearances'] = [dict(row._mapping) for row in mostAppearances]
     stats['Records'] = [dict(row._mapping) for row in records]
-    return render_template('all-time-ipl.html', stats=stats, fn=full_name, clr=clr, sqclr=sqclr)
+    return render_template('all-time-ipl.html', stats=stats, fn=full_name, dfn=defuncTeams_fn, clr=clr, sqclr=sqclr)
 
 @main.route('/iplawards')
 def iplawards():

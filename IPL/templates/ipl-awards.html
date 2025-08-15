@@ -205,10 +205,10 @@ tr:last-child td {
       <center><div class="pt-3 dropdown">
         <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Orange Cap<i class="fa fa-chevron-down font_10 ms-1"></i></button>
         <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
-        <a href="#" class="activeD" onclick="selectOption(this, 'Orange Cap')">Orange Cap</a>
-        <a href="#" onclick="selectOption(this, 'Purple Cap')">Purple Cap</a>
-        <a href="#" onclick="selectOption(this, 'Most Sixes')">Most Sixes</a>
-        <a href="#" onclick="selectOption(this, 'Most Fours')">Most Fours</a>
+        <a href="#" class="activeD" onclick="selectOption(this, 'Orange Cap')">Orange Cap <img src="{{ url_for('static', filename='images/oc.png') }}" alt="orange cap" class="team-logo" onerror="this.style.display='none'"></a>
+        <a href="#" onclick="selectOption(this, 'Purple Cap')">Purple Cap <img src="{{ url_for('static', filename='images/pc.png') }}" alt="purple cap" class="team-logo" onerror="this.style.display='none'"></a>
+        <a href="#" onclick="selectOption(this, 'Most Sixes')">Most Sixes <img src="{{ url_for('static', filename='images/6s.jpg') }}" alt="most sixes" class="team-logo" onerror="this.style.display='none'"></a>
+        <a href="#" onclick="selectOption(this, 'Most Fours')">Most Fours <img src="{{ url_for('static', filename='images/4s.png') }}" alt="most fours" class="team-logo" onerror="this.style.display='none'"></a>
         <a href="#" onclick="selectOption(this, 'Most Valuable Player')">Most Valuable Player</a>
         <a href="#" onclick="selectOption(this, 'Player of the Final')">Player of the Final</a>
         <a href="#" onclick="selectOption(this, 'Emerging Player')">Emerging Player</a>

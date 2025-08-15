@@ -239,6 +239,7 @@ tr:last-child td {
     };
 
     const fullNames = {{ fn|tojson|safe }};
+    const defunctFullNames = {{ dfn|tojson|safe }};
 
     function toggleDropdown() {
     const chevron = document.querySelector('.dropdown-toggle .fa-chevron-down, .dropdown-toggle .fa-chevron-up');
@@ -431,6 +432,7 @@ tr:last-child td {
 
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
     tableHTML += '<th>Team Name</th>'; // Player name column
     tableHTML += '<th>City</th>'; // Match column
     tableHTML += '<th>State</th>'; // Innings column
@@ -445,7 +447,10 @@ tr:last-child td {
         data.forEach((team, index) => {
             tableHTML += '<tr>';
             tableHTML += `<td class="position">${index + 1}</td>`; // Position
-            tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
+            const logoUrl = `/static/images/squad_logos/${team.team}.png`;
+            tableHTML += `<td class="logo-col"><img src="${logoUrl}" alt="${team.team}" class="team-logo" onerror="this.style.display='none'"></td>`; // Logo
+            const teamFullName = defunctFullNames[team.team] || team.team; // Use full name if available, fallback to short name
+            tableHTML += `<td class="fw-bold text-blue">${teamFullName}</td>`; // Team name
             tableHTML += `<td>${team.city}</td>`; // City
             tableHTML += `<td>${team.state}</td>`; // State
             tableHTML += `<td class="fw-bold">${team.home_ground}</td>`; // Home Ground
