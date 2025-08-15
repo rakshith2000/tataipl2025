@@ -140,3 +140,15 @@ class Records(db.Model):
     category = db.Column(db.String)
     player = db.Column(db.JSON)
     stats = db.Column(db.JSON)
+
+class AllTimePointsTable(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    season = db.Column(db.Integer)
+    rank = db.Column(db.Integer)
+    team = db.Column(db.String)
+    match = db.Column(db.Integer)
+    won = db.Column(db.Integer)
+    lost = db.Column(db.Integer)
+    nr = db.Column(db.Integer)
+    points = db.Column(db.Integer)
+    nrr = db.Column(db.Float)

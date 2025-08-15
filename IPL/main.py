@@ -52,7 +52,9 @@ defuncTeams_fn = {
     'RPS' : 'Rising Pune Supergiants',
     'GL' : 'Gujarat Lions',
     'PWI' : 'Pune Warriors India',
-    'KTK' : 'Kochi Tuskers Kerala'
+    'KTK' : 'Kochi Tuskers Kerala',
+    'DD' : 'Delhi Daredevils',
+    'KXIP' : 'Kings XI Punjab'
 }
 
 teamID = {610:['CSK','Chennai Super Kings'],
@@ -611,6 +613,12 @@ def iplawards():
     stats = db.session.execute(text('select * from ipl_awards order by id')).fetchall()
     stats = [dict(row._mapping) for row in stats]
     return render_template('ipl-awards.html', stats=stats, fn=full_name, clr=clr, sqclr=sqclr)
+
+@main.route('/alltimept')
+def alltimept():
+    dataPT = db.session.execute(text('SELECT * FROM all_time_points_table ORDER BY season ASC, rank ASC')).fetchall()
+    dataPT = [dict(row._mapping) for row in dataPT]
+    return render_template('all-time-pt.html', dataPT=dataPT, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
 
 @main.route('/update')
 @login_required

@@ -51,7 +51,7 @@
     margin-top: 8px;
     font-weight: bold;
     z-index: 1;
-    overflow: hidden;
+    overflow-y: auto;
     max-height: 0;
     opacity: 0;
     transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
@@ -80,8 +80,9 @@
   }
 
   .dropdown.show .dropdown-menu {
-    max-height: 500px;
+    max-height: 300px;
     opacity: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
     transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
   }
 
@@ -197,7 +198,7 @@ tr:last-child td {
               <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.iplawards') }}">IPL Awards</a>
             </li>
             <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.alltimeipl') }}">IPL Points Table</a>
+              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.alltimept') }}">IPL Points Table</a>
             </li>
           </ul>
         </div>
