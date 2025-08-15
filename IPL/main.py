@@ -618,7 +618,7 @@ def iplawards():
 def alltimept():
     dataPT = db.session.execute(text('SELECT * FROM all_time_points_table ORDER BY season ASC, rank ASC')).fetchall()
     dataPT = [dict(row._mapping) for row in dataPT]
-    return render_template('all-time-pt.html', dataPT=dataPT, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
+    return render_template('all-time-PT.html', dataPT=dataPT, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
 
 @main.route('/update')
 @login_required
