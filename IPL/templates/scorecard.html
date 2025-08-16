@@ -118,6 +118,20 @@
         .potm-name a{
         color: #0398dc !important;
     }
+    .table-responsive::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.table-responsive:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
     </style>
 {% endblock %}
 

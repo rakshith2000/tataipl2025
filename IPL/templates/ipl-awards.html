@@ -57,6 +57,21 @@
     transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
   }
 
+  .dropdown-menu::-webkit-scrollbar{
+    width: 1px;
+    height: 5px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.dropdown-menu:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
+
   .dropdown-menu a {
     color: #333;
     padding: 5px 10px;
@@ -96,6 +111,21 @@
   overflow-x: auto;
   border: 1px solid #ffb09e;
   background-color: white;
+}
+
+.table-wrapper::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.table-wrapper:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
 }
 
 /* Updated table styling */
@@ -174,6 +204,21 @@ tr:last-child td {
 .tab-scroll-wrapper ul.nav-tabs li {
   float: none;
   display: inline-block;
+}
+
+.tab-scroll-wrapper::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+
+.tab-scroll-wrapper::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.tab-scroll-wrapper:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
 }
     </style>
 {% endblock %}
