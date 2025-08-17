@@ -44,6 +44,9 @@ full_name = {'CSK':'Chennai Super Kings',
              'PBKS':'Punjab Kings',
              'RR':'Rajasthan Royals',
              'RCB':'Royal Challengers Bengaluru',
+             'RCB1' : 'Royal Challengers Bangalore',
+             'RCB2' : 'Royal Challengers Bangalore',
+             'RCB3' : 'Royal Challengers Bangalore',
              'SRH':'Sunrisers Hyderabad',
              'TBA':'TBA'}
 
