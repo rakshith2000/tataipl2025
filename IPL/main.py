@@ -626,6 +626,12 @@ def alltimept():
     dataPT = [dict(row._mapping) for row in dataPT]
     return render_template('all-time-PT.html', dataPT=dataPT, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
 
+@main.route('/resultrecords')
+def resultrecords():
+    stats = db.session.execute(text('SELECT * FROM result_records ORDER BY id')).fetchall()
+    stats = [dict(row._mapping) for row in stats]
+    return render_template('result-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
+
 @main.route('/update')
 @login_required
 def update():
