@@ -249,7 +249,7 @@ margin-top:0px!important;
 
  
 .navbar .dropdown-toggle::after {
-	display:none !important;   /* hide bootstrap default icon */
+	display:none;   /* hide bootstrap default icon */
 }
 
 
@@ -301,9 +301,9 @@ margin-top:0px!important;
 .navbar .navbar-nav .dropdown-menu .dropend .dropdown-menu a:hover{font-size:14px; color: var(--black);}
 
 .navbar .navbar-nav .nav-item .nav-link:focus-visible{box-shadow:none; }
-.navbar .navbar-nav .nav-item .nav-link.active{color:var(--orange)!important; }
+.navbar .navbar-nav .nav-item .nav-link.active{color:var(--orange); }
 
-.navbar .navbar-nav .nav-item:hover .nav-link{color:var(--orange)!important;}
+.navbar .navbar-nav .nav-item:hover .nav-link{color:var(--orange);}
 .navbar .dropdown .dropend:hover .dropdown-toggle{color:var(--black);}
 
 .navbar .navbar-nav .nav-item:hover .nav-link img{
