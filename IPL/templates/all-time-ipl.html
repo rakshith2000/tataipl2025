@@ -286,6 +286,7 @@ tr:last-child td {
 
     const fullNames = {{ fn|tojson|safe }};
     const defunctFullNames = {{ dfn|tojson|safe }};
+    const allFn = Object.assign({} ,fullNames, defunctFullNames);
 
     function toggleDropdown() {
     const chevron = document.querySelector('.dropdown-toggle .fa-chevron-down, .dropdown-toggle .fa-chevron-up');
@@ -513,12 +514,31 @@ tr:last-child td {
 
   function tournamentSummaryTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .merged-cell {
+        text-align: center;
+      }
+      .defunctTeams-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .defunctTeams-table td:nth-child(8) {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .defunctTeams {
+        background-color: #f8d7da;
+      }
+    `;
+    document.head.appendChild(styleElement);
      // Build HTML table
     let tableHTML = '<table><thead><tr>';
 
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
     tableHTML += '<th>Team</th>'; // Team column
     tableHTML += '<th>Won</th>'; // Won column
     tableHTML += '<th>Runners-up</th>'; // Runners-up column
@@ -529,8 +549,10 @@ tr:last-child td {
     // Add data rows
     if (data && Array.isArray(data)) {
         data.forEach((summary, index) => {
-            tableHTML += '<tr>';
+            tableHTML += Object.values(defunctFullNames).includes(summary.team) ? '<tr class="defunctTeams">' : '<tr>';
             tableHTML += `<td class="position">${index + 1}</td>`; // Position
+            let logoUrl = Object.keys(allFn).find(key => allFn[key] === summary.team.replace(/[^a-zA-Z0-9 ]/g, '').trim());
+            tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl}.png" alt="${summary.team}" class="team-logo" onerror="this.style.display='none'"></td>`; // Logo
             tableHTML += `<td class="fw-bold text-blue">${summary.team}</td>`; // Team
             
             // Format Won data
@@ -632,7 +654,7 @@ tr:last-child td {
             if (edition.potm && typeof edition.potm === 'object') {
                 const n = edition.potm.Name || '-';
                 const t = edition.potm.Team || '-';
-                potmCell = `${n} (${t})`;
+                potmCell = `${n} <i>(${t})</i>`;
             } else {
                 potmCell = edition.potm || '-';
             }
@@ -642,7 +664,7 @@ tr:last-child td {
             if (edition.pots && typeof edition.pots === 'object') {
                 const n = edition.pots.Name || '-';
                 const t = edition.pots.Team || '-';
-                potsCell = `${n} (${t})`;
+                potsCell = `${n} <i>(${t})</i>`;
             } else {
                 potsCell = edition.pots || '-';
             }
@@ -670,7 +692,7 @@ tr:last-child td {
         text-align: center;
         padding: 8px;
       }
-      .performance-table td:first-child {
+      .performance-table td:nth-child(2) {
         white-space: nowrap;
         text-align: left;
       }
@@ -696,8 +718,8 @@ tr:last-child td {
     let tableHTML = '<table class="performance-table"><thead><tr>';
 
     // Add custom headers
+    tableHTML += '<th class="logo-col"></th>'; // Logo column
     tableHTML += '<th>Team</th>'; // Team column
-    
     // Add year columns
     years.forEach(year => {
         tableHTML += `<th>${year}</th>`;
@@ -721,6 +743,8 @@ tr:last-child td {
     // Render non-defunct teams
     nonDefunctTeams.forEach(team => {
         tableHTML += '<tr>';
+        const logoUrl = Object.keys(allFn).find(key => allFn[key] === team.team.replace(/[^a-zA-Z0-9 ]/g, '').trim());
+        tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl}.png" class="team-logo" alt="${team.team}" /></td>`; // Logo column
         tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
 
         // Process year stats to handle merging
@@ -763,12 +787,14 @@ tr:last-child td {
 
     // Add Defunct Teams label row if there are any defunct teams
     if (defunctTeams.length > 0) {
-        tableHTML += `<tr><td colspan="${years.length + 1}" style="text-align:center; font-weight:bold; background:#f8d7da;">Defunct Teams</td></tr>`;
+        tableHTML += `<tr><td colspan="${years.length + 2}" style="text-align:center; font-weight:bold; background:#f8d7da;">Defunct Teams</td></tr>`;
     }
 
     // Render defunct teams
     defunctTeams.forEach(team => {
         tableHTML += '<tr>';
+        const logoUrl = Object.keys(allFn).find(key => allFn[key] === team.team.replace(/[^a-zA-Z0-9 ]/g, '').trim());
+        tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl}.png" class="team-logo" alt="${team.team}" /></td>`; // Logo column
         tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
 
         // Process year stats to handle merging
@@ -927,6 +953,7 @@ tr:last-child td {
     let tableHTML = '<table><thead><tr>';
 
     // Add custom headers
+    tableHTML += '<th rowspan="2" class="logo-col"></th>'; // Logo column
     tableHTML += '<th rowspan="2">Team</th>'; // Team column
     tableHTML += '<th colspan="3" class="no-bottom-border" style="text-align:center;">Appearances</th>'; // Appearances column
     tableHTML += '<th rowspan="2">Best Result</th>'; // Best Result column
@@ -951,6 +978,8 @@ tr:last-child td {
             // Check if team is defunct
             const isDefunct = team.defunct ? 'defunct-team' : '';
             tableHTML += '<tr class="' + isDefunct + '">';
+            const logoUrl = Object.keys(allFn).find(key => allFn[key] === team.team.replace(/[^a-zA-Z0-9 ]/g, '').trim());
+            tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl}.png" class="team-logo" alt="${team.team}" /></td>`; // Logo column
             tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
             
             // Appearances

@@ -152,3 +152,4 @@ class AllTimePointsTable(db.Model):
     nr = db.Column(db.Integer)
     points = db.Column(db.Integer)
     nrr = db.Column(db.Float)
+    champion = db.Column(db.String)
