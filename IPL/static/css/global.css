@@ -441,7 +441,12 @@ width:40px;
 height:40px;
 line-height:40px; 
  }
- 
+.bg-blue-grad {
+  background: linear-gradient(145deg, #0056d2, #003c8a);
+}
+.bg-bluelight {
+    background-color: #0058d24d;
+}
 
 /*********************common_end****************/
 
