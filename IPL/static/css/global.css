@@ -448,19 +448,19 @@ line-height:40px;
 /*********************scorecard****************/
 .score_1  ul .active{
 background:var(--bs-white);
-color:var(--green);
+color:#0056d2;
  }
 .score_1 ul a{
-background:var(--green);
+background:linear-gradient(145deg, #0056d2, #003c8a);
 color:var(--bs-white);
  }
 .score_1 ul a:hover{
 background:var(--bs-white);
-color:var(--green);
+color:#0056d2;
  }
 .score_1 ul a:focus{
 background:var(--bs-white);
-color:var(--green);
+color:#0056d2;
  }
 /*********************scorecard_end****************/
 
