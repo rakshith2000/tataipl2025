@@ -638,6 +638,12 @@ def teamscoringrecords():
     stats = [dict(row._mapping) for row in stats]
     return render_template('team-scoring-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
 
+@main.route('/individualbattingrecords')
+def individualbattingrecords():
+    stats = db.session.execute(text('SELECT * FROM individual_batting_records ORDER BY id')).fetchall()
+    stats = [dict(row._mapping) for row in stats]
+    return render_template('individual-batting-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
+
 @main.route('/update')
 @login_required
 def update():
