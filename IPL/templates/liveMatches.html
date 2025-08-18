@@ -2,6 +2,12 @@
 <link rel="stylesheet" href="{{ url_for('static', filename= 'extended_beauty.css') }}"/>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fixtures.css') }}">
 <style>
+body {
+  background: #081033;
+  background-image: url('/static/images/banner_bg.png');
+  background-size: 100%;
+  background-position: center top -48px;
+}
 :root {
    --border_orange :#ffb09e;
    --border_orange_light :#ffe4dd;
@@ -21,8 +27,7 @@
 {% endblock %}
 
 {% block content %}
-<div style="background-image: url('/static/images/banner_bg.jpg'); padding-top: 79px; background-size: cover;
-            background-attachment: fixed;">
+<div style="adding-top: 79px;">
 <center>
   {% macro num_suffix(n) %}
     {% if n % 100 in [11, 12, 13] %}
