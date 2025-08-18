@@ -14,7 +14,7 @@ margin-top:5px !important;
  }
 .score_tab li .active{
 font-weight:bold;
-border-bottom: 3px solid var(--bs-green);
+border-bottom: 3px solid #0056d2;
  }
 .score_tab li a{
 padding:5px 10px; 
