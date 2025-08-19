@@ -158,7 +158,6 @@ body {
 }
 
 .team-players {
-  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),url("/static/images/circle.png") center / cover no-repeat;
   margin: 0 auto;
   width: 235px;
   height: 230px;
@@ -166,6 +165,18 @@ body {
   transition: transform 0.3s ease-in-out;
   z-index: 2;
   position: relative;
+}
+
+.team-players::before {
+  content: ""; /* Required for pseudo-elements */
+  position: absolute; /* Covers the entire parent */
+  top: 0; /* Aligns to top edge */
+  left: 0; /* Aligns to left edge */
+  right: 0; /* Stretches to right edge */
+  bottom: 0; /* Stretches to bottom edge */
+  background: url("/static/images/circle.png") center / cover no-repeat;
+  opacity: 0.3; /* Makes the background semi-transparent */
+  z-index: -1; /* Places it behind the main content */
 }
 
 .team-players:hover {
