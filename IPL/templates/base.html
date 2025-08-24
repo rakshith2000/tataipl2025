@@ -72,7 +72,7 @@
       nav .navbar-nav .nav-link {
         color: #fff !important;
         font-family: 'Exo 2', sans-serif;
-        font-size: 1.15rem !important;
+        font-size: 1.1rem !important;
         font-weight: 600;
         padding: 8px 18px;
         margin-right: 5px;
@@ -120,6 +120,11 @@
       .navbar-toggler-icon {
         background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
       }
+
+      .nav-item{
+        margin-right: 5px;
+      }
+
     </style>
 
     {% endblock %}
@@ -127,7 +132,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg">
-      <a class="navbar-brand" href="{{ url_for('main.index') }}">
+      <a class="navbar-brand" style="padding-right: 100px;" href="{{ url_for('main.index') }}">
         <img src="{{ url_for('static', filename= 'images/logo.png') }}"
               alt="user photo" width="25" height="40" />
         &nbsp;TATA IPL 2025
@@ -147,19 +152,19 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a href="{{ url_for('main.displayPT') }}" class="nav-link">Points Table</a>
+            <a href="{{ url_for('main.displayPT') }}" class="nav-link">POINTS TABLE</a>
           </li>
           <li class="nav-item">
-            <a href="{{ url_for('main.displayFR') }}" class="nav-link">Fixtures</a>
+            <a href="{{ url_for('main.displayFR') }}" class="nav-link">MATCHES</a>
           </li>
           <li class="nav-item">
-            <a href="{{ url_for('main.teams') }}" class="nav-link">Teams</a>
+            <a href="{{ url_for('main.teams') }}" class="nav-link">TEAMS</a>
           </li>
           <li class="nav-item">
-            <a href="{{ url_for('main.todayMatch') }}" class="nav-link">Live</a>
+            <a href="{{ url_for('main.todayMatch') }}" class="nav-link">LIVE</a>
           </li>
           <li class="nav-item">
-            <a href="{{ url_for('main.battingstats') }}" class="nav-link">Season Stats</a>
+            <a href="{{ url_for('main.battingstats') }}" class="nav-link">STATS</a>
           </li>
           <li class="nav-item">
             <a href="{{ url_for('main.alltimeipl') }}" class="nav-link">All Time IPL Stats</a>
