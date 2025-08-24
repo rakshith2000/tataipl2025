@@ -238,9 +238,9 @@
           <div class="live_4 border rounded_10 bg-white mt-3 pt-3 pb-3">
               <div class="container1">
             <div class="label-container">
-                <img src="{{ url_for('static', filename= 'images/squad_logos/'~dt1[4]~'.png') }}" width="40px" height="40px">
+                <img src="{{ url_for('static', filename= 'images/squad_logos/'~(dt1[4]~('1' if dt1[4] == 'RR' else ''))~'.png') }}" width="40px" height="40px">
                 <span><b>Win Probability %</b></span>
-                <img src="{{ url_for('static', filename= 'images/squad_logos/'~dt1[5]~'.png') }}" width="40px" height="40px">
+                <img src="{{ url_for('static', filename= 'images/squad_logos/'~(dt1[5]~('1' if dt1[5] == 'RR' else ''))~'.png') }}" width="40px" height="40px">
             </div>
             <div class="progress-bar">
                 <div class="l-bar" style="--c: {{ clr[dt1[4]] }}; width: {{ (dt3['team_win_probability'][dt1[4]] | float) | round(0) | int }}%"></div>
@@ -268,7 +268,7 @@
                   <div class="potm-details">
                       <div class="potm-name"><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></div>
                       <div class="potm-team fw-bold">
-                          <img src="/static/images/squad_logos/{{ team }}.png" alt="Team Logo" class="team-logo">
+                          <img src="/static/images/squad_logos/{{ team }}{% if team == 'RR' %}1{% endif %}.png" alt="Team Logo" class="team-logo">
                           {{ fn[team] }}
                       </div>
                       <div class="potm-stats">
@@ -301,7 +301,7 @@
                   <div class="potm-details">
                       <div class="potm-name"><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></div>
                       <div class="potm-team fw-bold">
-                          <img src="/static/images/squad_logos/{{ team }}.png" alt="Team Logo" class="team-logo">
+                          <img src="/static/images/squad_logos/{{ team }}{% if team == 'RR' %}1{% endif %}.png" alt="Team Logo" class="team-logo">
                           {{ fn[team] }}
                       </div>
                   </div>

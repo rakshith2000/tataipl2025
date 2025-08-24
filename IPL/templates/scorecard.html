@@ -196,7 +196,7 @@
                   <div class="potm-details">
                       <div class="potm-name"><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></div>
                       <div class="potm-team fw-bold">
-                          <img src="/static/images/squad_logos/{{ team }}.png" alt="Team Logo" class="team-logo">
+                          <img src="/static/images/squad_logos/{{ team }}{% if team == 'RR' %}1{% endif %}.png" alt="Team Logo" class="team-logo">
                           {{ fn[team] }}
                       </div>
                       <div class="potm-stats">
