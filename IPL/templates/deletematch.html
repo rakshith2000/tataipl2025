@@ -15,9 +15,9 @@
                 <h5>Match Number:-&nbsp;&nbsp;<b>{{ FR.Match_No }}</b></h5><br>
                 <h5>Match Date:-&nbsp;&nbsp;<b>{{ FR.Date.strftime('%d-%b-%Y') }}</b></h5><br>
                 <h5>Match between:-</h5>
-                <h5><b><img src="/static/images/squad_logos/{{ FR.Team_A }}.png"
+                <h5><b><img src="/static/images/squad_logos/{{ FR.Team_A }}{% if FR.Team_A == 'RR' %}1{% endif %}.png"
                             alt="user photo" width="26" height="26" />&nbsp;{{ fn[FR.Team_A] }}<br><br>
-                       <img src="/static/images/squad_logos/{{ FR.Team_B }}.png"
+                       <img src="/static/images/squad_logos/{{ FR.Team_B }}{% if FR.Team_B == 'RR' %}1{% endif %}.png"
                             alt="user photo" width="26" height="26" />&nbsp;{{ fn[FR.Team_B] }}</b></h5><br>
       <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#mymodal">Delete</button>
             </div>
