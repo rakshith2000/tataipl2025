@@ -6,6 +6,15 @@
 {% endblock %}
 
 {% block content %}
+<style>
+body {
+        font-family: 'Exo 2', sans-serif;
+        background: #081033;
+  background-image: url('/static/images/banner_bg.png');
+  background-size: 100%;
+  background-position: center top -48px;
+    }
+</style>
         {% macro flashes() %}
             {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
                 {% for cat,msg in messages %}

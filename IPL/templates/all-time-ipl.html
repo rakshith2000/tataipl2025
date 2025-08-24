@@ -424,7 +424,7 @@ tr:last-child td {
         data.forEach((team, index) => {
             tableHTML += '<tr>';
             tableHTML += `<td class="position">${index + 1}</td>`; // Position
-            const logoUrl = `/static/images/squad_logos/${team.team}.png`;
+            const logoUrl = `/static/images/squad_logos/${team.team === 'RR' ? 'RR1' : team.team}.png`;
             tableHTML += `<td class="logo-col"><img src="${logoUrl}" alt="${team.team}" class="team-logo" onerror="this.style.display='none'"></td>`; // Logo
             const teamFullName = fullNames[team.team] || team.team; // Use full name if available, fallback to short name
             tableHTML += `<td class="fw-bold text-blue">${teamFullName}</td>`; // Team name (full name)
@@ -553,7 +553,7 @@ tr:last-child td {
             tableHTML += Object.values(defunctFullNames).includes(summary.team) ? '<tr class="defunctTeams">' : '<tr>';
             tableHTML += `<td class="position">${index + 1}</td>`; // Position
             let logoUrl = Object.keys(allFn).find(key => allFn[key] === summary.team.replace(/[^a-zA-Z0-9 ]/g, '').trim());
-            tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl}.png" alt="${summary.team}" class="team-logo" onerror="this.style.display='none'"></td>`; // Logo
+            tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl === 'RR' ? 'RR1' : logoUrl}.png" alt="${summary.team}" class="team-logo" onerror="this.style.display='none'"></td>`; // Logo
             tableHTML += `<td class="fw-bold text-blue">${summary.team}</td>`; // Team
             
             // Format Won data
@@ -745,7 +745,7 @@ tr:last-child td {
     nonDefunctTeams.forEach(team => {
         tableHTML += '<tr>';
         const logoUrl = Object.keys(allFn).find(key => allFn[key] === team.team.replace(/[^a-zA-Z0-9 ]/g, '').trim());
-        tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl}.png" class="team-logo" alt="${team.team}" /></td>`; // Logo column
+        tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl === 'RR' ? 'RR1' : logoUrl}.png" class="team-logo" alt="${team.team}" /></td>`; // Logo column
         tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
 
         // Process year stats to handle merging
@@ -883,9 +883,11 @@ tr:last-child td {
 
     // Build HTML table
     let tableHTML = '<table><thead><tr>';
-
+    console.log(data);
     const sampleRow = data[0].stats; // Use first season's row for header
+    console.log(sampleRow);
     const posHeaders = sampleRow.map(item => item.pos);
+    console.log(posHeaders);
 
     // Add custom headers
     tableHTML += '<th rowspan="2">Year</th>'; // Team column
