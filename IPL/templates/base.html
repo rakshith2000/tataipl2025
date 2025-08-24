@@ -13,6 +13,7 @@
       href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap"
       rel="stylesheet"
     />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -56,6 +57,7 @@
         width: 100%;
         top: 0;
         left: 0;
+  overflow: visible; /* allow dropdowns to overflow instead of being clipped */
         z-index: 1000;
       }
 
@@ -74,7 +76,7 @@
         font-family: 'Exo 2', sans-serif;
         font-size: 1.1rem !important;
         font-weight: 600;
-        padding: 8px 18px;
+        padding: 8px 18px 8px 18px;
         margin-right: 5px;
         border-radius: 8px;
         position: relative;
@@ -82,18 +84,112 @@
         text-decoration: none;
         background: none;
       }
+      /* Hide the pseudo-element and use a box-shadow underline to avoid rendering artifacts */
       nav .navbar-nav .nav-link::after {
-        content: '';
-        display: block;
-        width: 0;
-        height: 3px;
-        background: #fff !important; /* Highlight color : #f7b733*/
-        border-radius: 2px;
-        transition: width 0.3s;
-        position: absolute;
-        left: 18px;
-        bottom: 2px;
+        display: none !important;
       }
+      nav .navbar-nav .nav-link {
+        transition: color 0.25s, box-shadow 0.2s ease;
+      }
+      nav .navbar-nav .nav-link:hover,
+      nav .navbar-nav .nav-link.active {
+        box-shadow: inset 0 -2px 0 #fff; /* thin 2px underline */
+      }
+        /* Only show underline for dropdown-toggle on hover/active, not by default */
+        /* Hide the pseudo-element to avoid Chrome rendering artifacts */
+        nav .navbar-nav .dropdown-toggle::after {
+          display: none !important;
+        }
+        /* Use a precise box-shadow underline for the dropdown link on hover/open */
+        nav .navbar-nav .dropdown-toggle {
+          transition: color 0.3s, box-shadow 0.2s ease;
+        }
+        nav .navbar-nav .dropdown-toggle:hover,
+        nav .navbar-nav .dropdown-toggle.active,
+        nav .navbar-nav .dropdown-toggle.show {
+          box-shadow: inset 0 -2px 0 #fff; /* thin 2px underline */
+        }
+        /* Use a Font Awesome chevron for the dropdown caret (inserted in markup) */
+        nav .navbar-nav .dropdown-toggle .fa {
+          color: #fff;
+          margin-left: 8px;
+          font-size: 12px;
+          line-height: 1;
+          vertical-align: middle;
+          transition: transform 0.18s ease;
+          transform-origin: center;
+          pointer-events: none;
+        }
+        /* Rotate chevron when dropdown is open */
+        nav .navbar-nav .nav-item.dropdown.show > .dropdown-toggle .fa {
+          transform: rotate(180deg);
+        }
+        /* Animated dropdown menu: slide + fade for navbar dropdowns */
+        /* Desktop: keep absolute so it overlays and does not affect layout */
+        @media (min-width: 992px) {
+          nav.navbar .navbar-nav .dropdown-menu {
+            display: block !important; /* override Bootstrap display:none */
+            position: absolute;
+            left: 0; /* align menu with its parent link */
+            white-space: nowrap; /* prevent unwanted wrapping that extends width */
+            z-index: 2000; /* ensure it sits above other elements */
+            opacity: 0;
+            transform: translateY(-8px) scale(0.98);
+            transform-origin: top center;
+            transition: transform 220ms cubic-bezier(.2,.8,.2,1), opacity 180ms ease;
+            visibility: hidden;
+            pointer-events: none;
+            will-change: transform, opacity;
+          }
+          /* ensure navbar collapse does not clip the absolute dropdown */
+          nav.navbar .navbar-collapse {
+            overflow: visible;
+          }
+        }
+        /* Mobile: collapse using max-height so menu doesn't reserve space until opened */
+        @media (max-width: 991px) {
+          nav.navbar .navbar-nav .dropdown-menu {
+            display: block !important;
+            position: static;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: none;
+            transition: max-height 280ms ease, opacity 180ms ease;
+            pointer-events: none;
+          }
+        }
+        /* When dropdown has .show (either on the menu or the parent), make it visible and animate in */
+        nav.navbar .navbar-nav .dropdown-menu.show,
+        nav.navbar .navbar-nav .nav-item.dropdown.show > .dropdown-menu {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          visibility: visible;
+          pointer-events: auto;
+        }
+        /* For mobile, expand via max-height when .show is applied */
+        @media (max-width: 991px) {
+          nav.navbar .navbar-nav .dropdown-menu.show,
+          nav.navbar .navbar-nav .nav-item.dropdown.show > .dropdown-menu {
+            max-height: 800px; /* large enough to show menu */
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+          }
+        }
+        /* Also open dropdown on hover (desktop) and rotate chevron */
+        @media (min-width: 992px) {
+          nav.navbar .navbar-nav .nav-item.dropdown:hover > .dropdown-menu {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            visibility: visible;
+            pointer-events: auto;
+          }
+          nav.navbar .navbar-nav .nav-item.dropdown:hover > .dropdown-toggle .fa {
+            transform: rotate(180deg);
+          }
+        }
       nav .navbar-nav .nav-link:hover,
       nav .navbar-nav .nav-link.active {
         color: #fff !important;
@@ -101,7 +197,7 @@
       }
       nav .navbar-nav .nav-link:hover::after,
       nav .navbar-nav .nav-link.active::after {
-        width: 60%;
+        transform: scaleX(1);
       }
 
       /* Remove old button styles from nav links */
@@ -166,11 +262,14 @@
           <li class="nav-item">
             <a href="{{ url_for('main.battingstats') }}" class="nav-link">STATS</a>
           </li>
-          <li class="nav-item">
-            <a href="{{ url_for('main.alltimeipl') }}" class="nav-link">All Time IPL Stats</a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ url_for('main.resultrecords') }}" class="nav-link">IPL Records</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="allTimeIPLDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              ALL TIME IPL <i class="fa fa-chevron-down"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="allTimeIPLDropdown">
+              <a class="dropdown-item" style="font-weight: bold;" href="{{ url_for('main.alltimeipl') }}">STATISTICS</a>
+              <a class="dropdown-item" style="font-weight: bold;" href="{{ url_for('main.resultrecords') }}">RECORDS</a>
+            </div>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -190,5 +289,114 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9JoBS8Nf5CFcSZ6p4UcCozDz2bK5u2v9KgN3" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+      // Dropdown behavior: hover on desktop, click on mobile
+      (function() {
+        const BREAKPOINT = 992; // matches Bootstrap lg
+        function isDesktop() { return window.innerWidth >= BREAKPOINT; }
+
+        // Add hover handlers for desktop (mouseenter/leave)
+        function bindHover() {
+          document.querySelectorAll('nav.navbar .nav-item.dropdown').forEach(drop => {
+            // avoid duplicate listeners
+            if (drop.__hoverBound) return;
+            drop.__hoverBound = true;
+            const toggle = drop.querySelector('.dropdown-toggle');
+            const menu = drop.querySelector('.dropdown-menu');
+            drop.addEventListener('mouseenter', () => {
+              if (!isDesktop()) return;
+              drop.classList.add('show');
+              if (menu) menu.classList.add('show');
+              if (toggle) toggle.setAttribute('aria-expanded', 'true');
+            });
+            drop.addEventListener('mouseleave', () => {
+              if (!isDesktop()) return;
+              drop.classList.remove('show');
+              if (menu) menu.classList.remove('show');
+              if (toggle) toggle.setAttribute('aria-expanded', 'false');
+            });
+          });
+        }
+
+        // Delegated click/touch handler: reliable on mobile/touch
+        function bindDelegatedClick() {
+          if (window.__navDropdownClickBound) return;
+          window.__navDropdownClickBound = true;
+          let lastTouchTime = 0;
+
+          function handleToggleForEvent(toggle) {
+            if (isDesktop()) return; // desktop uses hover
+            const drop = toggle.closest('.nav-item.dropdown');
+            if (!drop) return;
+            const menu = drop.querySelector('.dropdown-menu');
+            const willOpen = !drop.classList.contains('show');
+            drop.classList.toggle('show', willOpen);
+            if (menu) menu.classList.toggle('show', willOpen);
+            toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+          }
+
+          // touchstart to make taps immediate
+          document.addEventListener('touchstart', function(e) {
+            lastTouchTime = Date.now();
+            const toggle = e.target.closest('.dropdown-toggle');
+            if (toggle && toggle.closest('nav.navbar')) {
+              e.preventDefault();
+              handleToggleForEvent(toggle);
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+            }
+          }, {passive: false});
+
+          // click as fallback (ignore if recent touch)
+          document.addEventListener('click', (e) => {
+            if (Date.now() - lastTouchTime < 700) return;
+            const toggle = e.target.closest('.dropdown-toggle');
+            if (toggle && toggle.closest('nav.navbar')) {
+              if (isDesktop()) {
+                e.preventDefault();
+                return;
+              }
+              e.preventDefault();
+              handleToggleForEvent(toggle);
+              e.stopPropagation();
+              e.stopImmediatePropagation();
+              return;
+            }
+            // Click outside: close open dropdowns on mobile
+            if (!e.target.closest('nav.navbar')) {
+              if (!isDesktop()) {
+                document.querySelectorAll('nav.navbar .nav-item.dropdown.show').forEach(d => {
+                  d.classList.remove('show');
+                  const m = d.querySelector('.dropdown-menu');
+                  if (m) m.classList.remove('show');
+                  const t = d.querySelector('.dropdown-toggle');
+                  if (t) t.setAttribute('aria-expanded','false');
+                });
+              }
+            }
+          });
+        }
+
+        bindHover();
+        bindDelegatedClick();
+
+        // Close open dropdowns on resize and re-bind hover handlers (debounced)
+        let resTimer = null;
+        window.addEventListener('resize', () => {
+          clearTimeout(resTimer);
+          resTimer = setTimeout(() => {
+            document.querySelectorAll('nav.navbar .nav-item.dropdown.show').forEach(d => {
+              d.classList.remove('show');
+              const m = d.querySelector('.dropdown-menu');
+              if (m) m.classList.remove('show');
+              const t = d.querySelector('.dropdown-toggle');
+              if (t) t.setAttribute('aria-expanded','false');
+            });
+            // Re-bind hover handlers in case DOM changed
+            bindHover();
+          }, 120);
+        });
+      })();
+    </script>
   </body>
 </html>
