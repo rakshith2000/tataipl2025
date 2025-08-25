@@ -60,7 +60,9 @@ defuncTeams_fn = {
     'DD1' : 'Delhi Daredevils',
     'DD2' : 'Delhi Daredevils',
     'KXIP' : 'Kings XI Punjab',
-    'KKR1' : 'Kolkata Knight Riders1'
+    'KKR1' : 'Kolkata Knight Riders1',
+    'RR2' : 'Rajasthan Royals2',
+    'RR1' : 'Rajasthan Royals1'
 }
 
 teamID = {610:['CSK','Chennai Super Kings'],

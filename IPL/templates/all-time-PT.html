@@ -357,10 +357,12 @@ tr:last-child td {
 
     data.forEach((item, index) => {
         tableHTML += '<tr>';
-        tableHTML += item.champion === 'C' ? `<td class="logo-col"><img src="/static/images/trophy.svg" alt="${item.team}" class="team-logo" onerror="this.style.display='none'"></td>` : `<td class="position">${index <= 3 ? "<b class='text-green'>Q</b>" : item.rank}</td>`; // Rank
+        tableHTML += item.champion === 'C' ? `<td class="logo-col"><img src="/static/images/trophy.png" alt="${item.team}" class="team-logo" onerror="this.style.display='none'"></td>` : `<td class="position">${index <= 3 ? "<b class='text-green'>Q</b>" : item.rank}</td>`; // Rank
         const logoUrl = `/static/images/squad_logos/${item.team}.png`;
         tableHTML += `<td class="logo-col"><img src="${logoUrl}" alt="${item.team}" class="team-logo" onerror="this.style.display='none'"></td>`; // Logo
-        const teamFullName = fullNames[item.team] || item.team; // Use full name if available, fallback to short name
+        // Use full name if available, fallback to short name. Remove any digits from the full name.
+        const rawFullName = fullNames[item.team] || item.team;
+        const teamFullName = (typeof rawFullName === 'string') ? rawFullName.replace(/\d+/g, '').trim() : rawFullName;
         tableHTML += `<td class="fw-bold text-blue">${teamFullName}</td>`; // Team name
         tableHTML += `<td>${item.match}</td>`; // Played
         tableHTML += `<td>${item.won}</td>`; // Won

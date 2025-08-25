@@ -426,7 +426,9 @@ tr:last-child td {
             tableHTML += `<td class="position">${index + 1}</td>`; // Position
             const logoUrl = `/static/images/squad_logos/${team.team === 'RR' ? 'RR1' : team.team}.png`;
             tableHTML += `<td class="logo-col"><img src="${logoUrl}" alt="${team.team}" class="team-logo" onerror="this.style.display='none'"></td>`; // Logo
-            const teamFullName = fullNames[team.team] || team.team; // Use full name if available, fallback to short name
+            // Use full name if available, fallback to short name. Remove any digits from the full name.
+            const rawFullName = fullNames[team.team] || team.team;
+            const teamFullName = (typeof rawFullName === 'string') ? rawFullName.replace(/\d+/g, '').trim() : rawFullName;
             tableHTML += `<td class="fw-bold text-blue">${teamFullName}</td>`; // Team name (full name)
             tableHTML += `<td>${team.city}</td>`; // City
             tableHTML += `<td class="fw-bold">${team.home_ground}</td>`; // Home Ground
