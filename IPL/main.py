@@ -647,6 +647,12 @@ def individualbattingrecords():
     stats = [dict(row._mapping) for row in stats]
     return render_template('individual-batting-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
 
+@main.route('/individualbowlingrecords')
+def individualbowlingrecords():
+    stats = db.session.execute(text('SELECT * FROM individual_bowling_records ORDER BY id')).fetchall()
+    stats = [dict(row._mapping) for row in stats]
+    return render_template('individual-bowling-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
+
 @main.route('/update')
 @login_required
 def update():
