@@ -458,10 +458,14 @@ color:#0056d2;
 .score_1 ul a{
 background:linear-gradient(145deg, #0056d2, #003c8a);
 color:var(--bs-white);
+transition: transform 0.4s ease-in-out;
  }
 .score_1 ul a:hover{
+/*	
 background:var(--bs-white);
 color:#0056d2;
+*/
+transform: scale(1.07);
  }
 .score_1 ul a:focus{
 background:var(--bs-white);

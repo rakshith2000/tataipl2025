@@ -196,33 +196,59 @@ tr:last-child td {
 
 /* Add to <style> for horizontal scrollable tabs */
 .tab-scroll-wrapper {
+  position: relative;
+  margin-bottom: 10px;
+}
+.tab-scroll-inner {
   overflow-x: auto;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
-  margin-bottom: 10px;
+  width: 100%;
 }
-.tab-scroll-wrapper ul.nav-tabs {
+.tab-scroll-wrapper::before,
+.tab-scroll-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity 220ms ease;
+  opacity: 0;
+}
+.tab-scroll-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(8,16,51,1), rgba(8,16,51,0));
+}
+.tab-scroll-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(8,16,51,1), rgba(8,16,51,0));
+}
+.tab-scroll-wrapper.fade-left::before { opacity: 1; }
+.tab-scroll-wrapper.fade-right::after { opacity: 1; }
+.tab-scroll-inner ul.nav-tabs {
   flex-wrap: nowrap !important;
   display: inline-flex;
   min-width: max-content;
 }
-.tab-scroll-wrapper ul.nav-tabs li {
+.tab-scroll-inner ul.nav-tabs li {
   float: none;
   display: inline-block;
 }
 
-.tab-scroll-wrapper::-webkit-scrollbar{
+.tab-scroll-inner::-webkit-scrollbar{
     width: 5px;
     height: 5px;
 }
 
-.tab-scroll-wrapper::-webkit-scrollbar-thumb{
+.tab-scroll-inner::-webkit-scrollbar-thumb{
     border-radius: .5rem;
     background-color: #0004;
     visibility: hidden;
 }
 
-.tab-scroll-wrapper:hover::-webkit-scrollbar-thumb{ 
+.tab-scroll-inner:hover::-webkit-scrollbar-thumb{ 
     visibility: visible;
 }
     </style>
@@ -240,20 +266,22 @@ tr:last-child td {
       <div class="live_2 mt-2"><center><span class="text-white fw-bold" style="font-size: 25px">All Time IPL Data</span></center></div>
       <div class="score_1 mt-2">
         <div class="tab-scroll-wrapper">
-          <ul class="d-flex justify-content-center font_14 fw-bold nav nav-tabs border-0" id="inningsTabs">
-            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.resultrecords') }}">Result Records</a>
-            </li>
-            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.teamscoringrecords') }}">Teams Records</a>
-            </li>
-            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-              <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbattingrecords') }}">Ind. Batting Records</a>
-            </li>
-            <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-              <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Ind. Bowling Records</a>
-            </li>
-          </ul>
+          <div class="tab-scroll-inner">
+            <ul class="d-flex justify-content-center font_14 fw-bold nav nav-tabs border-0" id="inningsTabs">
+              <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.resultrecords') }}">Result Records</a>
+              </li>
+              <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.teamscoringrecords') }}">Teams Records</a>
+              </li>
+              <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbattingrecords') }}">Ind. Batting Records</a>
+              </li>
+              <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Ind. Bowling Records</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <center><div class="pt-3 dropdown">
@@ -769,5 +797,60 @@ document.head.appendChild(sortableStyle);
   const initialData = statsData.filter(item => item.record === 'Most Career Wickets');
   mostCareerWicketsTable(initialData);
 
+// Fading and auto-center JS
+(function() {
+  function updateFades(wrapper) {
+    const inner = wrapper.querySelector('.tab-scroll-inner');
+    if (!inner) return;
+    const scrollLeft = inner.scrollLeft;
+    const maxScroll = inner.scrollWidth - inner.clientWidth;
+    const threshold = 6;
+    if (scrollLeft > threshold) wrapper.classList.add('fade-left'); else wrapper.classList.remove('fade-left');
+    if (scrollLeft < maxScroll - threshold) wrapper.classList.add('fade-right'); else wrapper.classList.remove('fade-right');
+  }
+  function setupAllTabScrollWrappers() {
+    const wrappers = document.querySelectorAll('.tab-scroll-wrapper');
+    wrappers.forEach(wrapper => {
+      const inner = wrapper.querySelector('.tab-scroll-inner');
+      if (!inner) return;
+      requestAnimationFrame(() => updateFades(wrapper));
+      inner.addEventListener('scroll', () => updateFades(wrapper), { passive: true });
+      window.addEventListener('resize', () => updateFades(wrapper));
+      if (window.MutationObserver) {
+        const mo = new MutationObserver(() => updateFades(wrapper));
+        mo.observe(inner, { childList: true, subtree: true, characterData: true });
+      }
+    });
+  }
+  function scrollActiveTabToCenter() {
+    var wrapper = document.querySelector('.tab-scroll-wrapper');
+    var inner = wrapper && wrapper.querySelector('.tab-scroll-inner');
+    if (!inner) return;
+    var active = inner.querySelector('ul.nav-tabs li .active');
+    if (!active) return;
+    var li = active.closest('li');
+    if (!li) return;
+    var liRect = li.getBoundingClientRect();
+    var innerRect = inner.getBoundingClientRect();
+    var scrollLeft = inner.scrollLeft;
+    var liCenter = liRect.left + liRect.width / 2;
+    var innerCenter = innerRect.left + innerRect.width / 2;
+    var offset = liCenter - innerCenter;
+    inner.scrollTo({ left: scrollLeft + offset, behavior: 'smooth' });
+  }
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setupAllTabScrollWrappers();
+    scrollActiveTabToCenter();
+  } else {
+    document.addEventListener('DOMContentLoaded', function() {
+      setupAllTabScrollWrappers();
+      scrollActiveTabToCenter();
+    });
+  }
+  const tabLinks = document.querySelectorAll('.tab-scroll-inner ul.nav-tabs a[data-bs-toggle="tab"]');
+  tabLinks.forEach(link => {
+    link.addEventListener('shown.bs.tab', scrollActiveTabToCenter);
+  });
+})();
 </script>
 {% endblock %}
