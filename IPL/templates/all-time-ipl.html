@@ -984,7 +984,7 @@ tr:last-child td {
             const isDefunct = team.defunct ? 'defunct-team' : '';
             tableHTML += '<tr class="' + isDefunct + '">';
             const logoUrl = Object.keys(allFn).find(key => allFn[key] === team.team.replace(/[^a-zA-Z0-9 ]/g, '').trim());
-            tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl}.png" class="team-logo" alt="${team.team}" /></td>`; // Logo column
+            tableHTML += `<td class="logo-col"><img src="/static/images/squad_logos/${logoUrl === 'RR' ? 'RR1' : logoUrl}.png" class="team-logo" alt="${team.team}" /></td>`; // Logo column
             tableHTML += `<td class="fw-bold text-blue">${team.team}</td>`; // Team name
             
             // Appearances
