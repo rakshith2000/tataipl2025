@@ -151,8 +151,12 @@ tr:last-child td {
     border-bottom: 1px solid #ddd !important;
   }
 
-  thead tr {
+  thead tr{
     background: linear-gradient(145deg, #0056d2, #003c8a);
+  }
+
+  th {
+    /*background: linear-gradient(145deg, #0056d2, #003c8a);*/
     color: white;
   }
 
@@ -268,7 +272,7 @@ tr:last-child td {
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.resultrecords') }}">Result Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.teamscoringrecords') }}">Teams Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.teamscoringrecords') }}">Teams Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbattingrecords') }}">Batting Records</a>
@@ -276,23 +280,23 @@ tr:last-child td {
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Bowling Records</a>
               </li>
+              </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualwicketkeepingrecords') }}">Wicket Keeping Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualfieldingrecords') }}">Fielding Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualfieldingrecords') }}">Fielding Records</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
       <center><div class="pt-3 dropdown">
-        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Highest Team Total<i class="fa fa-chevron-down font_10 ms-1"></i></button>
+        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Most Career Catches<i class="fa fa-chevron-down font_10 ms-1"></i></button>
         <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
-        <a href="#" class="activeD" onclick="selectOption(this, 'Highest Team Total')">Highest Team Total</a>
-        <a href="#" onclick="selectOption(this, 'Lowest Team Total')">Lowest Team Total</a>
-        <a href="#" onclick="selectOption(this, 'Highest Match Aggregates')">Highest Match Aggregates</a>
-        <a href="#" onclick="selectOption(this, 'Lowest Match Aggregates')">Lowest Match Aggregates</a>
+        <a href="#" class="activeD" onclick="selectOption(this, 'Most Career Catches')">Most Career Catches</a>
+        <a href="#" onclick="selectOption(this, 'Most Catches in an Innings')">Most Catches in an Innings</a>
+        <a href="#" onclick="selectOption(this, 'Most Catches in a Season')">Most Catches in a Season</a>
         </div>
       </div></center>
       <div id="tableContainer" class="table-wrapper"></div>
@@ -356,17 +360,14 @@ tr:last-child td {
     tableData = statsData.filter(item => item.record.toLowerCase() === optionTitle.toLowerCase());
     
   switch(optionTitle) {
-        case 'Highest Team Total':
-            highestTeamTotalTable(tableData);
+        case 'Most Career Catches':
+            mostCareerCatchesTable(tableData);
             break;
-        case 'Lowest Team Total':
-            lowestTeamTotalTable(tableData);
+        case 'Most Catches in an Innings':
+            mostCatchesInInningsTable(tableData);
             break;
-        case 'Highest Match Aggregates':
-            HighestMatchAggregatesTable(tableData);
-            break;
-        case 'Lowest Match Aggregates':
-            lowestMatchAggregatesTable(tableData);
+        case 'Most Catches in a Season':
+            mostCatchesInSeasonTable(tableData);
             break;
     }
   }
@@ -411,6 +412,13 @@ document.head.appendChild(sortableStyle);
   const ths = table.querySelectorAll('thead th');
   const tbody = table.querySelector('tbody');
   let currentSort = { col: null, asc: true };
+
+  // Helper to check if a value is a valid date
+  function isValidDate(val) {
+    const d = new Date(val);
+    return !isNaN(d) && /\d{4}|\d{2}/.test(val); // crude check for date-like string
+  }
+
   ths.forEach((th, colIdx) => {
     th.classList.add('sortable-header');
     // Remove any previous sort icon
@@ -434,16 +442,18 @@ document.head.appendChild(sortableStyle);
       currentSort = { col: colIdx, asc: sortAsc };
       const rows = Array.from(tbody.querySelectorAll('tr'));
       const lastColIdx = ths.length - 1;
+      let isDateCol = false;
+      if (colIdx === lastColIdx) {
+        // Check if all values in the last column are valid dates
+        isDateCol = rows.every(row => isValidDate(row.querySelectorAll('td')[colIdx].textContent.trim()));
+      }
       const sortedRows = rows.sort((a, b) => {
         const aText = a.querySelectorAll('td')[colIdx].textContent.trim();
         const bText = b.querySelectorAll('td')[colIdx].textContent.trim();
-        // If this is the last column, try to parse as date
-        if (colIdx === lastColIdx) {
+        if (colIdx === lastColIdx && isDateCol) {
           const aDate = new Date(aText);
           const bDate = new Date(bText);
-          if (!isNaN(aDate) && !isNaN(bDate)) {
-            return sortAsc ? aDate - bDate : bDate - aDate;
-          }
+          return sortAsc ? aDate - bDate : bDate - aDate;
         }
         // Numeric sort if both are numbers
         if (!isNaN(aText) && !isNaN(bText) && aText !== '' && bText !== '') {
@@ -459,7 +469,7 @@ document.head.appendChild(sortableStyle);
   });
 }
 
-  function highestTeamTotalTable(data) {
+  function mostCareerCatchesTable(data) {
     const tableContainer = document.getElementById('tableContainer');
 
     // Add required CSS styles
@@ -475,6 +485,14 @@ document.head.appendChild(sortableStyle);
       .Records-table td {
         white-space: nowrap;
       }
+      .Records-table td:nth-child(2) {
+        white-space: wrap;
+        text-align: left;
+      }
+      .Records-table td:nth-child(3) {
+        white-space: wrap;
+        text-align: left;
+      }
     `;
     document.head.appendChild(styleElement);
 
@@ -483,15 +501,14 @@ document.head.appendChild(sortableStyle);
 
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
-    tableHTML += '<th>Team</th>'; // Winner column
-  tableHTML += '<th>Score</th>'; // Margin column
-  tableHTML += '<th>Overs</th>'; // Balls Rem column
-  tableHTML += '<th>RR</th>'; // Target column
+    tableHTML += '<th>Player</th>'; // Winner column
+  tableHTML += '<th>Teams</th>'; // Margin column
+  tableHTML += '<th>Span</th>'; // Balls Rem column
+  tableHTML += '<th>Mat</th>'; // Target column
   tableHTML += '<th>Inns</th>'; // Overs column
-  tableHTML += '<th>Opponent</th>'; // Max column
-  tableHTML += '<th>Venue</th>'; // Opponent column
-  tableHTML += '<th>Result</th>'; // Venue column
-  tableHTML += '<th>Date</th>'; // Date column
+  tableHTML += '<th>Catches</th>'; // Runs column
+    tableHTML += '<th>Max</th>'; // Avg column
+    tableHTML += '<th>Ct/Inn</th>'; // Balls Faced column
   tableHTML += '</tr></thead><tbody>';
 
     // Add data rows
@@ -499,16 +516,15 @@ document.head.appendChild(sortableStyle);
         data.forEach((team, index) => {
             tableHTML += '<tr>';
             tableHTML += `<td class="position">${index + 1}</td>`; // Position
-            let stat = ["Team", "Score", "Overs", "RR", "Inns", "Opposition", "Ground", "Result", "Date"].map(key => team.stats[key]);
+            let stat = ["Player", "Team", "Span", "Matches", "Inns", "Catches", "Max", "Ct/Inn"].map(key => team.stats[key]);
             tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
-            tableHTML += `<td class="fw-bold">${stat[1]}</td>`;
+            tableHTML += `<td>${stat[1]}</td>`;
             tableHTML += `<td>${stat[2]}</td>`;
             tableHTML += `<td>${stat[3]}</td>`;
             tableHTML += `<td>${stat[4]}</td>`;
-            tableHTML += `<td class="fw-bold fst-italic">${stat[5]}</td>`;
+            tableHTML += `<td class="fw-bold">${stat[5]}</td>`;
             tableHTML += `<td>${stat[6]}</td>`;
-            tableHTML += `<td ${stat[7] === "won" ? 'class="text-green fw-bold"' : 'class="text-orange fw-bold"'}>${stat[7]}</td>`;
-            tableHTML += `<td>${stat[8]}</td>`;
+            tableHTML += `<td>${stat[7]}</td>`;
             tableHTML += '</tr>';
         });
     }
@@ -521,178 +537,142 @@ document.head.appendChild(sortableStyle);
   applyTableSorting(table);
   }
 
-  function lowestTeamTotalTable(data) {
-    const tableContainer = document.getElementById('tableContainer');
+    function mostCatchesInInningsTable(data) {
+        const tableContainer = document.getElementById('tableContainer');
+    
+        // Add required CSS styles
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
+        .merged-cell {
+            text-align: center;
+        }
+        .Records-table td {
+            text-align: center;
+            padding: 8px;
+        }
+        .Records-table td {
+            white-space: nowrap;
+        }
+        .Records-table td:nth-child(2) {
+            white-space: wrap;
+            text-align: left;
+        }
+        .Records-table td:nth-child(3) {
+            white-space: wrap;
+            text-align: left;
+        }
+        `;
+        document.head.appendChild(styleElement);
+    
+         // Build HTML table
+        let tableHTML = '<table class="Records-table"><thead><tr>';
+    
+        // Add custom headers
+        tableHTML += '<th class="position"></th>'; // Position column
+        tableHTML += '<th>Player</th>'; // Winner column
+        tableHTML += '<th>Catches</th>'; // Margin column
+        tableHTML += '<th>Inn</th>'; // Balls Rem column
+        tableHTML += '<th>Team</th>'; // Mat column
+        tableHTML += '<th>Opponent</th>'; // Inns column
+        tableHTML += '<th>Venue</th>'; // Runs column
+        tableHTML += '<th>Date</th>'; // Avg column
+        tableHTML += '</tr></thead><tbody>';
 
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
-
-     // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
-
-    // Add custom headers
-    tableHTML += '<th class="position"></th>'; // Position column
-    tableHTML += '<th>Team</th>'; // Winner column
-    tableHTML += '<th>Score</th>'; // Margin column
-    tableHTML += '<th>Overs</th>'; // Balls Rem column
-    tableHTML += '<th>RR</th>'; // Target column
-    tableHTML += '<th>Inns</th>'; // Overs column
-    tableHTML += '<th>Opponent</th>'; // Max column
-    tableHTML += '<th>Venue</th>'; // Opponent column
-    tableHTML += '<th>Result</th>'; // Venue column
-    tableHTML += '<th>Date</th>'; // Date column
-    tableHTML += '</tr></thead><tbody>';
-    // Add data rows
-    if (data && Array.isArray(data)) {
-        data.forEach((team, index) => {
-            tableHTML += '<tr>';
-            tableHTML += `<td class="position">${index + 1}</td>`; // Position
-            let stat = ["Team", "Score", "Overs", "RR", "Inns", "Opposition", "Ground", "Result", "Date"].map(key => team.stats[key]);
-            tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
-            tableHTML += `<td class="fw-bold">${stat[1]}</td>`;
-            tableHTML += `<td>${stat[2]}</td>`;
-            tableHTML += `<td>${stat[3]}</td>`;
-            tableHTML += `<td>${stat[4]}</td>`;
-            tableHTML += `<td class="fw-bold fst-italic">${stat[5]}</td>`;
-            tableHTML += `<td>${stat[6]}</td>`;
-            tableHTML += `<td ${stat[7] === "won" ? 'class="text-green fw-bold"' : 'class="text-orange fw-bold"'}>${stat[7]}</td>`;
-            tableHTML += `<td>${stat[8]}</td>`;
-            tableHTML += '</tr>';
-        });
+        // Add data rows
+        if (data && Array.isArray(data)) {
+            data.forEach((team, index) => {
+                tableHTML += '<tr>';
+                tableHTML += `<td class="position">${index + 1}</td>`; // Position
+                let stat = ["Player", "Catches", "Inns", "Team", "Opposition", "Ground", "Date"].map(key => team.stats[key]);
+                tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
+                tableHTML += `<td class="fw-bold">${stat[1]}</td>`;
+                tableHTML += `<td>${stat[2]}</td>`;
+                tableHTML += `<td class="fw-bold">${stat[3]}</td>`;
+                tableHTML += `<td>${stat[4]}</td>`;
+                tableHTML += `<td>${stat[5]}</td>`;
+                tableHTML += `<td>${stat[6]}</td>`;
+                tableHTML += '</tr>';
+            });
+        }
+        tableHTML += '</tbody></table>';
+        tableContainer.innerHTML = tableHTML;
+        // Apply sorting to the new table
+        const table = tableContainer.querySelector('table');
+        applyTableSorting(table);
     }
-    tableHTML += '</tbody></table>';
-    tableContainer.innerHTML = tableHTML;
-    // Apply sorting to the new table
-    const table = tableContainer.querySelector('table');
-    applyTableSorting(table);
-  }
 
-    function HighestMatchAggregatesTable(data) {
-    const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
-      // Build HTML table
-      let tableHTML = '<table class="Records-table"><thead><tr>';
-      // Add custom headers
-      tableHTML += '<th class="position"></th>'; // Position column
-      tableHTML += '<th>Team 1</th>'; // Team 1 column
-      tableHTML += '<th>Team 2</th>'; // Team 2 column
-      tableHTML += '<th>Team Runs</th>'; // Team Runs column
-      tableHTML += '<th>Team Wickets</th>'; // Team Wickets column
-      tableHTML += '<th>Overs</th>'; // Overs column
-      tableHTML += '<th>RR</th>'; // RR column
-      tableHTML += '<th>Venue</th>'; // Venue column
-      tableHTML += '<th>Date</th>'; // Date column
-      tableHTML += '</tr></thead><tbody>';
-      // Add data rows
-      if (data && Array.isArray(data)) {
-          data.forEach((match, index) => {
-              tableHTML += '<tr>';
-              tableHTML += `<td class="position">${index + 1}</td>`; // Position
-              let stat = ["Team 1", "Team 2", "Team Runs", "Team Wickets", "Overs", "RR", "Ground", "Date"].map(key => match.stats[key]);
-              tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
-              tableHTML += `<td class="fw-bold text-blue">${stat[1]}</td>`;
-              tableHTML += `<td class="fw-bold">${stat[2]}</td>`;
-              tableHTML += `<td>${stat[3]}</td>`;
-              tableHTML += `<td>${stat[4]}</td>`;
-              tableHTML += `<td>${stat[5]}</td>`;
-              tableHTML += `<td>${stat[6]}</td>`;
-              tableHTML += `<td>${stat[7]}</td>`;
-              tableHTML += '</tr>';
-          });
-      }
-      tableHTML += '</tbody></table>';
-      tableContainer.innerHTML = tableHTML;
-      // Apply sorting to the new table
-      const table = tableContainer.querySelector('table');
-      applyTableSorting(table);
-  }
+    function mostCatchesInSeasonTable(data) {
+        const tableContainer = document.getElementById('tableContainer');
+    
+        // Add required CSS styles
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
+        .merged-cell {
+            text-align: center;
+        }
+        .Records-table td {
+            text-align: center;
+            padding: 8px;
+        }
+        .Records-table td {
+            white-space: nowrap;
+        }
+        .Records-table td:nth-child(2) {
+            white-space: wrap;
+            text-align: left;
+        }
+        .Records-table td:nth-child(3) {
+            white-space: wrap;
+            text-align: left;
+        }
+        `;
+        document.head.appendChild(styleElement);
+    
+         // Build HTML table
+        let tableHTML = '<table class="Records-table"><thead><tr>';
+    
+        // Add custom headers
+        tableHTML += '<th class="position"></th>'; // Position column
+        tableHTML += '<th>Player</th>'; // Winner column
+        tableHTML += '<th>Team</th>'; // Margin column
+        tableHTML += '<th>Season</th>'; // Balls Rem column
+        tableHTML += '<th>Mat</th>'; // Mat column
+        tableHTML += '<th>Inns</th>'; // Inns column
+        tableHTML += '<th>Catches</th>'; // Runs column
+        tableHTML += '<th>Max</th>'; // Avg column
+        tableHTML += '<th>Ct/Inn</th>'; // Balls Faced column
+        tableHTML += '</tr></thead><tbody>';
+    
+        // Add data rows
+        if (data && Array.isArray(data)) {
+            data.forEach((team, index) => {
+                tableHTML += '<tr>';
+                tableHTML += `<td class="position">${index + 1}</td>`; // Position
+                let stat = ["Player", "Team", "Year", "Matches", "Inns", "Catches", "Max", "Ct/Inn"].map(key => team.stats[key]);
+                tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
+                tableHTML += `<td class="fw-bold">${stat[1]}</td>`;
+                tableHTML += `<td>${stat[2]}</td>`;
+                tableHTML += `<td>${stat[3]}</td>`;
+                tableHTML += `<td>${stat[4]}</td>`;
+                tableHTML += `<td class="fw-bold">${stat[5]}</td>`;
+                tableHTML += `<td>${stat[6]}</td>`;
+                tableHTML += `<td>${stat[7]}</td>`;
+                tableHTML += '</tr>';
+            });
+        }
+        tableHTML += '</tbody></table>';
+        tableContainer.innerHTML = tableHTML;
+        // Apply sorting to the new table
+        const table = tableContainer.querySelector('table');
+        applyTableSorting(table);
+    }
 
-    function lowestMatchAggregatesTable(data) {
-    const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
-      // Build HTML table
-      let tableHTML = '<table class="Records-table"><thead><tr>';
-      // Add custom headers
-      tableHTML += '<th class="position"></th>'; // Position column
-      tableHTML += '<th>Team 1</th>'; // Team 1 column
-      tableHTML += '<th>Team 2</th>'; // Team 2 column
-      tableHTML += '<th>Team Runs</th>'; // Team Runs column
-      tableHTML += '<th>Team Wickets</th>'; // Team Wickets column
-      tableHTML += '<th>Overs</th>'; // Overs column
-      tableHTML += '<th>RR</th>'; // RR column
-      tableHTML += '<th>Venue</th>'; // Venue column
-      tableHTML += '<th>Date</th>'; // Date column
-      tableHTML += '</tr></thead><tbody>';
-      // Add data rows
-      if (data && Array.isArray(data)) {
-          data.forEach((match, index) => {
-              tableHTML += '<tr>';
-              tableHTML += `<td class="position">${index + 1}</td>`; // Position
-              let stat = ["Team 1", "Team 2", "Team Runs", "Team Wickets", "Overs", "RR", "Ground", "Date"].map(key => match.stats[key]);
-              tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
-              tableHTML += `<td class="fw-bold text-blue">${stat[1]}</td>`;
-              tableHTML += `<td class="fw-bold">${stat[2]}</td>`;
-              tableHTML += `<td>${stat[3]}</td>`;
-              tableHTML += `<td>${stat[4]}</td>`;
-              tableHTML += `<td>${stat[5]}</td>`;
-              tableHTML += `<td>${stat[6]}</td>`;
-              tableHTML += `<td>${stat[7]}</td>`;
-              tableHTML += '</tr>';
-          });
-      }
-      tableHTML += '</tbody></table>';
-      tableContainer.innerHTML = tableHTML;
-      // Apply sorting to the new table
-      const table = tableContainer.querySelector('table');
-      applyTableSorting(table);
-  }
 
   // Initial table render - same approach as battingStat.html
-  const initialData = statsData.filter(item => item.record === 'Highest Team Total');
-  highestTeamTotalTable(initialData);
+  const initialData = statsData.filter(item => item.record === 'Most Career Catches');
+  mostCareerCatchesTable(initialData);
 
-/* Add to <script> for horizontal scrollable tabs */
+// Fading and auto-center JS
 (function() {
   function updateFades(wrapper) {
     const inner = wrapper.querySelector('.tab-scroll-inner');
@@ -717,43 +697,35 @@ document.head.appendChild(sortableStyle);
       }
     });
   }
+  function scrollActiveTabToCenter() {
+    var wrapper = document.querySelector('.tab-scroll-wrapper');
+    var inner = wrapper && wrapper.querySelector('.tab-scroll-inner');
+    if (!inner) return;
+    var active = inner.querySelector('ul.nav-tabs li .active');
+    if (!active) return;
+    var li = active.closest('li');
+    if (!li) return;
+    var liRect = li.getBoundingClientRect();
+    var innerRect = inner.getBoundingClientRect();
+    var scrollLeft = inner.scrollLeft;
+    var liCenter = liRect.left + liRect.width / 2;
+    var innerCenter = innerRect.left + innerRect.width / 2;
+    var offset = liCenter - innerCenter;
+    inner.scrollTo({ left: scrollLeft + offset, behavior: 'smooth' });
+  }
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     setupAllTabScrollWrappers();
+    scrollActiveTabToCenter();
   } else {
-    document.addEventListener('DOMContentLoaded', setupAllTabScrollWrappers);
+    document.addEventListener('DOMContentLoaded', function() {
+      setupAllTabScrollWrappers();
+      scrollActiveTabToCenter();
+    });
   }
+  const tabLinks = document.querySelectorAll('.tab-scroll-inner ul.nav-tabs a[data-bs-toggle="tab"]');
+  tabLinks.forEach(link => {
+    link.addEventListener('shown.bs.tab', scrollActiveTabToCenter);
+  });
 })();
-
-// Scroll active tab to center in tab-scroll-wrapper
-function scrollActiveTabToCenter() {
-  var wrapper = document.querySelector('.tab-scroll-wrapper');
-  var inner = wrapper && wrapper.querySelector('.tab-scroll-inner');
-  if (!inner) return;
-  var active = inner.querySelector('ul.nav-tabs li .active');
-  if (!active) return;
-  // Find the li element
-  var li = active.closest('li');
-  if (!li) return;
-  // Calculate center position
-  var liRect = li.getBoundingClientRect();
-  var innerRect = inner.getBoundingClientRect();
-  var scrollLeft = inner.scrollLeft;
-  var liCenter = liRect.left + liRect.width / 2;
-  var innerCenter = innerRect.left + innerRect.width / 2;
-  var offset = liCenter - innerCenter;
-  // Animate scroll
-  inner.scrollTo({ left: scrollLeft + offset, behavior: 'smooth' });
-}
-// Call after DOM ready and after tab change
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  scrollActiveTabToCenter();
-} else {
-  document.addEventListener('DOMContentLoaded', scrollActiveTabToCenter);
-}
-// If tabs can change dynamically, also call after tab change
-const tabLinks = document.querySelectorAll('.tab-scroll-inner ul.nav-tabs a[data-bs-toggle="tab"]');
-tabLinks.forEach(link => {
-  link.addEventListener('shown.bs.tab', scrollActiveTabToCenter);
-});
 </script>
 {% endblock %}

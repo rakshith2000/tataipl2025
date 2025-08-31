@@ -275,14 +275,17 @@ tr:last-child td {
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.teamscoringrecords') }}">Teams Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbattingrecords') }}">Ind. Batting Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbattingrecords') }}">Batting Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Ind. Bowling Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Bowling Records</a>
               </li>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualwicketkeepingrecords') }}">Ind. Wicketkeeping Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualwicketkeepingrecords') }}">Wicket Keeping Records</a>
+              </li>
+              <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualfieldingrecords') }}">Fielding Records</a>
               </li>
             </ul>
           </div>
@@ -545,6 +548,155 @@ document.head.appendChild(sortableStyle);
   const table = tableContainer.querySelector('table');
   applyTableSorting(table);
   }
+
+  function mostCatchesAsWicketKeeperTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+    let tableHTML = '<table class="Records-table"><thead><tr>';
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th>Player</th>'; // Winner column
+    tableHTML += '<th>Teams</th>'; // Margin column
+    tableHTML += '<th>Span</th>'; // Balls Rem column
+    tableHTML += '<th>Mat</th>'; // Target column
+    tableHTML += '<th>Inns</th>'; // Overs column
+    tableHTML += '<th>Dismissed</th>'; // Balls column
+    tableHTML += '<th>Catches</th>'; // Runs column
+    tableHTML += '<th>Stumpings</th>'; // HS column
+    tableHTML += '</tr></thead><tbody>';
+
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach((team, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="position">${index + 1}</td>`; // Position
+            let stat = ["Player", "Teams", "Span", "Matches", "Inns", "Dismissed", "Catches", "Stumping"].map(key => team.stats[key]);
+            tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
+            tableHTML += `<td>${stat[1]}</td>`;
+            tableHTML += `<td>${stat[2]}</td>`;
+            tableHTML += `<td>${stat[3]}</td>`;
+            tableHTML += `<td>${stat[4]}</td>`;
+            tableHTML += `<td>${stat[5]}</td>`;
+            tableHTML += `<td class="fw-bold">${stat[6]}</td>`;
+            tableHTML += `<td>${stat[7]}</td>`;
+            tableHTML += '</tr>';
+        });
+    }
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+    // Apply sorting to the new table
+  const table = tableContainer.querySelector('table');
+    applyTableSorting(table);
+    }
+
+    function mostStumpingsAsWicketKeeperTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+    let tableHTML = '<table class="Records-table"><thead><tr>';
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th>Player</th>'; // Winner column
+    tableHTML += '<th>Teams</th>'; // Margin column
+    tableHTML += '<th>Span</th>'; // Balls Rem column
+    tableHTML += '<th>Mat</th>'; // Target column
+    tableHTML += '<th>Inns</th>'; // Overs column
+    tableHTML += '<th>Dismissed</th>'; // Balls column
+    tableHTML += '<th>Catches</th>'; // Runs column
+    tableHTML += '<th>Stumpings</th>'; // HS column
+    tableHTML += '</tr></thead><tbody>';
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach((team, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="position">${index + 1}</td>`; // Position
+            let stat = ["Player", "Teams", "Span", "Matches", "Inns", "Dismissed", "Catches", "Stumping"].map(key => team.stats[key]);
+            tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
+            tableHTML += `<td>${stat[1]}</td>`;
+            tableHTML += `<td>${stat[2]}</td>`;
+            tableHTML += `<td>${stat[3]}</td>`;
+            tableHTML += `<td>${stat[4]}</td>`;
+            tableHTML += `<td>${stat[5]}</td>`;
+            tableHTML += `<td>${stat[6]}</td>`;
+            tableHTML += `<td class="fw-bold">${stat[7]}</td>`;
+            tableHTML += '</tr>';
+        });
+    }
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+    // Apply sorting to the new table
+  const table = tableContainer.querySelector('table');
+  applyTableSorting(table);
+    }
+
+    function mostDismissalsInInningsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+    let tableHTML = '<table class="Records-table"><thead><tr>';
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th>Player</th>'; // Winner column
+    tableHTML += '<th>Dismissed</th>'; // Margin column
+    tableHTML += '<th>Catches</th>'; // Balls Rem column
+    tableHTML += '<th>Stumpings</th>'; // Target column
+    tableHTML += '<th>Team</th>'; // Balls column
+    tableHTML += '<th>Opponent</th>'; // Balls column
+    tableHTML += '<th>Venue</th>'; // Runs column
+    tableHTML += '<th>Date</th>'; // Balls column
+    tableHTML += '</tr></thead><tbody>';
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach((team, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="position">${index + 1}</td>`; // Position
+            let stat = ["Player", "Dismissed", "Catches", "Stumpings", "Team", "Opposition", "Ground", "Date"].map(key => team.stats[key]);
+            tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
+            tableHTML += `<td class="fw-bold">${stat[1]}</td>`;
+            tableHTML += `<td>${stat[2]}</td>`;
+            tableHTML += `<td>${stat[3]}</td>`;
+            tableHTML += `<td class="fw-bold">${stat[4]}</td>`;
+            tableHTML += `<td>${stat[5]}</td>`;
+            tableHTML += `<td>${stat[6]}</td>`;
+            tableHTML += `<td>${stat[7]}</td>`;
+            tableHTML += '</tr>';
+        });
+    }
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+    // Apply sorting to the new table
+  const table = tableContainer.querySelector('table');
+  applyTableSorting(table);
+    }
+
+    function mostDismissalsInSeasonTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+    let tableHTML = '<table class="Records-table"><thead><tr>';
+    tableHTML += '<th class="position"></th>'; // Position column
+    tableHTML += '<th>Player</th>'; // Winner column
+    tableHTML += '<th>Team</th>'; // Margin column
+    tableHTML += '<th>Season</th>'; // Balls Rem column
+    tableHTML += '<th>Mat</th>'; // Target column
+    tableHTML += '<th>Inns</th>'; // Overs column
+    tableHTML += '<th>Dismissed</th>'; // Balls column
+    tableHTML += '<th>Catches</th>'; // Runs column
+    tableHTML += '<th>Stumpings</th>'; // HS column
+    tableHTML += '</tr></thead><tbody>';
+    // Add data rows
+    if (data && Array.isArray(data)) {
+        data.forEach((team, index) => {
+            tableHTML += '<tr>';
+            tableHTML += `<td class="position">${index + 1}</td>`; // Position
+            let stat = ["Player", "Team", "Year", "Matches", "Inns", "Dismissed", "Catches", "Stumpings"].map(key => team.stats[key]);
+            tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
+            tableHTML += `<td class="fw-bold">${stat[1]}</td>`;
+            tableHTML += `<td>${stat[2]}</td>`;
+            tableHTML += `<td>${stat[3]}</td>`;
+            tableHTML += `<td>${stat[4]}</td>`;
+            tableHTML += `<td class="fw-bold">${stat[5]}</td>`;
+            tableHTML += `<td>${stat[6]}</td>`;
+            tableHTML += `<td>${stat[7]}</td>`;
+            tableHTML += '</tr>';
+        });
+    }
+    tableHTML += '</tbody></table>';
+    tableContainer.innerHTML = tableHTML;
+    // Apply sorting to the new table
+    const table = tableContainer.querySelector('table');
+    applyTableSorting(table);
+    }
 
 
   // Initial table render - same approach as battingStat.html

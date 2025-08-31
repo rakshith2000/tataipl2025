@@ -272,13 +272,16 @@ tr:last-child td {
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.teamscoringrecords') }}">Teams Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbattingrecords') }}">Ind. Batting Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbattingrecords') }}">Batting Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Ind. Bowling Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Bowling Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualwicketkeepingrecords') }}">Ind. Wicketkeeping Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualwicketkeepingrecords') }}">Wicket Keeping Records</a>
+              </li>
+              <li class="me-2 mt-1 mb-1" style="font-size: 16px">
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualfieldingrecords') }}">Fielding Records</a>
               </li>
             </ul>
           </div>
@@ -790,8 +793,7 @@ document.head.appendChild(sortableStyle);
     tableHTML += '<th>Margin</th>'; // Margin column
     tableHTML += '<th>Balls Rem</th>'; // Balls Rem column
     tableHTML += '<th>Target</th>'; // Target column
-    tableHTML += '<th>Overs</th>'; // Overs column
-    tableHTML += '<th>Max</th>'; // Max column
+    tableHTML += '<th>Overs</th>'; // Overs column  
     tableHTML += '<th>Opponent</th>'; // Opponent column
     tableHTML += '<th>Venue</th>'; // Venue column
     tableHTML += '<th>Date</th>'; // Date column
@@ -801,7 +803,7 @@ document.head.appendChild(sortableStyle);
         data.forEach((team, index) => {
             tableHTML += '<tr>';
             tableHTML += `<td class="position">${index + 1}</td>`; // Position
-            let stat = ["Winner", "Margin", "Balls Rem", "Target", "Overs", "Max", "Opposition", "Ground", "Date"].map(key => team.stats[key]);
+            let stat = ["Winner", "Margin", "Balls Rem", "Target", "Overs", "Opposition", "Ground", "Date"].map(key => team.stats[key]);
             tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
             tableHTML += `<td class="fw-bold">${stat[1]}</td>`;
             tableHTML += `<td>${stat[2]}</td>`;
