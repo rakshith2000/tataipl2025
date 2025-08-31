@@ -653,6 +653,12 @@ def individualbowlingrecords():
     stats = [dict(row._mapping) for row in stats]
     return render_template('individual-bowling-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
 
+@main.route('/individualwicketkeepingrecords')
+def individualwicketkeepingrecords():
+    stats = db.session.execute(text('SELECT * FROM individual_wicket_keeping_records ORDER BY id')).fetchall()
+    stats = [dict(row._mapping) for row in stats]
+    return render_template('individual-wicketkeeping-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
+
 @main.route('/update')
 @login_required
 def update():

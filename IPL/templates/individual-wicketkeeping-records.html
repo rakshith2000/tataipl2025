@@ -278,24 +278,24 @@ tr:last-child td {
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbattingrecords') }}">Ind. Batting Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Ind. Bowling Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualbowlingrecords') }}">Ind. Bowling Records</a>
+              </li>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualwicketkeepingrecords') }}">Ind. Wicketkeeping Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.individualwicketkeepingrecords') }}">Ind. Wicketkeeping Records</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
       <center><div class="pt-3 dropdown">
-        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Most Career Wickets<i class="fa fa-chevron-down font_10 ms-1"></i></button>
+        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Most Career Dismissals<i class="fa fa-chevron-down font_10 ms-1"></i></button>
         <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
-        <a href="#" class="activeD" onclick="selectOption(this, 'Most Career Wickets')">Most Career Wickets</a>
-        <a href="#" onclick="selectOption(this, 'Best Bowling Figures')">Best Bowling Figures</a>
-        <a href="#" onclick="selectOption(this, '5W Hauls')">5W Hauls</a>
-        <a href="#" onclick="selectOption(this, 'Hat-tricks')">Hat-tricks</a>
-        <a href="#" onclick="selectOption(this, 'Most Wickets in a Season')">Most Wickets in a Season</a>
-        <a href="#" onclick="selectOption(this, 'Most Runs Conceded in an Innings')">Most Runs Conceded in an Innings</a>
+        <a href="#" class="activeD" onclick="selectOption(this, 'Most Career Dismissals')">Most Career Dismissals</a>
+        <a href="#" onclick="selectOption(this, 'Most Catches as Wicket Keeper')">Most Catches as Wicket Keeper</a>
+        <a href="#" onclick="selectOption(this, 'Most Stumpings as Wicket Keeper')">Most Stumpings as Wicket Keeper</a>
+        <a href="#" onclick="selectOption(this, 'Most Dismissals in an Innings')">Most Dismissals in an Innings</a>
+        <a href="#" onclick="selectOption(this, 'Most Dismissals in a Season')">Most Dismissals in a Season</a>
         </div>
       </div></center>
       <div id="tableContainer" class="table-wrapper"></div>
@@ -359,23 +359,20 @@ tr:last-child td {
     tableData = statsData.filter(item => item.record.toLowerCase() === optionTitle.toLowerCase());
     
   switch(optionTitle) {
-        case 'Most Career Wickets':
-            mostCareerWicketsTable(tableData);
+        case 'Most Career Dismissals':
+            mostCareerDismissalsTable(tableData);
             break;
-        case 'Best Bowling Figures':
-            bestBowlingFiguresTable(tableData);
+        case 'Most Catches as Wicket Keeper':
+            mostCatchesAsWicketKeeperTable(tableData);
             break;
-        case '5W Hauls':
-            fiveWicketsHaulsTable(tableData);
+        case 'Most Stumpings as Wicket Keeper':
+            mostStumpingsAsWicketKeeperTable(tableData);
             break;
-        case 'Hat-tricks':
-            hatTricksTable(tableData);
+        case 'Most Dismissals in an Innings':
+            mostDismissalsInInningsTable(tableData);
             break;
-        case 'Most Wickets in a Season':
-            mostWicketsInSeasonTable(tableData);
-            break;
-        case 'Most Runs Conceded in an Innings':
-            mostRunsConcededInInningsTable(tableData);
+        case 'Most Dismissals in a Season':
+            mostDismissalsInSeasonTable(tableData);
             break;
     }
   }
@@ -477,7 +474,7 @@ document.head.appendChild(sortableStyle);
   });
 }
 
-  function mostCareerWicketsTable(data) {
+  function mostCareerDismissalsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
 
     // Add required CSS styles
@@ -514,17 +511,11 @@ document.head.appendChild(sortableStyle);
   tableHTML += '<th>Span</th>'; // Balls Rem column
   tableHTML += '<th>Mat</th>'; // Target column
   tableHTML += '<th>Inns</th>'; // Overs column
-  tableHTML += '<th>Balls</th>'; // Balls column
-  tableHTML += '<th>Overs</th>'; // Runs column
-    tableHTML += '<th>Mdns</th>'; // HS column
-    tableHTML += '<th>Runs</th>'; // Avg column
-    tableHTML += '<th>Wkts</th>'; // Balls Faced column
-    tableHTML += '<th>BBI</th>'; // SR column
-    tableHTML += '<th>Avg</th>'; // 100s column
-    tableHTML += '<th>Econ</th>'; // 50s column
-    tableHTML += '<th>SR</th>'; // 0s column
-    tableHTML += '<th>4W</th>'; // 4s column
-    tableHTML += '<th>5W</th>'; // 6s column
+  tableHTML += '<th>Dismissed</th>'; // Balls column
+  tableHTML += '<th>Catches</th>'; // Runs column
+    tableHTML += '<th>Stumpings</th>'; // HS column
+    tableHTML += '<th>MaxDisInns</th>'; // Avg column
+    tableHTML += '<th>Dis/Inn</th>'; // Balls Faced column
   tableHTML += '</tr></thead><tbody>';
 
     // Add data rows
@@ -532,23 +523,17 @@ document.head.appendChild(sortableStyle);
         data.forEach((team, index) => {
             tableHTML += '<tr>';
             tableHTML += `<td class="position">${index + 1}</td>`; // Position
-            let stat = ["Player", "Teams", "Span", "Matches", "Inns", "Balls", "Overs", "Mdns", "Runs", "Wkts", "BBI", "Avg", "Econ", "SR", "4W", "5W"].map(key => team.stats[key]);
+            let stat = ["Player", "Teams", "Span", "Matches", "Inns", "Dismissed", "Catches", "Stumping", "MaxDisInns", "Dis/Inn"].map(key => team.stats[key]);
             tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
             tableHTML += `<td>${stat[1]}</td>`;
             tableHTML += `<td>${stat[2]}</td>`;
             tableHTML += `<td>${stat[3]}</td>`;
             tableHTML += `<td>${stat[4]}</td>`;
-            tableHTML += `<td>${stat[5]}</td>`;
+            tableHTML += `<td class="fw-bold">${stat[5]}</td>`;
             tableHTML += `<td>${stat[6]}</td>`;
             tableHTML += `<td>${stat[7]}</td>`;
             tableHTML += `<td>${stat[8]}</td>`;
-            tableHTML += `<td class="fw-bold">${stat[9]}</td>`;
-            tableHTML += `<td>${stat[10]}</td>`;
-            tableHTML += `<td>${stat[11]}</td>`;
-            tableHTML += `<td>${stat[12]}</td>`;
-            tableHTML += `<td>${stat[13]}</td>`;
-            tableHTML += `<td>${stat[14]}</td>`;
-            tableHTML += `<td>${stat[15]}</td>`;
+            tableHTML += `<td>${stat[9]}</td>`;
             tableHTML += '</tr>';
         });
     }
@@ -561,244 +546,10 @@ document.head.appendChild(sortableStyle);
   applyTableSorting(table);
   }
 
-  function bestBowlingFiguresTable(data) {
-    const tableContainer = document.getElementById('tableContainer');
-    let tableHTML = '<table class="Records-table"><thead><tr>';
-
-    // Add custom headers
-    tableHTML += '<th class="position"></th>'; // Position column
-    tableHTML += '<th>Player</th>'; // Player column
-    tableHTML += '<th>Overs</th>'; // Overs column
-    tableHTML += '<th>Mdns</th>'; // Mdns column
-    tableHTML += '<th>Runs Conceded</th>'; // Runs column
-    tableHTML += '<th>Wkts Taken</th>'; // Wkts column
-    tableHTML += '<th>Econ</th>'; // Econ column
-    tableHTML += '<th>Inn</th>'; // Inn column
-    tableHTML += '<th>Team</th>'; // Team column
-    tableHTML += '<th>Opponent</th>'; // Opposition column
-    tableHTML += '<th>Venue</th>'; // Venue column
-    tableHTML += '<th>Date</th>'; // Date column
-    tableHTML += '</tr></thead><tbody>';
-    
-    // Add data rows
-    if (data && Array.isArray(data)) {
-        data.forEach((item, index) => {
-            tableHTML += '<tr>';
-            tableHTML += `<td class="position">${index + 1}</td>`;
-            const stats = ["Player", "Overs", "Mdns", "Runs", "Wkts", "Econ", "Inns", "Team", "Opposition", "Ground", "Date"].map(key => item.stats[key]);
-            tableHTML += `<td class="fw-bold text-blue">${stats[0]}</td>`;
-            tableHTML += `<td>${stats[1]}</td>`;
-            tableHTML += `<td>${stats[2]}</td>`;
-            tableHTML += `<td>${stats[3]}</td>`;
-            tableHTML += `<td class="fw-bold">${stats[4]}</td>`;
-            tableHTML += `<td>${stats[5]}</td>`;
-            tableHTML += `<td>${stats[6]}</td>`;
-            tableHTML += `<td>${stats[7]}</td>`;
-            tableHTML += `<td>${stats[8]}</td>`;
-            tableHTML += `<td>${stats[9]}</td>`;
-            tableHTML += `<td>${stats[10]}</td>`;
-            tableHTML += '</tr>';
-        });
-    }
-    tableHTML += '</tbody></table>';
-    tableContainer.innerHTML = tableHTML;
-
-    // Apply sorting to the new table
-    const table = tableContainer.querySelector('table');
-    applyTableSorting(table);
-  }
-
-  function fiveWicketsHaulsTable(data) {
-    const tableContainer = document.getElementById('tableContainer');
-    let tableHTML = '<table class="Records-table"><thead><tr>';
-
-    // Add custom headers
-    tableHTML += '<th class="position"></th>'; // Position column
-    tableHTML += '<th>Player</th>'; // Player column
-    tableHTML += '<th>Overs</th>'; // Overs column
-    tableHTML += '<th>Inn</th>'; // Inns column
-    tableHTML += '<th>Runs Conceded</th>'; // Runs column
-    tableHTML += '<th>Wkts Taken</th>'; // Wkts column
-    tableHTML += '<th>Econ</th>'; // Econ column
-    tableHTML += '<th>Result</th>'; // BBI column
-    tableHTML += '<th>Team</th>'; // Team column
-    tableHTML += '<th>Opponent</th>'; // Opponent column
-    tableHTML += '<th>Venue</th>'; // Venue column
-    tableHTML += '<th>Date</th>'; // Date column
-    tableHTML += '</tr></thead><tbody>';
-
-    // Add data rows
-    if (data && Array.isArray(data)) {
-        data.forEach((item, index) => {
-            tableHTML += '<tr>';
-            tableHTML += `<td class="position">${index + 1}</td>`;
-            const stats = ["Player", "Overs", "Inns", "Runs", "Wkts", "Econ", "Result", "Team", "Opposition", "Ground", "Date"].map(key => item.stats[key]);
-            tableHTML += `<td class="fw-bold text-blue">${stats[0]}</td>`;
-            tableHTML += `<td>${stats[1]}</td>`;
-            tableHTML += `<td>${stats[2]}</td>`;
-            tableHTML += `<td>${stats[3]}</td>`;
-            tableHTML += `<td class="fw-bold">${stats[4]}</td>`;
-            tableHTML += `<td>${stats[5]}</td>`;
-            tableHTML += `<td ${stats[6] === "Won" ? 'class="text-green fw-bold"' : 'class="text-orange fw-bold"'}>${stats[6]}</td>`;
-            tableHTML += `<td>${stats[7]}</td>`;
-            tableHTML += `<td>${stats[8]}</td>`;
-            tableHTML += `<td>${stats[9]}</td>`;
-            tableHTML += `<td>${stats[10]}</td>`;
-            tableHTML += '</tr>';
-        });
-    }
-    tableHTML += '</tbody></table>';
-    tableContainer.innerHTML = tableHTML;
-
-    // Apply sorting to the new table
-    const table = tableContainer.querySelector('table');
-    applyTableSorting(table);
-  }
-
-  function hatTricksTable(data) {
-    const tableContainer = document.getElementById('tableContainer');
-    let tableHTML = '<table class="Records-table"><thead><tr>';
-
-    // Add custom headers
-    tableHTML += '<th class="position"></th>'; // Position column
-    tableHTML += '<th>Player</th>'; // Player column
-    tableHTML += '<th>Year</th>'; // Year column
-    tableHTML += '<th>Team</th>'; // Overs column
-    tableHTML += '<th>Opponent</th>'; // Opponent column
-    tableHTML += '<th>Venue</th>'; // Venue column
-    tableHTML += '<th>Victims</th>'; // Victims column
-    tableHTML += '</tr></thead><tbody>';
-
-    // Add data rows
-    if (data && Array.isArray(data)) {
-        data.forEach((item, index) => {
-            tableHTML += '<tr>';
-            tableHTML += `<td class="position">${index + 1}</td>`;
-            const stats = ["Player", "Season", "Team", "Opposition", "Ground", "Victims"].map(key => item.stats[key]);
-            tableHTML += `<td class="fw-bold text-blue">${stats[0]}</td>`;
-            tableHTML += `<td>${stats[1]}</td>`;
-            tableHTML += `<td class="fw-bold">${stats[2]}</td>`;
-            tableHTML += `<td>${stats[3]}</td>`;
-            tableHTML += `<td>${stats[4]}</td>`;
-            tableHTML += `<td>${stats[5].join(', ')}</td>`;
-            tableHTML += '</tr>';
-        });
-    }
-    tableHTML += '</tbody></table>';
-    tableContainer.innerHTML = tableHTML;
-
-    // Apply sorting to the new table
-    const table = tableContainer.querySelector('table');
-    applyTableSorting(table);
-  }
-
-  function mostWicketsInSeasonTable(data) {
-    const tableContainer = document.getElementById('tableContainer');
-    let tableHTML = '<table class="Records-table"><thead><tr>';
-
-    // Add custom headers
-    tableHTML += '<th class="position"></th>'; // Position column
-    tableHTML += '<th>Player</th>'; // Player column
-    tableHTML += '<th>Year</th>'; // Year column
-    tableHTML += '<th>Team</th>'; // Team column
-    tableHTML += '<th>Mat</th>'; // Mat column
-    tableHTML += '<th>Balls</th>'; // Balls column
-    tableHTML += '<th>Inns</th>'; // Inns column
-    tableHTML += '<th>Overs</th>'; // Overs column
-    tableHTML += '<th>Mdns</th>'; // Mdns column
-    tableHTML += '<th>Runs</th>'; // Runs column
-    tableHTML += '<th>Wkts</th>'; // Wickets column
-    tableHTML += '<th>BBI</th>'; // BBI column
-    tableHTML += '<th>Avg</th>'; // Avg column
-    tableHTML += '<th>Econ</th>'; // Econ column
-    tableHTML += '<th>SR</th>'; // SR column
-    tableHTML += '<th>4W</th>'; // 4W column
-    tableHTML += '<th>5W</th>'; // 5W column
-    tableHTML += '<th>10W</th>'; // 10W column
-    tableHTML += '</tr></thead><tbody>';
-
-    // Add data rows
-    if (data && Array.isArray(data)) {
-        data.forEach((item, index) => {
-            tableHTML += '<tr>';
-            tableHTML += `<td class="position">${index + 1}</td>`;
-            const stats = ["Player", "Year", "Team", "Matches", "Balls", "Inns", "Overs", "Mdns", "Runs", "Wickets", "BBI", "Avg", "Econ", "SR", "4W", "5W", "10W"].map(key => item.stats[key]);
-            tableHTML += `<td class="fw-bold text-blue">${stats[0]}</td>`;
-            tableHTML += `<td>${stats[1]}</td>`;
-            tableHTML += `<td class="fw-bold">${stats[2]}</td>`;
-            tableHTML += `<td>${stats[3]}</td>`;
-            tableHTML += `<td>${stats[4]}</td>`;
-            tableHTML += `<td>${stats[5]}</td>`;
-            tableHTML += `<td>${stats[6]}</td>`;
-            tableHTML += `<td>${stats[7]}</td>`;
-            tableHTML += `<td>${stats[8]}</td>`;
-            tableHTML += `<td class="fw-bold">${stats[9]}</td>`;
-            tableHTML += `<td>${stats[10]}</td>`;
-            tableHTML += `<td>${stats[11]}</td>`;
-            tableHTML += `<td>${stats[12]}</td>`;
-            tableHTML += `<td>${stats[13]}</td>`;
-            tableHTML += `<td>${stats[14]}</td>`;
-            tableHTML += `<td>${stats[15]}</td>`;
-            tableHTML += `<td>${stats[16]}</td>`;
-            tableHTML += '</tr>';
-        });
-    }
-    tableHTML += '</tbody></table>';
-    tableContainer.innerHTML = tableHTML;
-
-    // Apply sorting to the new table
-    const table = tableContainer.querySelector('table');
-    applyTableSorting(table);
-  }
-
-  function mostRunsConcededInInningsTable(data) {
-    const tableContainer = document.getElementById('tableContainer');
-    let tableHTML = '<table class="Records-table"><thead><tr>';
-
-    // Add custom headers
-    tableHTML += '<th class="position"></th>'; // Position column
-    tableHTML += '<th>Player</th>'; // Player column
-    tableHTML += '<th>Overs</th>'; // Year column
-    tableHTML += '<th>Mdns</th>'; // Team column
-    tableHTML += '<th>Runs Conceded</th>'; // Runs column
-    tableHTML += '<th>Wkts Taken</th>'; // Wkts column
-    tableHTML += '<th>Econ</th>'; // Econ column
-    tableHTML += '<th>Team</th>'; // Inns column
-    tableHTML += '<th>Opponent</th>'; // Opponent column
-    tableHTML += '<th>Venue</th>'; // Ground column
-    tableHTML += '<th>Date</th>'; // Runs Conceded column
-    tableHTML += '</tr></thead><tbody>';
-
-    // Add data rows
-    if (data && Array.isArray(data)) {
-        data.forEach((item, index) => {
-            tableHTML += '<tr>';
-            tableHTML += `<td class="position">${index + 1}</td>`;
-            const stats = ["Player", "Overs", "Mdns", "Runs", "Wkts", "Econ", "Team", "Opposition", "Ground", "Date"].map(key => item.stats[key]);
-            tableHTML += `<td class="fw-bold text-blue">${stats[0]}</td>`;
-            tableHTML += `<td>${stats[1]}</td>`;
-            tableHTML += `<td>${stats[2]}</td>`;
-            tableHTML += `<td class="fw-bold">${stats[3]}</td>`;
-            tableHTML += `<td>${stats[4]}</td>`;
-            tableHTML += `<td>${stats[5]}</td>`;
-            tableHTML += `<td class="fw-bold">${stats[6]}</td>`;
-            tableHTML += `<td>${stats[7]}</td>`;
-            tableHTML += `<td>${stats[8]}</td>`;
-            tableHTML += `<td>${stats[9]}</td>`;
-            tableHTML += '</tr>';
-        });
-    }
-    tableHTML += '</tbody></table>';
-    tableContainer.innerHTML = tableHTML;
-
-    // Apply sorting to the new table
-    const table = tableContainer.querySelector('table');
-    applyTableSorting(table);
-  }
 
   // Initial table render - same approach as battingStat.html
-  const initialData = statsData.filter(item => item.record === 'Most Career Wickets');
-  mostCareerWicketsTable(initialData);
+  const initialData = statsData.filter(item => item.record === 'Most Career Dismissals');
+  mostCareerDismissalsTable(initialData);
 
 // Fading and auto-center JS
 (function() {
