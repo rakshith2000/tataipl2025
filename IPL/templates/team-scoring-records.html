@@ -293,6 +293,7 @@ tr:last-child td {
         <a href="#" onclick="selectOption(this, 'Lowest Team Total')">Lowest Team Total</a>
         <a href="#" onclick="selectOption(this, 'Highest Match Aggregates')">Highest Match Aggregates</a>
         <a href="#" onclick="selectOption(this, 'Lowest Match Aggregates')">Lowest Match Aggregates</a>
+        <a href="#" onclick="selectOption(this, 'Most Extras in an Innings')">Most Extras in an Innings</a>
         </div>
       </div></center>
       <div id="tableContainer" class="table-wrapper"></div>
@@ -367,6 +368,9 @@ tr:last-child td {
             break;
         case 'Lowest Match Aggregates':
             lowestMatchAggregatesTable(tableData);
+            break;
+        case 'Most Extras in an Innings':
+            mostExtrasInAnInningsTable(tableData);
             break;
     }
   }
@@ -678,6 +682,70 @@ document.head.appendChild(sortableStyle);
               tableHTML += `<td>${stat[5]}</td>`;
               tableHTML += `<td>${stat[6]}</td>`;
               tableHTML += `<td>${stat[7]}</td>`;
+              tableHTML += '</tr>';
+          });
+      }
+      tableHTML += '</tbody></table>';
+      tableContainer.innerHTML = tableHTML;
+      // Apply sorting to the new table
+      const table = tableContainer.querySelector('table');
+      applyTableSorting(table);
+  }
+
+  function mostExtrasInAnInningsTable(data) {
+    const tableContainer = document.getElementById('tableContainer');
+    // Add required CSS styles
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      .merged-cell {
+        text-align: center;
+      }
+      .Records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .Records-table td {
+        white-space: nowrap;
+      }
+    `;
+    document.head.appendChild(styleElement);
+      // Build HTML table
+      let tableHTML = '<table class="Records-table"><thead><tr>';
+      // Add custom headers
+      tableHTML += '<th class="position"></th>'; // Position column
+      tableHTML += '<th>Team</th>'; // Team column
+      tableHTML += '<th>Score</th>'; // Score column
+      tableHTML += '<th>Overs</th>'; // Overs column
+      tableHTML += '<th>Extras</th>'; // RR column
+      tableHTML += '<th>Byes</th>'; // Opponent column
+      tableHTML += '<th>Leg Byes</th>'; // Venue column
+      tableHTML += '<th>Wides</th>'; // Result column
+      tableHTML += '<th>No Balls</th>'; // Date column
+      tableHTML += '<th>RR</th>'; // RR column
+      tableHTML += '<th>Inn</th>'; // Inns column
+      tableHTML += '<th>Opponent</th>'; // Opponent column
+      tableHTML += '<th>Venue</th>'; // Venue column
+      tableHTML += '<th>Date</th>'; // Date column
+      tableHTML += '</tr></thead><tbody>';
+      // Add data rows
+      if (data && Array.isArray(data)) {
+          data.forEach((match, index) => {
+              tableHTML += '<tr>';
+              tableHTML += `<td class="position">${index + 1}</td>`; // Position
+              let stat = ["Team", "Score", "Overs", "Extras", "Byes", "Leg Byes", "Wides", "No Balls", "RR", "Inns", "Opposition", "Ground", "Date"].map(key => match.stats[key]);
+              tableHTML += `<td class="fw-bold text-blue">${stat[0]}</td>`;
+              tableHTML += `<td>${stat[1]}</td>`;
+              tableHTML += `<td>${stat[2]}</td>`;
+              tableHTML += `<td class="fw-bold">${stat[3]}</td>`;
+              tableHTML += `<td>${stat[4]}</td>`;
+              tableHTML += `<td>${stat[5]}</td>`;
+              tableHTML += `<td>${stat[6]}</td>`;
+              tableHTML += `<td>${stat[7]}</td>`;
+              tableHTML += `<td>${stat[8]}</td>`;
+              tableHTML += `<td>${stat[9]}</td>`;
+              tableHTML += `<td>${stat[10]}</td>`;
+              tableHTML += `<td>${stat[11]}</td>`;
+              tableHTML += `<td>${stat[12]}</td>`;
               tableHTML += '</tr>';
           });
       }
