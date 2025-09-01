@@ -556,8 +556,7 @@ def todayMatch():
         current_date = current_date.replace(tzinfo=None)
         return render_template('liveMatches.html', FR=dt, fn=full_name, current_date=current_date, clr=clr)
 
-@main.route('/battingstats')
-def battingstats():
+def get_battingstats():
     stats = {}
     stats['Most Runs'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-runs/0/0/IPL")
     highest_scores = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/highest-score/0/0/IPL")
@@ -573,10 +572,9 @@ def battingstats():
     stats['Most Fours'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-fours/0/0/IPL")
     stats['Most Sixes'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-sixes/0/0/IPL")
     stats['Most Nineties'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-nineties/0/0/IPL")
-    return render_template('battingStat.html', stats=stats)
+    return {'stats': stats}
 
-@main.route('/bowlingstats')
-def bowlingstats():
+def get_bowlingstats():
     stats = {}
     stats['Most Wickets'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/most-wickets/0/0/IPL")
     stats['Best Bowling Average'] = get_data_from_url(
@@ -591,8 +589,25 @@ def bowlingstats():
     stats['Best Economy'] = get_data_from_url("https://www.cricbuzz.com/api/html/series/9237/lowest-econ/0/0/IPL")
     stats['Best Bowling Strike Rate'] = get_data_from_url(
         "https://www.cricbuzz.com/api/html/series/9237/lowest-sr/0/0/IPL")
+    return {'stats': stats}
 
-    return render_template('bowlingStat.html', stats=stats)
+@main.route('/battingstats')
+def battingstats():
+    return render_template('battingStat.html')
+
+@main.route('/api/battingstats')
+def api_battingstats():
+    """Return JSON for the batting stats (used by API)."""
+    return jsonify(get_battingstats())
+
+@main.route('/bowlingstats')
+def bowlingstats():
+    return render_template('bowlingStat.html')
+
+@main.route('/api/bowlingstats')
+def api_bowlingstats():
+    """Return JSON for the bowling stats (used by API)."""
+    return jsonify(get_bowlingstats())
 
 def get_alltimeipl():
     """Return the context dict for the All Time IPL page (used by renderer and API)."""

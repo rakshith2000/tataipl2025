@@ -1,0 +1,125 @@
+ body {
+        font-family: 'Exo 2', sans-serif;
+        background: #081033;
+  background-image: url('/static/images/banner_bg.png');
+  background-size: 100%;
+  background-position: center top -48px;
+    }
+    .status{
+        display: block;
+    }
+    .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-toggle {
+    background: linear-gradient(145deg, #0056d2, #003c8a);
+    color: white;
+    padding: 7px 3px;
+    border: 1px solid #ffb09e;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 250px;
+    text-align: center;
+  }
+
+  .dropdown-menu {
+    display: block;
+    position: absolute;
+    background-color: white;
+    min-width: 250px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border: 1px solid #ffb09e;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-weight: bold;
+    z-index: 1;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .dropdown-menu a {
+    color: #333;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 13px;
+  }
+
+  .dropdown-menu a:hover {
+    background-color: #f5f5f5;
+  }
+
+  .dropdown-menu a.activeD {
+    background: linear-gradient(145deg, #0056d2, #003c8a);
+    color: white;
+  }
+
+  .dropdown-menu a:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown.show .dropdown-menu {
+    max-height: 500px;
+    opacity: 1;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .table-wrapper a {
+    color: #0398dc !important;
+  }
+
+  .table-wrapper {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow-x: auto;
+  border: 1px solid #ffb09e;
+  background-color: white;
+}
+
+/* Updated table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+}
+
+/* Remove bottom border from last row */
+tr:last-child td {
+  border-bottom: none !important;
+}
+
+  th, td {
+    text-align: left;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 12px;
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  thead tr {
+    background: linear-gradient(145deg, #0056d2, #003c8a);
+    color: white;
+  }
+
+  .team-logo {
+    width: 23px;
+    height: 23px;
+    vertical-align: middle;
+  }
+
+  .position {
+    text-align: center;
+  }
+
+  .logo-col {
+    text-align: center;
+  }
