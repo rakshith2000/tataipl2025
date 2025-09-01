@@ -67,10 +67,6 @@
    </div>
  </div>
 </section>
-<script>
-  const statsData = {{ stats|tojson|safe }};
-  const fullNames = {{ fn|tojson|safe }};
-</script>
 <script src="{{ url_for('static', filename='js/ipl_records_stats_gen.js') }}"></script>
 <script src="{{ url_for('static', filename='js/teams-scoring-records.js') }}"></script>
 {% endblock %}
