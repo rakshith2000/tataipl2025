@@ -421,7 +421,7 @@ def displayFR():
 def teams():
     return render_template('teams.html', fn=full_name, champions=champions, clr=clr, sqclr=sqclr)
 
-@main.route('/<team>')
+@main.route('/teams/<team>')
 def squad(team):
     sq = Squad.query.filter_by(Team=team).order_by(Squad.Player_ID).all()
     return render_template('squad.html', team=team, sq=sq, fn=full_name[team], clr=clr[team], sqclr=sqclr[team])
@@ -623,54 +623,36 @@ def iplawards():
     stats = [dict(row._mapping) for row in stats]
     return render_template('ipl-awards.html', stats=stats, fn=full_name, clr=clr, sqclr=sqclr)
 
+def get_allPT_records(table_name, order_by='id'):
+    data = db.session.execute(text(f'SELECT * FROM {table_name} ORDER BY {order_by}')).fetchall()
+    stats = [dict(row._mapping) for row in data]
+    return {"stats": stats, "fn": full_name | defuncTeams_fn, "clr": clr, "sqclr": sqclr}
+
 @main.route('/alltimept')
 def alltimept():
     dataPT = db.session.execute(text('SELECT * FROM all_time_points_table ORDER BY season ASC, rank ASC')).fetchall()
     dataPT = [dict(row._mapping) for row in dataPT]
     return render_template('all-time-PT.html', dataPT=dataPT, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
 
-def get_result_records():
-    result_records = db.session.execute(text('SELECT * FROM result_records ORDER BY id')).fetchall()
-    stats = [dict(row._mapping) for row in result_records]
-    return {"stats": stats, "fn": full_name | defuncTeams_fn, "clr": clr, "sqclr": sqclr}
+@main.route('/<page>')
+def render_page(page):
+    db_html = {'resultrecords':['result_records','result-records.html'],
+               'teamscoringrecords':['teams_scoring_records','team-scoring-records.html'],
+               'individualbattingrecords':['individual_batting_records','individual-batting-records.html'],
+               'individualbowlingrecords':['individual_bowling_records','individual-bowling-records.html'],
+               'individualwicketkeepingrecords':['individual_wicket_keeping_records','individual-wicketkeeping-records.html'],
+               'individualfieldingrecords':['individual_fielding_records','individual-fielding-records.html']}
+    return render_template(db_html[page][1], **get_allPT_records(db_html[page][0]))
 
-@main.route('/resultrecords')
-def resultrecords():
-    return render_template('result-records.html', **get_result_records())
-
-@main.route('/api/resultrecords')
-def api_resultrecords():
-    return jsonify(get_result_records())
-
-@main.route('/teamscoringrecords')
-def teamscoringrecords():
-    stats = db.session.execute(text('SELECT * FROM teams_scoring_records ORDER BY id')).fetchall()
-    stats = [dict(row._mapping) for row in stats]
-    return render_template('team-scoring-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
-
-@main.route('/individualbattingrecords')
-def individualbattingrecords():
-    stats = db.session.execute(text('SELECT * FROM individual_batting_records ORDER BY id')).fetchall()
-    stats = [dict(row._mapping) for row in stats]
-    return render_template('individual-batting-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
-
-@main.route('/individualbowlingrecords')
-def individualbowlingrecords():
-    stats = db.session.execute(text('SELECT * FROM individual_bowling_records ORDER BY id')).fetchall()
-    stats = [dict(row._mapping) for row in stats]
-    return render_template('individual-bowling-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
-
-@main.route('/individualwicketkeepingrecords')
-def individualwicketkeepingrecords():
-    stats = db.session.execute(text('SELECT * FROM individual_wicket_keeping_records ORDER BY id')).fetchall()
-    stats = [dict(row._mapping) for row in stats]
-    return render_template('individual-wicketkeeping-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
-
-@main.route('/individualfieldingrecords')
-def individualfieldingrecords():
-    stats = db.session.execute(text('SELECT * FROM individual_fielding_records ORDER BY id')).fetchall()
-    stats = [dict(row._mapping) for row in stats]
-    return render_template('individual-fielding-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
+@main.route('/api/<page>')
+def api_page(page):
+    db_html = {'resultrecords':['result_records','result-records.html'],
+               'teamscoringrecords':['teams_scoring_records','team-scoring-records.html'],
+               'individualbattingrecords':['individual_batting_records','individual-batting-records.html'],
+               'individualbowlingrecords':['individual_bowling_records','individual-bowling-records.html'],
+               'individualwicketkeepingrecords':['individual_wicket_keeping_records','individual-wicketkeeping-records.html'],
+               'individualfieldingrecords':['individual_fielding_records','individual-fielding-records.html']}
+    return jsonify(get_allPT_records(db_html[page][0]))
 
 @main.route('/update')
 @login_required

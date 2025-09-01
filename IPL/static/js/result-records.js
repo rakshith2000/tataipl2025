@@ -76,25 +76,8 @@ function selectOption(element, optionTitle) {
 
   function highestWinByRunsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
-
      // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Result-Records-table"><thead><tr>';
 
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
@@ -138,26 +121,9 @@ function selectOption(element, optionTitle) {
 
     function highestWinByBallsRemainingTable(data) {
         const tableContainer = document.getElementById('tableContainer');
-    
-        // Add required CSS styles
-        const styleElement = document.createElement('style');
-        styleElement.textContent = `
-        .merged-cell {
-            text-align: center;
-        }
-        .Records-table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .Records-table td {
-            white-space: nowrap;
-        }
-        `;
-        document.head.appendChild(styleElement);
-    
+
          // Build HTML table
-        let tableHTML = '<table class="Records-table"><thead><tr>';
-    
+        let tableHTML = '<table class="Result-Records-table"><thead><tr>';
         // Add custom headers
         tableHTML += '<th class="position"></th>'; // Position column
         tableHTML += '<th>Winner</th>'; // Winner column
@@ -198,23 +164,9 @@ function selectOption(element, optionTitle) {
 
     function highestWinByWicketsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .merged-cell {
-            text-align: center;
-        }
-        .Records-table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .Records-table td {
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(styleElement);
+
     // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Result-Records-table"><thead><tr>';
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
     tableHTML += '<th>Winner</th>'; // Winner column
@@ -254,23 +206,9 @@ function selectOption(element, optionTitle) {
 
     function lowestWinByRunsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .merged-cell {
-            text-align: center;
-        }
-        .Records-table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .Records-table td {
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(styleElement);
+
     // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Result-Records-table"><thead><tr>';
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
     tableHTML += '<th>Winner</th>'; // Winner column
@@ -308,23 +246,9 @@ function selectOption(element, optionTitle) {
 
     function lowestWinByBallsRemainingTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .merged-cell {
-            text-align: center;
-        }
-        .Records-table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .Records-table td {
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(styleElement);
+
     // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Result-Records-table"><thead><tr>';
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
     tableHTML += '<th>Winner</th>'; // Winner column
@@ -364,23 +288,9 @@ function selectOption(element, optionTitle) {
 
     function lowestWinByWicketsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .merged-cell {
-            text-align: center;
-        }
-        .Records-table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .Records-table td {
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(styleElement);
+
     // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Result-Records-table"><thead><tr>';
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
     tableHTML += '<th>Winner</th>'; // Winner column
@@ -418,23 +328,8 @@ function selectOption(element, optionTitle) {
 
     function highestSuccessfulRunChasesTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .merged-cell {
-            text-align: center;
-        }
-        .Records-table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .Records-table td {
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(styleElement);
     // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Result-Records-table"><thead><tr>';
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
     tableHTML += '<th>Winner</th>'; // Winner column
@@ -470,23 +365,9 @@ function selectOption(element, optionTitle) {
 
     function lowestSuccessfulScoreDefendsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .merged-cell {
-            text-align: center;
-        }
-        .Records-table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .Records-table td {
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(styleElement);
+
     // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Result-Records-table"><thead><tr>';
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
     tableHTML += '<th>Winner</th>'; // Winner column
@@ -522,23 +403,9 @@ function selectOption(element, optionTitle) {
 
     function tiedMatchesTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-        .merged-cell {
-            text-align: center;
-        }
-        .Records-table td {
-            text-align: center;
-            padding: 8px;
-        }
-        .Records-table td {
-            white-space: nowrap;
-        }
-    `;
-    document.head.appendChild(styleElement);
+
     // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Result-Records-table"><thead><tr>';
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
     tableHTML += '<th>Team 1</th>'; // Winner column
@@ -565,7 +432,3 @@ function selectOption(element, optionTitle) {
     const table = tableContainer.querySelector('table');
     applyTableSorting(table);
 }
-
-//Initial table render - same approach as battingStat.html
-//const initialData = statsData.filter(item => item.record === 'Highest Win Margin by Runs');
-//highestWinByRunsTable(initialData);

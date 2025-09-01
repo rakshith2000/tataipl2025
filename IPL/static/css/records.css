@@ -1,0 +1,317 @@
+body {
+        font-family: 'Exo 2', sans-serif;
+        background: #081033;
+  background-image: url('/static/images/banner_bg.png');
+  background-size: 100%;
+  background-position: center top -48px;
+    }
+    .status{
+        display: block;
+    }
+    .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-toggle {
+    background: linear-gradient(145deg, #0056d2, #003c8a);
+    color: white;
+    padding: 7px 3px;
+    border: 1px solid #ffb09e;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    min-width: 250px;
+    text-align: center;
+  }
+
+  .dropdown-menu {
+    display: block;
+    position: absolute;
+    background-color: white;
+    min-width: 250px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border: 1px solid #ffb09e;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-weight: bold;
+    z-index: 1;
+    overflow-y: auto;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .dropdown-menu a {
+    color: #333;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 13px;
+  }
+
+  .dropdown-menu::-webkit-scrollbar{
+    width: 1px;
+    height: 5px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.dropdown-menu:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
+
+  .dropdown-menu a:hover {
+    background-color: #f5f5f5;
+  }
+
+  .dropdown-menu a.activeD {
+    background: linear-gradient(145deg, #0056d2, #003c8a);
+    color: white;
+  }
+
+  .dropdown-menu a:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown.show .dropdown-menu {
+    max-height: 300px;
+    opacity: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  }
+
+  .table-wrapper a {
+    color: #0398dc !important;
+  }
+
+  .table-wrapper {
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow-x: auto;
+  border: 1px solid #ffb09e;
+  background-color: white;
+}
+
+.table-wrapper::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.table-wrapper:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
+
+/* Updated table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: white;
+}
+
+/* Remove bottom border from last row */
+tr:last-child td {
+  border-bottom: none !important;
+}
+
+  th, td {
+    text-align: center;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 12px;
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  thead tr{
+    background: linear-gradient(145deg, #0056d2, #003c8a);
+    color: white;
+  }
+
+  .team-logo {
+    width: 23px;
+    height: 23px;
+    vertical-align: middle;
+  }
+
+  .position {
+    text-align: center;
+  }
+
+  .logo-col {
+    text-align: center;
+  }
+  
+  .text-green {
+    color: #28a745 !important; /* Bootstrap success green */
+  }
+  
+  .text-dark-green {
+    color: #155724 !important; /* Dark green */
+  }
+  
+  .bg-gold {
+    background-color: #ffd9004f !important; /* Gold background */
+  }
+
+  .bg-silver {
+    background-color: #c0c0c04f !important; /* Silver background */
+  }
+
+  .no-bottom-border {
+  border-bottom: none !important;
+}
+
+/* Add to <style> for horizontal scrollable tabs */
+.tab-scroll-wrapper {
+  position: relative;
+  margin-bottom: 10px;
+}
+.tab-scroll-inner {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+.tab-scroll-wrapper::before,
+.tab-scroll-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  pointer-events: none;
+  z-index: 3;
+  transition: opacity 220ms ease;
+  opacity: 0;
+}
+.tab-scroll-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(8,16,51,1), rgba(8,16,51,0));
+}
+.tab-scroll-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(8,16,51,1), rgba(8,16,51,0));
+}
+.tab-scroll-wrapper.fade-left::before { opacity: 1; }
+.tab-scroll-wrapper.fade-right::after { opacity: 1; }
+.tab-scroll-inner ul.nav-tabs {
+  flex-wrap: nowrap !important;
+  display: inline-flex;
+  min-width: max-content;
+}
+.tab-scroll-inner ul.nav-tabs li {
+  float: none;
+  display: inline-block;
+}
+
+.tab-scroll-inner::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+
+.tab-scroll-inner::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.tab-scroll-inner:hover::-webkit-scrollbar-thumb{ 
+    visibility: visible;
+}
+
+.merged-cell {
+        text-align: center;
+      }
+      .Batting-Records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .Batting-Records-table td {
+        white-space: nowrap;
+      }
+      .Batting-Records-table td:nth-child(2) {
+        white-space: wrap;
+        text-align: left;
+      }
+      .Batting-Records-table td:nth-child(3) {
+        white-space: wrap;
+        text-align: left;
+      }
+
+      .Bowling-Records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .Bowling-Records-table td {
+        white-space: nowrap;
+      }
+      .Bowling-Records-table td:nth-child(2) {
+        white-space: wrap;
+        text-align: left;
+      }
+      .Bowling-Records-table td:nth-child(3) {
+        white-space: wrap;
+        text-align: left;
+      }
+
+      .WicketKeeping-Records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .WicketKeeping-Records-table td {
+        white-space: nowrap;
+      }
+      .WicketKeeping-Records-table td:nth-child(2) {
+        white-space: wrap;
+        text-align: left;
+      }
+      .WicketKeeping-Records-table td:nth-child(3) {
+        white-space: wrap;
+        text-align: left;
+      }
+
+      .Fielding-Records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .Fielding-Records-table td {
+        white-space: nowrap;
+      }
+      .Fielding-Records-table td:nth-child(2) {
+        white-space: wrap;
+        text-align: left;
+      }
+      .Fielding-Records-table td:nth-child(3) {
+        white-space: wrap;
+        text-align: left;
+      }
+
+      .Result-Records-table td {
+            text-align: center;
+            padding: 8px;
+        }
+        .Result-Records-table td {
+            white-space: nowrap;
+        }
+
+      .Team-Records-table td {
+            text-align: center;
+            padding: 8px;
+        }
+        .Team-Records-table td {
+            white-space: nowrap;
+        }

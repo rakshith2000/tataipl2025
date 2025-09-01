@@ -1,3 +1,33 @@
+// Show loading spinner before fetch
+const tableContainer = document.getElementById('tableContainer');
+tableContainer.innerHTML = `<div id="loadingSpinner" style="text-align:center; padding:40px 0;"><span class="spinner-border text-primary" role="status"></span><br><span style="color:#0056d2; font-weight:bold;">Loading...</span></div>`;
+
+fetch("/api/teamscoringrecords")
+    .then(response => {
+        return response.json();
+    })
+    .then(data => {
+        const statsData = data.stats;
+        const fullNames = data.fn;
+        // Now you can use statsData and fullNames in your JavaScript
+        window.statsData = statsData; // Make it globally accessible
+        window.fullNames = fullNames; // Make it globally accessible
+        window.dispatchEvent(new Event('statsReady')); // Notify that data is ready
+    })
+    .catch(error => {
+        tableContainer.innerHTML = '<div style="color:red; text-align:center; padding:40px 0;">Failed to load data.</div>';
+    });
+
+window.addEventListener('statsReady', () => {
+    // Remove loading spinner
+    if (document.getElementById('loadingSpinner')) {
+        document.getElementById('loadingSpinner').remove();
+    }
+    // Initial table render - same approach as battingStat.html
+  const initialData = statsData.filter(item => item.record === 'Highest Team Total');
+  highestTeamTotalTable(initialData);
+});
+
 function selectOption(element, optionTitle) {
     // Remove active from all
     const items = document.querySelectorAll('.dropdown-menu a');
@@ -37,24 +67,8 @@ function selectOption(element, optionTitle) {
   function highestTeamTotalTable(data) {
     const tableContainer = document.getElementById('tableContainer');
 
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
-
      // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Team-Records-table"><thead><tr>';
 
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
@@ -99,24 +113,8 @@ function selectOption(element, optionTitle) {
   function lowestTeamTotalTable(data) {
     const tableContainer = document.getElementById('tableContainer');
 
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
-
      // Build HTML table
-    let tableHTML = '<table class="Records-table"><thead><tr>';
+    let tableHTML = '<table class="Team-Records-table"><thead><tr>';
 
     // Add custom headers
     tableHTML += '<th class="position"></th>'; // Position column
@@ -157,23 +155,8 @@ function selectOption(element, optionTitle) {
 
     function HighestMatchAggregatesTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
       // Build HTML table
-      let tableHTML = '<table class="Records-table"><thead><tr>';
+      let tableHTML = '<table class="Team-Records-table"><thead><tr>';
       // Add custom headers
       tableHTML += '<th class="position"></th>'; // Position column
       tableHTML += '<th>Team 1</th>'; // Team 1 column
@@ -211,23 +194,9 @@ function selectOption(element, optionTitle) {
 
     function lowestMatchAggregatesTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
+
       // Build HTML table
-      let tableHTML = '<table class="Records-table"><thead><tr>';
+      let tableHTML = '<table class="Team-Records-table"><thead><tr>';
       // Add custom headers
       tableHTML += '<th class="position"></th>'; // Position column
       tableHTML += '<th>Team 1</th>'; // Team 1 column
@@ -265,23 +234,9 @@ function selectOption(element, optionTitle) {
 
   function mostExtrasInAnInningsTable(data) {
     const tableContainer = document.getElementById('tableContainer');
-    // Add required CSS styles
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      .merged-cell {
-        text-align: center;
-      }
-      .Records-table td {
-        text-align: center;
-        padding: 8px;
-      }
-      .Records-table td {
-        white-space: nowrap;
-      }
-    `;
-    document.head.appendChild(styleElement);
+
       // Build HTML table
-      let tableHTML = '<table class="Records-table"><thead><tr>';
+      let tableHTML = '<table class="Team-Records-table"><thead><tr>';
       // Add custom headers
       tableHTML += '<th class="position"></th>'; // Position column
       tableHTML += '<th>Team</th>'; // Team column
@@ -327,6 +282,4 @@ function selectOption(element, optionTitle) {
       applyTableSorting(table);
   }
 
-  // Initial table render - same approach as battingStat.html
-  const initialData = statsData.filter(item => item.record === 'Highest Team Total');
-  highestTeamTotalTable(initialData);
+  
