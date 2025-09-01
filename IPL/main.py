@@ -594,8 +594,8 @@ def bowlingstats():
 
     return render_template('bowlingStat.html', stats=stats)
 
-@main.route('/alltimeipl')
-def alltimeipl():
+def get_alltimeipl():
+    """Return the context dict for the All Time IPL page (used by renderer and API)."""
     stats = {}
     currentTeams = db.session.execute(text('select * from current_teams order by id')).fetchall()
     defunctTeams = db.session.execute(text('select * from defunct_teams order by id')).fetchall()
@@ -604,7 +604,7 @@ def alltimeipl():
     performanceByTeams = db.session.execute(text('select * from performance_by_teams order by id')).fetchall()
     positionEachSeason = db.session.execute(text('select * from position_each_season order by id')).fetchall()
     allTimeStandings = db.session.execute(text('select * from all_time_standings order by id')).fetchall()
-    mostAppearances = db.session.execute(text('select * from most_appearances order by id')).fetchall()
+    mostAppearences = db.session.execute(text('select * from most_appearances order by id')).fetchall()
     records = db.session.execute(text('select * from records order by id')).fetchall()
     stats['Editions and Results'] = [dict(row._mapping) for row in editionsAndResults]
     stats['Tournament Summary'] = [dict(row._mapping) for row in tournamentSummary]
@@ -613,9 +613,20 @@ def alltimeipl():
     stats['Performance by Teams'] = [dict(row._mapping) for row in performanceByTeams]
     stats['Position Each Season'] = [dict(row._mapping) for row in positionEachSeason]
     stats['All Time Standings'] = [dict(row._mapping) for row in allTimeStandings]
-    stats['Most Appearances'] = [dict(row._mapping) for row in mostAppearances]
+    stats['Most Appearences'] = [dict(row._mapping) for row in mostAppearences]
     stats['Records'] = [dict(row._mapping) for row in records]
-    return render_template('all-time-ipl.html', stats=stats, fn=full_name, dfn=defuncTeams_fn, clr=clr, sqclr=sqclr)
+    # return a mapping consistent with other get_* helpers in this file
+    return {"stats": stats, "fn": full_name, "dfn": defuncTeams_fn, "clr": clr, "sqclr": sqclr}
+
+@main.route('/alltimeipl')
+def alltimeipl():
+    # keep legacy route but reuse the shared renderer/context provider
+    return render_template('all-time-ipl.html', **get_alltimeipl())
+
+@main.route('/api/alltimeipl')
+def api_alltime_page():
+    """Return JSON for the All Time IPL data (same context as the HTML page)."""
+    return jsonify(get_alltimeipl())
 
 def get_allPT_records(table_name, order_by='id'):
     data = db.session.execute(text(f'SELECT * FROM {table_name} ORDER BY {order_by}')).fetchall()

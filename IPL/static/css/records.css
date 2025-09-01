@@ -324,3 +324,105 @@ tr:last-child td {
         white-space: nowrap;
         text-align: left;
       }
+
+      .currentTeams-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .currentTeams-table td:nth-child(9) {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .defunctTeams-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .defunctTeams-table td:nth-child(8) {
+        white-space: nowrap;
+        text-align: left;
+      }
+      
+      .performance-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .performance-table td:nth-child(2) {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .cell-champion {
+        background-color: gold !important;
+      }
+      .cell-runner-up {
+        background-color: silver !important;
+      }
+      .cell-semifinal {
+        background-color: #cfc !important; /* light green */
+      }
+      .cell-inactive {
+        background-color: #ececec !important; /* light grey */
+      }
+      .defunct-team {
+        background-color: #f8d7da; /* Red color for defunct teams */
+      }
+      .defunctTeams{
+        background-color: #f8d7da; /* Red color for defunct teams */
+      }
+      .mostapps-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .mostapps-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .mostapps-table td.no-wrap {
+        white-space: nowrap;
+      }
+      .cell-lightgrey {
+        background-color: #ececec !important; /* light grey */
+      }
+      .ATI-batting-records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .ATI-batting-records-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .ATI-batting-records-table th {
+        background-color: #f8f9fa; /* Light grey for headers */
+      }
+      .ATI-bowling-records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .ATI-bowling-records-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .ATI-bowling-records-table th {
+        background-color: #f8f9fa; /* Light grey for headers */
+      }
+      .ATI-fielding-records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .ATI-fielding-records-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .ATI-fielding-records-table th {
+        background-color: #f8f9fa; /* Light grey for headers */
+      }
+      .ATI-team-records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .ATI-team-records-table td:first-child {
+        white-space: nowrap;
+        text-align: left;
+      }
+      .ATI-team-records-table th {
+        background-color: #f8f9fa; /* Light grey for headers */
+      }
