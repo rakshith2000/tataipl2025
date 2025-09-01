@@ -3,7 +3,7 @@ from . import db
 from .models import User, Pointstable, Fixture, Squad
 import os, csv, re, pytz, requests, time
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Blueprint, render_template, url_for, redirect, request, flash, Response, json, stream_with_context
+from flask import Blueprint, jsonify, render_template, url_for, redirect, request, flash, Response, json, stream_with_context
 from flask_login import login_required, current_user
 from sqlalchemy import and_, or_
 from sqlalchemy.sql import text
@@ -629,11 +629,18 @@ def alltimept():
     dataPT = [dict(row._mapping) for row in dataPT]
     return render_template('all-time-PT.html', dataPT=dataPT, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
 
+def get_result_records():
+    result_records = db.session.execute(text('SELECT * FROM result_records ORDER BY id')).fetchall()
+    stats = [dict(row._mapping) for row in result_records]
+    return {"stats": stats, "fn": full_name | defuncTeams_fn, "clr": clr, "sqclr": sqclr}
+
 @main.route('/resultrecords')
 def resultrecords():
-    stats = db.session.execute(text('SELECT * FROM result_records ORDER BY id')).fetchall()
-    stats = [dict(row._mapping) for row in stats]
-    return render_template('result-records.html', stats=stats, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
+    return render_template('result-records.html', **get_result_records())
+
+@main.route('/api/resultrecords')
+def api_resultrecords():
+    return jsonify(get_result_records())
 
 @main.route('/teamscoringrecords')
 def teamscoringrecords():
