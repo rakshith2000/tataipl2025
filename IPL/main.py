@@ -617,26 +617,16 @@ def alltimeipl():
     stats['Records'] = [dict(row._mapping) for row in records]
     return render_template('all-time-ipl.html', stats=stats, fn=full_name, dfn=defuncTeams_fn, clr=clr, sqclr=sqclr)
 
-@main.route('/iplawards')
-def iplawards():
-    stats = db.session.execute(text('select * from ipl_awards order by id')).fetchall()
-    stats = [dict(row._mapping) for row in stats]
-    return render_template('ipl-awards.html', stats=stats, fn=full_name, clr=clr, sqclr=sqclr)
-
 def get_allPT_records(table_name, order_by='id'):
     data = db.session.execute(text(f'SELECT * FROM {table_name} ORDER BY {order_by}')).fetchall()
     stats = [dict(row._mapping) for row in data]
     return {"stats": stats, "fn": full_name | defuncTeams_fn, "clr": clr, "sqclr": sqclr}
 
-@main.route('/alltimept')
-def alltimept():
-    dataPT = db.session.execute(text('SELECT * FROM all_time_points_table ORDER BY season ASC, rank ASC')).fetchall()
-    dataPT = [dict(row._mapping) for row in dataPT]
-    return render_template('all-time-PT.html', dataPT=dataPT, fn=full_name | defuncTeams_fn, clr=clr, sqclr=sqclr)
-
 @main.route('/<page>')
 def render_page(page):
-    db_html = {'resultrecords':['result_records','result-records.html'],
+    db_html = {'iplawards':['ipl_awards','ipl-awards.html'],
+               'alltimept':['all_time_points_table','all-time-PT.html'],
+               'resultrecords':['result_records','result-records.html'],
                'teamscoringrecords':['teams_scoring_records','team-scoring-records.html'],
                'individualbattingrecords':['individual_batting_records','individual-batting-records.html'],
                'individualbowlingrecords':['individual_bowling_records','individual-bowling-records.html'],
@@ -646,7 +636,9 @@ def render_page(page):
 
 @main.route('/api/<page>')
 def api_page(page):
-    db_html = {'resultrecords':['result_records','result-records.html'],
+    db_html = {'iplawards':['ipl_awards','ipl-awards.html'],
+               'alltimept':['all_time_points_table','all-time-PT.html'],
+               'resultrecords':['result_records','result-records.html'],
                'teamscoringrecords':['teams_scoring_records','team-scoring-records.html'],
                'individualbattingrecords':['individual_batting_records','individual-batting-records.html'],
                'individualbowlingrecords':['individual_bowling_records','individual-bowling-records.html'],

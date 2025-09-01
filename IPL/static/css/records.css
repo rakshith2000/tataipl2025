@@ -315,3 +315,12 @@ tr:last-child td {
         .Team-Records-table td {
             white-space: nowrap;
         }
+
+        .renderPT-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .renderPT-table td:nth-child(3) {
+        white-space: nowrap;
+        text-align: left;
+      }
