@@ -636,7 +636,7 @@ def get_alltimeipl():
 @main.route('/alltimeipl')
 def alltimeipl():
     # keep legacy route but reuse the shared renderer/context provider
-    return render_template('all-time-ipl.html', **get_alltimeipl())
+    return render_template('all-time-ipl.html')
 
 @main.route('/api/alltimeipl')
 def api_alltime_page():
@@ -658,7 +658,7 @@ def render_page(page):
                'individualbowlingrecords':['individual_bowling_records','individual-bowling-records.html'],
                'individualwicketkeepingrecords':['individual_wicket_keeping_records','individual-wicketkeeping-records.html'],
                'individualfieldingrecords':['individual_fielding_records','individual-fielding-records.html']}
-    return render_template(db_html[page][1], **get_allPT_records(db_html[page][0]))
+    return render_template(db_html[page][1])
 
 @main.route('/api/<page>')
 def api_page(page):
