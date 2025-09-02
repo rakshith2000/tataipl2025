@@ -331,6 +331,25 @@ tr:last-child td {
         text-align: left;
       }
 
+      .Individual-Records-table td {
+        text-align: center;
+        padding: 8px;
+      }
+      .Individual-Records-table td {
+        white-space: nowrap;
+      }
+      .Individual-Records-table td:nth-child(2) {
+        white-space: wrap;
+        text-align: left;
+      }
+      .Individual-Records-table td:nth-child(3) {
+        white-space: wrap;
+        text-align: left;
+      }
+      .Individual2-Records-table td:nth-child(2) {
+        text-align: left;
+      }
+
       .Result-Records-table td {
             text-align: center;
             padding: 8px;

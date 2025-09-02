@@ -12,7 +12,7 @@
    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
    <link href="{{ url_for('static', filename= 'css/flag-icons.css') }}" rel="stylesheet">
-   <link href="{{ url_for('static', filename= 'css/records.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename= 'css/records.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
@@ -36,7 +36,7 @@
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='teamscoringrecords') }}">Teams Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualbattingrecords') }}">Batting Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualbattingrecords') }}">Batting Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualbowlingrecords') }}">Bowling Records</a>
@@ -48,28 +48,20 @@
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualfieldingrecords') }}">Fielding Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualrecords') }}">Individual Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualrecords') }}">Individual Records</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
       <center><div class="pt-3 dropdown">
-        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Highest Career Runs<i class="fa fa-chevron-down font_10 ms-1"></i></button>
+        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Most Matches Played<i class="fa fa-chevron-down font_10 ms-1"></i></button>
         <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
-        <a href="#" class="activeD" onclick="selectOption(this, 'Highest Career Runs')">Highest Career Runs</a>
-        <a href="#" onclick="selectOption(this, 'Highest Individual Score')">Highest Individual Score</a>
-        <a href="#" onclick="selectOption(this, 'Most Centuries')">Most Centuries</a>
-        <a href="#" onclick="selectOption(this, 'Most Half Centuries')">Most Half Centuries</a>
-        <a href="#" onclick="selectOption(this, 'Most Runs in a Season')">Most Runs in a Season</a>
-        <a href="#" onclick="selectOption(this, 'Most Career Sixes')">Most Career Sixes</a>
-        <a href="#" onclick="selectOption(this, 'Most Career Fours')">Most Career Fours</a>
-        <a href="#" onclick="selectOption(this, 'Most Sixes in an Innings')">Most Sixes in an Innings</a>
-        <a href="#" onclick="selectOption(this, 'Highest Average')">Highest Average</a>
-        <a href="#" onclick="selectOption(this, 'Highest Strike Rate')">Highest Strike Rate</a>
-        <a href="#" onclick="selectOption(this, 'Highest Strike Rate in an Innings')">Highest Strike Rate in an Innings</a>
-        <a href="#" onclick="selectOption(this, 'Most Runs From 4s + 6s in an Innings')">Most Runs From 4s + 6s in an Innings</a>
-        <a href="#" onclick="selectOption(this, 'Most Career Ducks')">Most Career Ducks</a>
+        <a href="#" class="activeD" onclick="selectOption(this, 'Most Matches Played')">Most Matches Played</a>
+        <a href="#" onclick="selectOption(this, 'Most Matches Played as Captain')">Most Matches Played as Captain</a>
+        <a href="#" onclick="selectOption(this, 'Most Consecutive Wins')">Most Consecutive Wins</a>
+        <a href="#" onclick="selectOption(this, 'Most Consecutive Losses')">Most Consecutive Losses</a>
+        <a href="#" onclick="selectOption(this, 'Most POTM Awards')">Most POTM Awards</a>
         </div>
       </div></center>
       <div id="tableContainer" class="table-wrapper"></div>
@@ -79,5 +71,5 @@
  </div>
 </section>
 <script src="{{ url_for('static', filename='js/ipl_records_stats_gen.js') }}"></script>
-<script src="{{ url_for('static', filename='js/individual-batting-records.js') }}"></script>
+<script src="{{ url_for('static', filename='js/individual-records.js') }}"></script>
 {% endblock %}
