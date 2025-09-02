@@ -32,42 +32,6 @@
     }
   }
 
-// Add sortable table header styles to <head>
-const sortableStyle = document.createElement('style');
-sortableStyle.textContent = `
-/* Sortable table headers */
-.sortable-header {
-    cursor: pointer;
-    user-select: none;
-    position: relative;
-    padding-right: 20px !important;
-    transition: background-color 0.2s ease;
-    /*white-space: nowrap;*/
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.sortable-header:hover {
-    /*background-color: rgba(0, 123, 255, 0.1);*/
-}
-.sort-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 0.6rem;
-    color: #cad2d8;
-    transition: color 0.2s ease;
-}
-.sortable-header:hover .sort-icon {
-    color: #007bff;
-}
-.sort-icon.fa-sort-up,
-.sort-icon.fa-sort-down {
-    color: #007bff;
-}
-`;
-document.head.appendChild(sortableStyle);
-
   function applyTableSorting(table) {
   const ths = table.querySelectorAll('thead th');
   const tbody = table.querySelector('tbody');
