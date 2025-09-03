@@ -658,7 +658,8 @@ def render_page(page):
                'individualbowlingrecords':['individual_bowling_records','individual-bowling-records.html'],
                'individualwicketkeepingrecords':['individual_wicket_keeping_records','individual-wicketkeeping-records.html'],
                'individualfieldingrecords':['individual_fielding_records','individual-fielding-records.html'],
-               'individualrecords':['individual_records','individual-records.html']}
+               'individualrecords':['individual_records','individual-records.html'],
+               'partnershiprecords':['partnership_records','partnership-records.html']}
     return render_template(db_html[page][1])
 
 @main.route('/api/<page>')
@@ -671,7 +672,8 @@ def api_page(page):
                'individualbowlingrecords':['individual_bowling_records','individual-bowling-records.html'],
                'individualwicketkeepingrecords':['individual_wicket_keeping_records','individual-wicketkeeping-records.html'],
                'individualfieldingrecords':['individual_fielding_records','individual-fielding-records.html'],
-               'individualrecords':['individual_records','individual-records.html']}
+               'individualrecords':['individual_records','individual-records.html'],
+               'partnershiprecords':['partnership_records','partnership-records.html']}
     return jsonify(get_allPT_records(db_html[page][0]))
 
 @main.route('/update')

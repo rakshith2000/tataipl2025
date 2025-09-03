@@ -245,7 +245,7 @@ tr:last-child td {
     text-overflow: ellipsis;
 }
 .sortable-header:hover {
-    /*background-color: rgba(0, 123, 255, 0.1);*/
+    background-color: rgba(0, 123, 255, 0.1);
 }
 .sort-icon {
     position: absolute;
@@ -346,8 +346,40 @@ tr:last-child td {
         white-space: wrap;
         text-align: left;
       }
+      .Individual2-Records-table td {
+        text-align: center;
+        padding: 8px;
+      }
       .Individual2-Records-table td:nth-child(2) {
         text-align: left;
+      }
+      
+      .Partnership-Records-table td {
+        text-align: center;
+        padding: 8px;
+        white-space: nowrap;
+      }
+      .Partnership-Records-table td:nth-child(4) {
+        text-align: left;
+        white-space: wrap;
+      }
+      .Partnership-Records-table td:nth-child(5) {
+        text-align: left;
+        white-space: wrap;
+      }
+
+      .Partnership2-Records-table td {
+        text-align: center;
+        padding: 8px;
+        white-space: nowrap;
+      }
+      .Partnership2-Records-table td:nth-child(2) {
+        text-align: left;
+        white-space: wrap;
+      }
+      .Partnership2-Records-table td:nth-child(3) {
+        text-align: left;
+        white-space: wrap;
       }
 
       .Result-Records-table td {

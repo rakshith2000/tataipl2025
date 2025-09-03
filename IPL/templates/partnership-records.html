@@ -39,7 +39,7 @@
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualbattingrecords') }}">Batting Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualbowlingrecords') }}">Bowling Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualbowlingrecords') }}">Bowling Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualwicketkeepingrecords') }}">Wicket Keeping Records</a>
@@ -51,31 +51,18 @@
                 <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='individualrecords') }}">Individual Records</a>
               </li>
               <li class="me-2 mt-1 mb-1" style="font-size: 16px">
-                <a class="border_orange d-block p-1 px-3 rounded-pill" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='partnershiprecords') }}">Partnership Records</a>
+                <a class="border_orange d-block p-1 px-3 rounded-pill active" data-bs-toggle="tab" aria-expanded="true" href="{{ url_for('main.render_page', page='partnershiprecords') }}">Partnership Records</a>
               </li>
             </ul>
           </div>
         </div>
       </div>
       <center><div class="pt-3 dropdown">
-        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Most Career Wickets<i class="fa fa-chevron-down font_10 ms-1"></i></button>
+        <button class="dropdown-toggle" onclick="toggleDropdown()" id="dropdownButton">Highest Partnership by Wickets<i class="fa fa-chevron-down font_10 ms-1"></i></button>
         <div class="dropdown-menu pt-0 pb-0" id="dropdownMenu">
-        <a href="#" class="activeD" onclick="selectOption(this, 'Most Career Wickets')">Most Career Wickets</a>
-        <a href="#" onclick="selectOption(this, 'Best Bowling Figures')">Best Bowling Figures</a>
-        <a href="#" onclick="selectOption(this, 'Best Bowling Average')">Best Bowling Average</a>
-        <a href="#" onclick="selectOption(this, 'Best Bowling Strike Rate')">Best Bowling Strike Rate</a>
-        <a href="#" onclick="selectOption(this, 'Best Economy')">Best Economy</a>
-        <a href="#" onclick="selectOption(this, '5W Hauls List')">5W Hauls List</a>
-        <a href="#" onclick="selectOption(this, '4W Hauls List')">4W Hauls List</a>
-        <a href="#" onclick="selectOption(this, 'Hat-tricks')">Hat-tricks</a>
-        <a href="#" onclick="selectOption(this, 'Most Wickets in a Season')">Most Wickets in a Season</a>
-        <a href="#" onclick="selectOption(this, 'Best Economy in an Innings')">Best Economy in an Innings</a>
-        <a href="#" onclick="selectOption(this, 'Best Bowling Strike Rate in an Innings')">Best Bowling Strike Rate in an Innings</a>
-        <a href="#" onclick="selectOption(this, 'Most 5W Hauls')">Most 5W Hauls</a>
-        <a href="#" onclick="selectOption(this, 'Most 4W Hauls')">Most 4W Hauls</a>
-        <a href="#" onclick="selectOption(this, 'Most Career Dot Balls')">Most Career Dot Balls</a>
-        <a href="#" onclick="selectOption(this, 'Most Dot Balls in an Innings')">Most Dot Balls in an Innings</a>
-        <a href="#" onclick="selectOption(this, 'Most Runs Conceded in an Innings')">Most Runs Conceded in an Innings</a>
+        <a href="#" class="activeD" onclick="selectOption(this, 'Highest Partnership by Wickets')">Highest Partnership by Wickets</a>
+        <a href="#" onclick="selectOption(this, 'Highest Partnership by Runs')">Highest Partnership by Runs</a>
+        <a href="#" onclick="selectOption(this, 'Partnerships List')">Partnerships List</a>
         </div>
       </div></center>
       <div id="tableContainer" class="table-wrapper"></div>
@@ -85,5 +72,5 @@
  </div>
 </section>
 <script src="{{ url_for('static', filename='js/ipl_records_stats_gen.js') }}"></script>
-<script src="{{ url_for('static', filename='js/individual-bowling-records.js') }}"></script>
+<script src="{{ url_for('static', filename='js/partnership-records.js') }}"></script>
 {% endblock %}

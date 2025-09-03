@@ -188,3 +188,8 @@ class IndividualRecords(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     stats = db.Column(db.JSON)
     record = db.Column(db.String)
+
+class PartnershipRecords(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    stats = db.Column(db.JSON)
+    record = db.Column(db.String)
