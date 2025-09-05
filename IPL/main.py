@@ -440,7 +440,7 @@ def matchInfo(match):
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
     print(MatchURL)
     dttm = concat_DT(MatchDT[2], MatchDT[3])
-    response = requests.get(MatchURL)
+    response = requests.get(MatchURL, verify=False)
     MatchLDT = response.json()
     MatchDT2 = []
     MatchDT2.append(num_suffix(int(MatchDT[1]))+" Match" if MatchDT[1].isdigit() else MatchDT[1])
@@ -456,7 +456,7 @@ def liveScore(match):
     SquadFull = (db.session.execute(text('SELECT * FROM Squad')).fetchall())
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
     dttm = concat_DT(MatchDT[2], MatchDT[3])
-    response = requests.get(MatchURL)
+    response = requests.get(MatchURL, verify=False)
     MatchLDT = response.json()
     MatchDT2 = []
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
@@ -472,7 +472,7 @@ def scoreCard(match):
     SquadFull = (db.session.execute(text('SELECT * FROM Squad')).fetchall())
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
     dttm = concat_DT(MatchDT[2], MatchDT[3])
-    response = requests.get(MatchURL)
+    response = requests.get(MatchURL, verify=False)
     MatchLDT = response.json()
     MatchDT2 = []
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
@@ -489,7 +489,7 @@ def liveSquad(match):
     SquadDT = (db.session.execute(text('SELECT * FROM Squad WHERE "Captain" = :captain OR "Overseas" = :overseas'), {'captain': 'Y', 'overseas': 'Y'}).fetchall())
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
     dttm = concat_DT(MatchDT[2], MatchDT[3])
-    response = requests.get(MatchURL)
+    response = requests.get(MatchURL, verify=False)
     MatchLDT = response.json()
     MatchDT2 = []
     MatchDT2.append(num_suffix(int(MatchDT[1])) + " Match" if MatchDT[1].isdigit() else MatchDT[1])
