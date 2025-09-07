@@ -215,6 +215,11 @@ def get_data_from_url(url):
             return None
     else:
         return None
+    
+def get_innings_data(matID):
+    inn1 = requests.get(f"https://apiv2.cricket.com.au/web/views/comments?fixtureId={matID}&inningNumber=1&commentType=&overLimit=21&jsconfig=eccn%3Atrue&format=json", verify=False).json()
+    inn2 = requests.get(f"https://apiv2.cricket.com.au/web/views/comments?fixtureId={matID}&inningNumber=2&commentType=&overLimit=21&jsconfig=eccn%3Atrue&format=json", verify=False).json()
+    return inn1, inn2
 
 def calculate_age(dob, current_date):
     # Calculate the number of full years
@@ -449,6 +454,23 @@ def matchInfo(match):
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
     return render_template('info.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm)
+
+@main.route('/match-<match>/Overs')
+def matchOvers(match):
+    MatchDT = (db.session.execute(text('SELECT * FROM Fixture WHERE "Match_No" = :matchno'), {'matchno': match}).fetchall())[0]
+    MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
+    Inn1, Inn2 = get_innings_data(MatchDT[11])
+    dttm = concat_DT(MatchDT[2], MatchDT[3])
+    response = requests.get(MatchURL, verify=False)
+    MatchLDT = response.json()
+    MatchDT2 = []
+    MatchDT2.append(num_suffix(int(MatchDT[1]))+" Match" if MatchDT[1].isdigit() else MatchDT[1])
+    MatchDT2.append(MatchDT[6].split(", ")[1])
+    MatchDT2.append(num_suffix(MatchDT[2].day)+" "+MatchDT[2].strftime("%B %Y"))
+    current_date = datetime.now(tz)
+    current_date = current_date.replace(tzinfo=None)
+    return render_template('overs.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, inn1=Inn1, inn2=Inn2)
+
 
 @main.route('/match-<match>/liveScore')
 def liveScore(match):

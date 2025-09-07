@@ -1,0 +1,104 @@
+.over-container {
+    display: flex;
+    gap: 9px;
+    padding: 4px 8px 4px 8px;
+    border-bottom: 2px solid #ecebeb;
+}
+
+.over-left {
+    background-color: #f1f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .25rem;
+    width: 16.66667%;
+}
+
+.over-left-items {
+    height: auto;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.over-left-over {
+    font-size: 14px;
+    display: block;
+    font-weight: 700;
+    padding-left: 3px;
+}
+
+.over-left-run {
+    display: block;
+    line-height: 1rem;
+    color: #737373;
+    font-size: .75rem;
+    padding-left: 3px;
+}
+
+.over-left-score {
+    font-size: 13px;
+    color: #696868;
+    padding-left: 3px;
+}
+
+.over-right {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 83.33333%;
+}
+
+.over-right-info {
+    height: auto;
+    font-size: 15px;
+    padding-bottom: .25rem;
+    padding-top: .25rem;
+}
+
+.over-right-item-balls {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    gap: .5rem;
+}
+
+.over-right-balls {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    text-align: center;
+    width: 34px;
+    height: 28px;
+}
+
+.bg-four {
+    background-color: #3098d5;
+}
+
+.bg-six {
+    background-color: #c569e6;
+}
+
+.bg-normal {
+    background-color: #34c759;
+}
+
+.bg-dot {
+    background-color: #959595;
+}
+
+.bg-extra {
+    background-color: #bb9762;
+}
+
+.bg-wicket {
+    background-color: #ff3b30;
+}

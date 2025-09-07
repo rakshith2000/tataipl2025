@@ -13,6 +13,7 @@
 	<link href="{{ url_for('static', filename= 'css/live.css') }}" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 	<link href="{{ url_for('static', filename= 'css/flag-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename= 'css/overs.css') }}" rel="stylesheet">
     <style>
     body {
     	font-family: 'Exo 2', sans-serif;
@@ -25,6 +26,57 @@
 {% endblock %}
 
 {% block content %}
+{% macro get_ball_score(ball) %}
+    {%- if ball.isWicket -%}
+        {%- if ball.runs > 0 -%}
+            W{{ ball.runs }}
+        {%- else -%}
+            W
+        {%- endif -%}
+    {%- elif ball.isWide -%}
+        {%- if ball.runsWide > 1 -%}
+            Wd{{ ball.runsWide }}
+        {%- else -%}
+            Wd
+        {%- endif -%}
+    {%- elif ball.isNoBall -%}
+        {%- if ball.isByes -%}
+            N{{ ball.runsByes }}
+        {%- elif ball.isLegByes -%}
+            N{{ ball.runsLegByes }}
+        {%- else -%}
+            N{{ ball.teamRuns if ball.teamRuns > 0 else '' }}
+        {%- endif -%}
+    {%- elif ball.isLegByes -%}
+        L{{ ball.runsLegByes if ball.runsLegByes > 0 else '' }}
+    {%- elif ball.isByes -%}
+        B{{ ball.runsByes if ball.runsByes > 0 else '' }}
+    {%- elif ball.runs == 0 -%}
+        0
+    {%- else -%}
+        {{ ball.runs }}
+    {%- endif -%}
+{% endmacro %}
+
+{% macro get_ball_bg_color(score) %}
+    {% set score = score|string %}
+    {% if score.startswith('Wd') or score.startswith('B') or score.startswith('L') or score.startswith('N') %}
+        bg-extra
+    {% elif '4' in score %}
+        bg-four
+    {% elif '6' in score %}
+        bg-six
+    {% elif score == '0' %}
+        bg-dot
+    {% elif score in ['1', '2', '3'] %}
+        bg-normal
+    {% elif score.startswith('W') %}
+        bg-wicket
+    {% else %}
+        bg-normal
+    {% endif %}
+{% endmacro %}
+</div>
 
 <div style="padding-top: 55px;"></div>
 <section id="center" class="pt-3 pb-3 center_live">
@@ -63,66 +115,79 @@
              {% endif %}
 
         <ul class="mb-0 bg-white rounded_bottom px-3 score_tab d-block">
-         <li class="mx-2 d-inline-block"><a class="active d-block" href="{{ url_for('main.matchInfo', match=match) }}">Info</a></li>
+         <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.matchInfo', match=match) }}">Info</a></li>
 		 <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.liveScore', match=match) }}">Live</a></li>
 		 <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.scoreCard', match=match) }}">Scorecard</a></li>
-		 <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.matchOvers', match=match) }}">Overs</a></li>
+		 <li class="mx-2 d-inline-block"><a class="active d-block" href="{{ url_for('main.matchOvers', match=match) }}">Overs</a></li>
 			<li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
 		</ul>
 	    </div>
-		<div class="live_5 border rounded_10 bg-white mt-3 pt-3" style="padding-bottom: 20px">
-        <div class="row">
-		 <div class="col pt-2">
-             <span class="d-block px-3 pt-1 pb-1 bg-bluelight font_16"><b>Match Details</b></span>
-			 <center>
-		   <div class="table-responsive mt-2" style="width: 90%">
-		    <table class="table font_12 mb-0 align-middle">
-  <tbody>
-    <tr class="border border-end">
-	  <td class="bg-light fw-bold">Match</td>
-      <td class="border-start">{{ dt2[0] }}	</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Series</td>
-      <td class="border-start">TATA Indian Premier League 2025</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Date</td>
-      <td class="border-start">{{ dt1[2].strftime("%a, %b %d") }}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Time</td>
-      <td class="border-start">{{ dt1[3].strftime("%I:%M %p") }} IST	</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Venue</td>
-      <td class="border-start">{{ dt1[6] }}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Toss</td>
-      <td class="border-start">{% if "toss_won_by" in dt3 %}{{ tid[dt3['toss_won_by']][1]~" elected to "~dt3['toss_decision'] }}{% else %}{{ '-' }}{% endif %}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Umpires</td>
-      <td class="border-start">{% if dt3['umpires'] %}{{ dt3['umpires'].split(',')[:2] | join(',') }}{% else %}{{ 'TBA' }}{% endif %}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">3rd Umpire</td>
-      <td class="border-start">{% if dt3['umpires'] %}{{ dt3['umpires'].split(',')[2]~')' }}{% else %}{{ 'TBA' }}{% endif %}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">Referee</td>
-      <td class="border-start">{% if dt3['referee'] %}{{ dt3['referee'] }}{% else %}{{ 'TBA' }}{% endif %}</td>
-     </tr>
-	 <tr class="border border-end">
-	  <td class="bg-light fw-bold">TV / Streaming</td>
-      <td class="border-start">Star Sports Network / JioHotstar	</td>
-     </tr>
-  </tbody>
-</table>
-		   </div></center>
-		 </div>
-		</div>
+		<div class="live_5 border rounded_10 bg-white mt-3 pt-3">
+        <div style="border-bottom: 2px solid #ecebeb;"></div>
+            {% if inn2['inning'] %}
+            {% for over in inn2['inning']['overs'][:-1] %}
+            <div class="over-container">
+                <div class="over-left">
+                    <div class="over-left-items">
+                        <div class="over-left-over">Ov {{ over['overNumber'] }}</div>
+                        <div class="over-left-run">{{ over['totalRuns'] }} Runs</div>
+                    </div>
+                    <div class="over-left-items">
+                        <div class="over-left-score">{{ tid[dt3['score_strip'][1].team_id][0] }}</div>
+                        <div class="over-left-score">{{ over['totalInningRuns'] }}/{{ over['totalInningWickets'] }}</div>
+                    </div>
+                </div>
+                <div class="over-right">
+                    <div class="over-right-info">
+                        {% if over['balls'][0]['comments'][0]['commentTypeId'] == "EndOfOver" %}
+                            Bowler: {{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}
+                        {% else %}
+                            Bowler: {{ dt3['now_bowling']['b1']['name'] }}
+                        {% endif %}
+                    </div>
+                    <div class="over-right-item-balls">
+                        {% for ball in over['balls'][::-1] %}
+                            {% set score = get_ball_score(ball) %}
+                            <div class="over-right-balls {{ get_ball_bg_color(score) }}">{{ score }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            {% if inn1['inning'] %}
+            {% for over in inn1['inning']['overs'][:-1] %}
+            <div class="over-container">
+                <div class="over-left">
+                    <div class="over-left-items">
+                        <div class="over-left-over">Ov {{ over['overNumber'] }}</div>
+                        <div class="over-left-run">{{ over['totalRuns'] }} Runs</div>
+                    </div>
+                    <div class="over-left-items">
+                        <div class="over-left-score">{{ tid[dt3['score_strip'][0].team_id][0] }}</div>
+                        <div class="over-left-score">{{ over['totalInningRuns'] }}/{{ over['totalInningWickets'] }}</div>
+                    </div>
+                </div>
+                <div class="over-right">
+                    <div class="over-right-info">
+                        {% if over['balls'][0]['comments'][0]['commentTypeId'] == "EndOfOver" %}
+                            Bowler: {{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}
+                        {% else %}
+                            Bowler: {{ dt3['now_bowling']['b1']['name'] }}
+                        {% endif %}
+                    </div>
+                    <div class="over-right-item-balls">
+                        {% for ball in over['balls'][::-1] %}
+                            {% set score = get_ball_score(ball) %}
+                            <div class="over-right-balls {{ get_ball_bg_color(score) }}">{{ score }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+<div class="pb-3"></div>
 		</div>
 	  </div>
 	</div>
