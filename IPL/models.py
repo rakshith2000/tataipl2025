@@ -38,6 +38,7 @@ class Fixture(db.Model):
     A_info = db.Column(db.JSON)
     B_info = db.Column(db.JSON)
     Win_T = db.Column(db.String)
+    Match_ID = db.Column(db.Integer)
 
 class Squad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
