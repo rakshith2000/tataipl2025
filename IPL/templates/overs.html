@@ -28,8 +28,14 @@
 {% block content %}
 {% macro get_ball_score(ball) %}
     {%- if ball.isWicket -%}
-        {%- if ball.runs > 0 -%}
-            W{{ ball.runs }}
+        {% if ball.isByes %}
+            W{{ ball.runsByes }}
+        {%- elif ball.isLegByes -%}
+            W{{ ball.runsLegByes }}
+        {%- elif ball.isWide -%}
+            W{{ ball.runsWide }}
+        {%- elif ball.teamRuns > 0 -%}
+            W{{ ball.teamRuns }}
         {%- else -%}
             W
         {%- endif -%}
@@ -41,9 +47,9 @@
         {%- endif -%}
     {%- elif ball.isNoBall -%}
         {%- if ball.isByes -%}
-            N{{ ball.runsByes }}
+            NB{{ ball.runsByes }}
         {%- elif ball.isLegByes -%}
-            N{{ ball.runsLegByes }}
+            NL{{ ball.runsLegByes }}
         {%- else -%}
             N{{ ball.teamRuns if ball.teamRuns > 0 else '' }}
         {%- endif -%}
@@ -51,10 +57,10 @@
         L{{ ball.runsLegByes if ball.runsLegByes > 0 else '' }}
     {%- elif ball.isByes -%}
         B{{ ball.runsByes if ball.runsByes > 0 else '' }}
-    {%- elif ball.runs == 0 -%}
+    {%- elif ball.teamRuns == 0 -%}
         0
     {%- else -%}
-        {{ ball.runs }}
+        {{ ball.teamRuns }}
     {%- endif -%}
 {% endmacro %}
 
@@ -86,6 +92,48 @@
         {% endif %}
     {% endfor %}
     {{ ns.batsmen | join(' <span>&</span> ') | safe}}
+{% endmacro %}
+
+{% macro get_runs(over) %}
+    {% set ns = namespace(runs = 0) %}
+    {% for ball in over['balls'] %}
+        {%- if ball.isWicket -%}
+            {% if ball.isByes %}
+                {% set ns.runs = ns.runs + ball.runsByes %}
+            {%- elif ball.isLegByes -%}
+                {% set ns.runs = ns.runs + ball.runsLegByes %}
+            {%- elif ball.isWide -%}
+                {% set ns.runs = ns.runs + ball.runsWide %}
+            {%- elif ball.teamRuns > 0 -%}
+                {% set ns.runs = ns.runs + ball.teamRuns %}
+            {%- else -%}
+                {% set ns.runs = ns.runs + 0 %}
+            {%- endif -%}
+        {%- elif ball.isWide -%}
+            {%- if ball.runsWide > 1 -%}
+                {% set ns.runs = ns.runs + ball.runsWide %}
+            {%- else -%}
+                {% set ns.runs = ns.runs + 1 %}
+            {%- endif -%}
+        {%- elif ball.isNoBall -%}
+            {%- if ball.isByes -%}
+                {%- set ns.runs = ns.runs + ball.runsByes + 1 %} 
+            {%- elif ball.isLegByes -%}
+                {%- set ns.runs = ns.runs + ball.runsLegByes + 1 %}
+            {%- else -%}
+                {% set ns.runs = ns.runs + (ball.teamRuns if ball.teamRuns > 0 else 0) + 1 %}
+            {%- endif -%}
+        {%- elif ball.isLegByes -%}
+            {%- set ns.runs = ns.runs + ball.runsLegByes if ball.runsLegByes > 0 else ns.runs %}
+        {%- elif ball.isByes -%}
+            {%- set ns.runs = ns.runs + ball.runsByes if ball.runsByes > 0 else ns.runs %}
+        {%- elif ball.teamRuns == 0 -%}
+            {% set ns.runs = ns.runs + 0 %}
+        {%- else -%}
+            {% set ns.runs = ns.runs + ball.teamRuns %}
+        {%- endif -%}
+    {% endfor %}
+    {{ ns.runs }}
 {% endmacro %}
 
 </div>
@@ -142,7 +190,7 @@
                 <div class="over-left">
                     <div class="over-left-items">
                         <div class="over-left-over">Ov {{ over['overNumber'] }}</div>
-                        <div class="over-left-run">{{ over['totalRuns'] }} Runs</div>
+                        <div class="over-left-run">{{ get_runs(over) }} Runs</div>
                     </div>
                     <div class="over-left-items">
                         <div class="over-left-score">{{ tid[dt3['score_strip'][1].team_id][0] }}</div>
@@ -174,7 +222,7 @@
                 <div class="over-left">
                     <div class="over-left-items">
                         <div class="over-left-over">Ov {{ over['overNumber'] }}</div>
-                        <div class="over-left-run">{{ over['totalRuns'] }} Runs</div>
+                        <div class="over-left-run">{{ get_runs(over) }} Runs</div>
                     </div>
                     <div class="over-left-items">
                         <div class="over-left-score">{{ tid[dt3['score_strip'][0].team_id][0] }}</div>
