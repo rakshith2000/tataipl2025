@@ -76,6 +76,18 @@
         bg-normal
     {% endif %}
 {% endmacro %}
+
+{% macro get_batsmen(over) %}
+    {% set ns = namespace( batsmen = [] ) %}
+    {% for ball in over['balls'] %}
+        {% set batsman = ball['comments'][-1]['message'].split(' to ')[1].split('.')[0] | trim %}
+        {% if batsman and batsman not in ns.batsmen %}
+            {% set ns.batsmen = ns.batsmen + [batsman] %}
+        {% endif %}
+    {% endfor %}
+    {{ ns.batsmen | join(' <span>&</span> ') | safe}}
+{% endmacro %}
+
 </div>
 
 <div style="padding-top: 55px;"></div>
@@ -140,15 +152,15 @@
                 <div class="over-right">
                     <div class="over-right-info">
                         {% if over['balls'][0]['comments'][0]['commentTypeId'] == "EndOfOver" %}
-                            Bowler: {{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}
+                            <b>{{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}</b> to {{ get_batsmen(over) }}
                         {% else %}
-                            Bowler: {{ over['balls'][0]['comments'][-1]['message'].split(' to ')[0].split()[-2:] | join(' ') }}
+                            <b>{{ over['balls'][0]['comments'][-1]['message'].split(' to ')[0].split()[-2:] | join(' ') }}</b> to {{ get_batsmen(over) }}
                         {% endif %}
                     </div>
                     <div class="over-right-item-balls">
                         {% for ball in over['balls'][::-1] %}
                             {% set score = get_ball_score(ball) %}
-                            <div class="over-right-balls {{ get_ball_bg_color(score) }}" style={{ "width: 32px;" if score|length >= 3 else "" }}>{{ score }}</div>
+                            <div class="over-right-balls {{ get_ball_bg_color(score) }}" style="width: {{ 20+(score|length * 4) }}px;">{{ score }}</div>
                         {% endfor %}
                     </div>
                 </div>
@@ -172,15 +184,15 @@
                 <div class="over-right">
                     <div class="over-right-info">
                         {% if over['balls'][0]['comments'][0]['commentTypeId'] == "EndOfOver" %}
-                            Bowler: {{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}
+                            <b>{{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}</b> to {{ get_batsmen(over) }}
                         {% else %}
-                            Bowler: {{ over['balls'][0]['comments'][-1]['message'].split(' to ')[0].split()[-2:] | join(' ') }}
+                            <b>{{ over['balls'][0]['comments'][-1]['message'].split(' to ')[0].split()[-2:] | join(' ') }}</b> to {{ get_batsmen(over) }}
                         {% endif %}
                     </div>
                     <div class="over-right-item-balls">
                         {% for ball in over['balls'][::-1] %}
                             {% set score = get_ball_score(ball) %}
-                            <div class="over-right-balls {{ get_ball_bg_color(score) }}" style={{ "width: 32px;" if score|length >= 3 else "" }}>{{ score }}</div>
+                            <div class="over-right-balls {{ get_ball_bg_color(score) }}" style="width: {{ 20+(score|length * 4) }}px;">{{ score }}</div>
                         {% endfor %}
                     </div>
                 </div>
