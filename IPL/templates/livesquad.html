@@ -13,6 +13,7 @@
 	<link href="{{ url_for('static', filename= 'css/live.css') }}" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 	<link href="{{ url_for('static', filename= 'css/flag-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename= 'css/records.css') }}" rel="stylesheet">
     <style>
     body {
     	font-family: 'Exo 2', sans-serif;
@@ -103,12 +104,12 @@
                                    <span class="d-block pt-2 pt-2 pb-2 px-3 font_12 bg-light">Target: <b>{{ (dt3['score_strip'][0]['score'].split('/')[0] | int) + 1 }}</b>&nbsp;&nbsp;&bull;&nbsp;&nbsp;Current RR: <b>{{ dt3['score_strip'][1]['run_rate'].split(' ')[2] }}</b>&nbsp;&nbsp;|&nbsp;&nbsp;Required RR: <b>{{ dt3['score_strip'][0]['required_run_rate'] }}</b><br>Current Partnership: <b>{{ dt3['innings'][1]['current_partnership']['runs'] }} ({{ dt3['innings'][1]['current_partnership']['balls'] }})</b></span>
                                {% endif %}
                              {% endif %}
-                        <ul class="mb-0 bg-white rounded_bottom px-3 score_tab d-block">
-                         <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.matchInfo', match=match) }}">Info</a></li>
-                         <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.liveScore', match=match) }}">Live</a></li>
-                         <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.scoreCard', match=match) }}">Scorecard</a></li>
-                            <li class="mx-2 d-inline-block"><a class="d-block" href="{{ url_for('main.matchOvers', match=match) }}">Overs</a></li>
-                            <li class="mx-2 d-inline-block"><a class="active d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
+                        <ul class="mb-0 bg-tab rounded_bottom px-3 score_tab d-flex justify-content-evenly flex-wrap">
+                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.matchInfo', match=match) }}">Info</a></li>
+                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.liveScore', match=match) }}">Live</a></li>
+                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.scoreCard', match=match) }}">Scorecard</a></li>
+                            <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.matchOvers', match=match) }}">Overs</a></li>
+                            <li class="d-inline-block"><a class="active d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
                         </ul>
                     </div>
                     {% if dt3['squad'] is not none %}
