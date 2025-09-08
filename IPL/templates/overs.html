@@ -148,7 +148,7 @@
                     <div class="over-right-item-balls">
                         {% for ball in over['balls'][::-1] %}
                             {% set score = get_ball_score(ball) %}
-                            <div class="over-right-balls {{ get_ball_bg_color(score) }}">{{ score }}</div>
+                            <div class="over-right-balls {{ get_ball_bg_color(score) }}" style={{ "width: 32px;" if score|length >= 3 else "" }}>{{ score }}</div>
                         {% endfor %}
                     </div>
                 </div>
@@ -180,7 +180,7 @@
                     <div class="over-right-item-balls">
                         {% for ball in over['balls'][::-1] %}
                             {% set score = get_ball_score(ball) %}
-                            <div class="over-right-balls {{ get_ball_bg_color(score) }}">{{ score }}</div>
+                            <div class="over-right-balls {{ get_ball_bg_color(score) }}" style={{ "width: 32px;" if score|length >= 3 else "" }}>{{ score }}</div>
                         {% endfor %}
                     </div>
                 </div>
