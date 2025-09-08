@@ -51,7 +51,7 @@
         {%- elif ball.isLegByes -%}
             NL{{ ball.runsLegByes }}
         {%- else -%}
-            N{{ ball.teamRuns if ball.teamRuns > 0 else '' }}
+            N{{ ball.teamRuns - 1 if ball.teamRuns > 1 else '' }}
         {%- endif -%}
     {%- elif ball.isLegByes -%}
         L{{ ball.runsLegByes if ball.runsLegByes > 0 else '' }}
@@ -121,7 +121,7 @@
             {%- elif ball.isLegByes -%}
                 {%- set ns.runs = ns.runs + ball.runsLegByes + 1 %}
             {%- else -%}
-                {% set ns.runs = ns.runs + (ball.teamRuns if ball.teamRuns > 0 else 0) + 1 %}
+                {% set ns.runs = ns.runs + (ball.teamRuns-1 if ball.teamRuns > 1 else 0) + 1 %}
             {%- endif -%}
         {%- elif ball.isLegByes -%}
             {%- set ns.runs = ns.runs + ball.runsLegByes if ball.runsLegByes > 0 else ns.runs %}
