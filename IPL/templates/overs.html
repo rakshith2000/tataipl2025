@@ -142,7 +142,7 @@
                         {% if over['balls'][0]['comments'][0]['commentTypeId'] == "EndOfOver" %}
                             Bowler: {{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}
                         {% else %}
-                            Bowler: {{ dt3['now_bowling']['b1']['name'] }}
+                            Bowler: {{ over['balls'][0]['comments'][-1]['message'].split(' to ')[0].split()[-2:] | join(' ') }}
                         {% endif %}
                     </div>
                     <div class="over-right-item-balls">
