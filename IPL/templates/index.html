@@ -168,7 +168,7 @@ h3.section-title {
 .card-back {
   background: linear-gradient(145deg, var(--c1), var(--c2));
   transform: rotateY(180deg);
-  color: white;
+  color: var(--fc);
 }
 
 .card-image {
@@ -228,7 +228,7 @@ h3.section-title {
 				<div class="card-front" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}  {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
 					<img class="card-image" src="/static/images/squad_logos/{{ i }}.png" alt="{{ i }}">
 				</div>
-				<div class="card-back" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }} {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}  {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }} {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }} {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }} {% endif %};">
+				<div class="card-back" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }}; --fc: white {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white  {% elif i == 'PBKS' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c1'] }}; --fc: white {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }}; --fc: white {% elif i == 'CSK' %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}; --fc: black {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white {% endif %};">
 				{{ i | upper }}
 				</div>
 			</div>

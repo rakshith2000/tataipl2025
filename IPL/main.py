@@ -469,7 +469,7 @@ def matchOvers(match):
     MatchDT2.append(num_suffix(MatchDT[2].day)+" "+MatchDT[2].strftime("%B %Y"))
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
-    return render_template('overs.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, inn1=Inn1, inn2=Inn2)
+    return render_template('overs.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, inn1=Inn1, inn2=Inn2, clr=clr)
 
 
 @main.route('/match-<match>/liveScore')

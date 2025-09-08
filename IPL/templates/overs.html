@@ -185,9 +185,10 @@
 		<div class="live_5 border rounded_10 bg-white mt-3 pt-3">
         <div style="border-bottom: 2px solid #ecebeb;"></div>
             {% if inn2['inning'] %}
+            {% set i = tid[dt3['score_strip'][1].team_id][0] %}
             {% for over in inn2['inning']['overs'][:-1] %}
             <div class="over-container">
-                <div class="over-left">
+                <div class="over-left" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }}; --fc: white {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white  {% elif i == 'PBKS' %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }}; --fc: white {% elif i == 'CSK' %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}; --fc: black {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white {% endif %};">
                     <div class="over-left-items">
                         <div class="over-left-over">Ov {{ over['overNumber'] }}</div>
                         <div class="over-left-run">{{ get_runs(over) }} Runs</div>
@@ -217,9 +218,10 @@
             {% endif %}
 
             {% if inn1['inning'] %}
+            {% set i = tid[dt3['score_strip'][0].team_id][0] %}
             {% for over in inn1['inning']['overs'][:-1] %}
             <div class="over-container">
-                <div class="over-left">
+                <div class="over-left" style="{% if i == 'RCB' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c1'] }}; --fc: white {% elif i == 'GT' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white {% elif i == 'MI' %} --c1: {{ clr[i]['c3'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white  {% elif i == 'PBKS' %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white {% elif i == 'KKR' %} --c1: {{ clr[i]['c2'] }}; --c2: {{ clr[i]['c3'] }}; --fc: white {% elif i == 'CSK' %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}; --fc: black {% else %} --c1: {{ clr[i]['c1'] }}; --c2: {{ clr[i]['c2'] }}; --fc: white {% endif %};">
                     <div class="over-left-items">
                         <div class="over-left-over">Ov {{ over['overNumber'] }}</div>
                         <div class="over-left-run">{{ get_runs(over) }} Runs</div>
