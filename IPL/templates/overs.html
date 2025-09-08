@@ -85,7 +85,7 @@
 
 {% macro get_batsmen(over) %}
     {% set ns = namespace( batsmen = [] ) %}
-    {% for ball in over['balls'] %}
+    {% for ball in over['balls'][::-1] %}
         {% set batsman = ball['comments'][-1]['message'].split(' to ')[1].split('.')[0] | trim %}
         {% if batsman and batsman not in ns.batsmen %}
             {% set ns.batsmen = ns.batsmen + [batsman] %}
