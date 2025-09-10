@@ -46,6 +46,18 @@
         align-items: center;
       }
 
+      .extra-pr-100 {
+        padding-right: 100px;
+      }
+
+      .extra-pr-60 {
+        padding-right: 60px;
+      }
+
+      .pl-40 {
+        padding-left: 40px;
+      }
+
       /* Modern Navbar Links */
       nav .navbar-nav .nav-link {
         color: #fff !important;

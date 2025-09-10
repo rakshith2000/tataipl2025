@@ -378,7 +378,7 @@ def displayPT():
 
 @main.route('/fixtures')
 def displayFR():
-    team = request.args.get('team','All',type=str)
+    team = request.args.get('fteam','All',type=str)
     if team == 'All':
         dataFR = db.session.execute(text('select * from Fixture order by id'))\
             #Fixture.query.all()
@@ -453,7 +453,9 @@ def matchInfo(match):
     MatchDT2.append(num_suffix(MatchDT[2].day)+" "+MatchDT[2].strftime("%B %Y"))
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
-    return render_template('info.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm)
+    source = request.args.get('source', None)
+    team = request.args.get('fteam', None)
+    return render_template('info.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, source=source, fteam=team)
 
 @main.route('/match-<match>/Overs')
 def matchOvers(match):
@@ -469,8 +471,9 @@ def matchOvers(match):
     MatchDT2.append(num_suffix(MatchDT[2].day)+" "+MatchDT[2].strftime("%B %Y"))
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
-    return render_template('overs.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, inn1=Inn1, inn2=Inn2, clr=clr)
-
+    source = request.args.get('source', None)
+    team = request.args.get('fteam', None)
+    return render_template('overs.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, inn1=Inn1, inn2=Inn2, clr=clr, source=source, fteam=team)
 
 @main.route('/match-<match>/liveScore')
 def liveScore(match):
@@ -486,7 +489,9 @@ def liveScore(match):
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
-    return render_template('live.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr, clr2=clr, sqf=SquadFull, find_player=find_player, fn=full_name)
+    source = request.args.get('source', None)
+    team = request.args.get('fteam', None)
+    return render_template('live.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr, clr2=clr, sqf=SquadFull, find_player=find_player, fn=full_name, source=source, fteam=team)
 
 @main.route('/match-<match>/scoreCard')
 def scoreCard(match):
@@ -502,7 +507,9 @@ def scoreCard(match):
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
-    return render_template('scorecard.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, sqf=SquadFull, clr2=clr, find_player=find_player, fn=full_name)
+    source = request.args.get('source', None)
+    team = request.args.get('fteam', None)
+    return render_template('scorecard.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, sqf=SquadFull, clr2=clr, find_player=find_player, fn=full_name, source=source, fteam=team)
 
 @main.route('/match-<match>/liveSquad')
 def liveSquad(match):
@@ -519,7 +526,9 @@ def liveSquad(match):
     MatchDT2.append(num_suffix(MatchDT[2].day) + " " + MatchDT[2].strftime("%B %Y"))
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
-    return render_template('livesquad.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, sqd=SquadDT, sqf=SquadFull, find_player=find_player)
+    source = request.args.get('source', None)
+    team = request.args.get('fteam', None)
+    return render_template('livesquad.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, sqd=SquadDT, sqf=SquadFull, find_player=find_player, source=source, fteam=team)
 
 @main.route('/match-<match>/FRScore')
 def FRScore(match):
@@ -529,13 +538,15 @@ def FRScore(match):
     matchDT = datetime.combine(MatchFR.Date, MatchFR.Time)
     current_date = datetime.now(tz)
     current_date = current_date.replace(tzinfo=None)
-
+    source = request.args.get('source', None)
+    team = request.args.get('fteam', None)
+    print(team)
     if current_date < (matchDT - timedelta(minutes=30)):
-        return redirect(url_for('main.matchInfo', match=match))
+        return redirect(url_for('main.matchInfo', match=match, source=source, fteam=team))
     elif current_date >= (matchDT - timedelta(minutes=30)) and MatchFR[10] is None:
-        return redirect(url_for('main.liveScore', match=match))
+        return redirect(url_for('main.liveScore', match=match, source=source, fteam=team))
     elif MatchFR[10] is not None:
-        return redirect(url_for('main.scoreCard', match=match))
+        return redirect(url_for('main.scoreCard', match=match, source=source, fteam=team))
 
 @main.route('/todayMatch')
 def todayMatch():

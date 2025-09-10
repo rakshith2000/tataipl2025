@@ -26,7 +26,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg">
-      <a class="navbar-brand" style="padding-right: 100px;" href="{{ url_for('main.index') }}">
+      <a class="navbar-brand extra-pr-100 {% block nav_class %}{% endblock %}" href="{{ url_for('main.index') }}">
         <img src="{{ url_for('static', filename= 'images/logo.png') }}"
               alt="user photo" width="25" height="40" />
         &nbsp;TATA IPL 2025

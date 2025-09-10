@@ -46,7 +46,7 @@ body {
 <div style="padding-bottom: 20px;"></div>
 {% for i in FR[1:] %}
 {% if i[1] > current_date %}
-<a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">
+<a href="{{ url_for('main.FRScore', match=i[0], source='liveMatches') }}" class="plain-link">
 <div class="main-container">
   <div class="score-card border">
     <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>
@@ -94,7 +94,7 @@ body {
 </div></a>
 
 {% elif i[1] <= current_date and i[7] == 'TBA' %}
-    <a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">
+    <a href="{{ url_for('main.FRScore', match=i[0], source='liveMatches') }}" class="plain-link">
 <div class="main-container">
   <div class="score-card border">
     <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>
@@ -127,7 +127,7 @@ body {
 </div></a>
 
 {% elif i[7] != 'TBA' %}
-    <a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">
+    <a href="{{ url_for('main.FRScore', match=i[0], source='liveMatches') }}" class="plain-link">
 <div class="main-container">
   <div class="score-card border">
     <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>

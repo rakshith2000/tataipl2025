@@ -44,13 +44,13 @@ body {
 {% endmacro %}
 
     {% set teams = ['CSK', 'DC', 'GT', 'KKR', 'LSG', 'MI', 'PBKS', 'RR', 'RCB', 'SRH'] %}
-    <a href="{{ url_for('main.displayFR', team='All') }}"
+    <a href="{{ url_for('main.displayFR', fteam='All') }}"
      class="custom-button {{ 'active' if hint == 'All' else '' }}">
      All
   </a>
 
   {% for i in teams %}
-    <a href="{{ url_for('main.displayFR', team=i) }}"
+    <a href="{{ url_for('main.displayFR', fteam=i) }}"
        class="custom-button {{ 'active' if hint == i else '' }}">
        {{ i }}
     </a>
@@ -59,7 +59,7 @@ body {
 <div style="padding-bottom: 35px;"></div>
 {% for i in FR[1:] %}
 {% if i[1] > current_date %}
-<a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">
+<a href="{{ url_for('main.FRScore', match=i[0], source='displayFR', fteam=hint) }}" class="plain-link">
 <div class="main-container">
   <div class="score-card border">
     <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>
@@ -107,7 +107,7 @@ body {
 </div></a>
 
 {% elif i[1] <= current_date and i[7] == 'TBA' %}
-    <a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">
+    <a href="{{ url_for('main.FRScore', match=i[0], source='displayFR', fteam=hint) }}" class="plain-link">
 <div class="main-container">
   <div class="score-card border">
     <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>
@@ -140,7 +140,7 @@ body {
 </div></a>
 
 {% elif i[7] != 'TBA' %}
-    <a href="{{ url_for('main.FRScore', match=i[0]) }}" class="plain-link">
+    <a href="{{ url_for('main.FRScore', match=i[0], source='displayFR', fteam=hint) }}" class="plain-link">
 <div class="main-container">
   <div class="score-card border">
     <div class="header" data-deadline="{{ i[1].strftime('%Y-%m-%dT%H:%M:%S') }}">{{ i[1].strftime('%a, %d %b %Y') }}</div>

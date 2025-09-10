@@ -40,8 +40,41 @@
     .score_2_inner a{
         color: #0398dc !important;
     }
+    /* Floating Back Button */
+.floating-back-btn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 9999;
+  background: #fff;
+  color: #003c8a;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.floating-back-btn:hover {
+  background: #e6e6e6;
+}
+@media (max-width: 600px) {
+  .floating-back-btn {
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+}
     </style>
 {% endblock %}
+{% block nav_class %}extra-pr-60 pl-40{% endblock %}
 
 {% block content %}
 {% macro check_captain(player_name, data) %}
@@ -104,11 +137,11 @@
                                {% endif %}
                              {% endif %}
                         <ul class="mb-0 bg-tab rounded_bottom px-3 score_tab d-flex justify-content-evenly flex-wrap">
-                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.matchInfo', match=match) }}">Info</a></li>
-                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.liveScore', match=match) }}">Live</a></li>
-                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.scoreCard', match=match) }}">Scorecard</a></li>
-                            <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.matchOvers', match=match) }}">Overs</a></li>
-                            <li class="d-inline-block"><a class="active d-block" href="{{ url_for('main.liveSquad', match=match) }}">Squad</a></li>
+                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.matchInfo', match=match, source=source, fteam=fteam) }}">Info</a></li>
+                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.liveScore', match=match, source=source, fteam=fteam) }}">Live</a></li>
+                         <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.scoreCard', match=match, source=source, fteam=fteam) }}">Scorecard</a></li>
+                            <li class="d-inline-block"><a class="d-block" href="{{ url_for('main.matchOvers', match=match, source=source, fteam=fteam) }}">Overs</a></li>
+                            <li class="d-inline-block"><a class="active d-block" href="{{ url_for('main.liveSquad', match=match, source=source, fteam=fteam) }}">Squad</a></li>
                         </ul>
                     </div>
                     {% if dt3['squad'] is not none %}
@@ -392,4 +425,13 @@
   createTimer(clockElement); // This will start the timer instantly
 });
 </script>
+{% if source == 'displayFR' %}
+  <a href="{{ url_for('main.displayFR', fteam=fteam) }}" class="floating-back-btn" title="Back to Fixtures">
+    <i class="fa fa-arrow-left"></i>
+  </a>
+{% elif source == 'liveMatches' %}
+  <a href="{{ url_for('main.todayMatch') }}" class="floating-back-btn" title="Back to Live Matches">
+    <i class="fa fa-arrow-left"></i>
+  </a>
+{% endif %}
 {% endblock %}

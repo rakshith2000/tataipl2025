@@ -40,6 +40,13 @@ line-height:32px;
 .table-hover>tbody>tr:hover>* {
     --bs-table-accent-bg: var(--bg_light);
 }
+.extra-pr-60 {
+        padding-right: 60px;
+      }
+
+      .pl-40 {
+        padding-left: 40px;
+      }
 
 .live_right_1{
 margin-top:33px; 
