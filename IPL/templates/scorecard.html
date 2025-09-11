@@ -235,12 +235,12 @@
 		    <table class="table font_12 mb-0">
   <thead class="border-0">
     <tr class="bg-bluelight">
-      <th class="text-muted">BATTING</th>
-      <th class="text-muted">R</th>
-      <th class="text-muted">B</th>
-      <th class="text-muted">4s</th>
-	  <th class="text-muted">6s</th>
-	  <th class="text-muted">SR</th>
+      <th class="text-muted" style="width: 55%;">BATTING</th>
+      <th class="px-0 text-muted">R</th>
+      <th class="px-0 text-muted">B</th>
+      <th class="px-0 text-muted">4s</th>
+	  <th class="px-0 text-muted">6s</th>
+	  <th class="px-0 text-muted">SR</th>
     </tr>
   </thead>
   <tbody>
@@ -250,12 +250,12 @@
         {% set result = find_player(batsmen['name'], sqf) %}
         {% set team = result[3] if result else "NA" %}
         {% set name = result[2] if result else batsmen['name'] %}
-        <td class="pb-0 text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}{% if batsmen['is_captain'] == true %}&nbsp;<span class="text-muted">(C)</span>{% endif %}</a></b></td>
-      <td class="pb-0" ><b>{{ batsmen['runs'] }}</b></td>
-      <td class="pb-0" >{{ batsmen['balls'] }}</td>
-	  <td class="pb-0" >{{ batsmen['fours'] }}</td>
-	  <td class="pb-0" >{{ batsmen['sixes'] }}</td>
-	  <td class="pb-0" >{{ batsmen['strike_rate'] }}</td>
+        <td class="pb-0 text-blue" style="text-wrap: nowrap;"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}{% if batsmen['is_captain'] == true %}&nbsp;<span class="text-muted">(C)</span>{% endif %}</a></b></td>
+      <td class="px-0 pb-0"><b>{{ batsmen['runs'] }}</b></td>
+      <td class="px-0 pb-0">{{ batsmen['balls'] }}</td>
+	  <td class="px-0 pb-0">{{ batsmen['fours'] }}</td>
+	  <td class="px-0 pb-0">{{ batsmen['sixes'] }}</td>
+	  <td class="px-0 pb-0">{{ batsmen['strike_rate'] }}</td>
     </tr>
     <tr class="border-bottom">
         <td class="pt-0 fw-bold font_11" colspan="6" style="color: {{ bgcolor }}">{{ batsmen['out_str'] }}</td>
@@ -278,6 +278,9 @@
             <a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a>{% if not loop.last %},{% endif %}
             {% endfor %}</td>
     </tr>
+    </tbody></table>
+    <table class="table font_12 mb-0">
+  <tbody>
 	<tr class="border-bottom">
       <td>Extras</td>
         <td colspan="6"><b>{{ i['extras'] }}</b> (b {{ i['bye'] }}, lb {{ i['legbye'] }}, w {{ i['wide'] }}, nb {{ i['noball'] }}, p {{ i['penalties'] }})</td>
@@ -295,13 +298,13 @@
 				 <table class="table font_12 mb-0">
   <thead class="border-0">
     <tr class="bg-bluelight">
-      <th class="text-muted">BOWLING</th>
-	  <th class="text-muted">O</th>
-      <th class="text-muted">M</th>
-      <th class="text-muted">R</th>
-      <th class="text-muted">W</th>
-	  <th class="text-muted">ECON</th>
-	  <th class="text-muted">Extras</th>
+      <th class="text-muted" style="width: 55%;">BOWLING</th>
+	  <th class="px-2 text-muted">O</th>
+      <th class="px-2 text-muted">M</th>
+      <th class="px-2 text-muted">R</th>
+      <th class="px-2 text-muted">W</th>
+	  <th class="px-2 text-muted">ECON</th>
+	  <th class="px-2 text-muted">Extras</th>
     </tr>
   </thead>
   <tbody>
@@ -310,13 +313,13 @@
         {% set result = find_player(bowler['name'], sqf) %}
         {% set team = result[3] if result else "NA" %}
         {% set name = result[2] if result else bowler['name'] %}
-        <td class="text-blue"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></b> </td>
-      <td>{{ bowler['overs'] }}</td>
-      <td>{{ bowler['maiden_overs'] }}</td>
-      <td>{{ bowler['runs'] }}</td>
-	  <td><b>{{ bowler['wickets'] }}</b></td>
-	  <td>{{ bowler['economy'] }}</td>
-	  <td>{{ bowler['extras'] }}</td>
+        <td class="text-blue" style="text-wrap: nowrap;"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></b> </td>
+      <td class="px-2">{{ bowler['overs'] }}</td>
+      <td class="px-2">{{ bowler['maiden_overs'] }}</td>
+      <td class="px-2">{{ bowler['runs'] }}</td>
+	  <td class="px-2"><b>{{ bowler['wickets'] }}</b></td>
+	  <td class="px-2">{{ bowler['economy'] }}</td>
+	  <td class="px-2">{{ bowler['extras'] }}</td>
     </tr>
       {% endfor %}
 
