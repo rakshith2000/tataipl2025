@@ -230,12 +230,12 @@
                 {% set is_active = dt3['score_strip'][loop.index0]['currently_batting'] %}
 			  <div class="tab-pane {% if is_active %}active{% endif %}" id="profile{{ loop.index }}">
 			   <div class="score_2_inner border rounded_10 bg-white mt-3">
-			     <b class="bg-blue-grad font_14 d-block px-3 text-white pt-3 pb-3 rounded_top">{{ tid[i['batting_team_id']][1] }} <span class="font_12">Innings</span> </b>
+			     <b class="bg-blue-grad font_14 d-block px-3 text-white pt-2 pb-2 rounded_top">{{ tid[i['batting_team_id']][1] }} <span class="font_12">Innings</span> </b>
 				 <div class="table-responsive">
 		    <table class="table font_12 mb-0">
   <thead class="border-0">
     <tr class="bg-bluelight">
-      <th class="text-muted" style="width: 55%;">BATTING</th>
+      <th class="text-muted" style="width: 55%;">BATTER</th>
       <th class="px-0 text-muted">R</th>
       <th class="px-0 text-muted">B</th>
       <th class="px-0 text-muted">4s</th>
@@ -293,18 +293,17 @@
   </tbody>
 </table>
 		  </div>
-		         <span class="font_12 d-block px-3 mt-2 mb-2"><b>Fall of wickets:</b>{{ i['fall_of_wickets'] }}</span>
-				 <div class="table-responsive">
+		         <div class="table-responsive">
 				 <table class="table font_12 mb-0">
   <thead class="border-0">
     <tr class="bg-bluelight">
-      <th class="text-muted" style="width: 55%;">BOWLING</th>
+      <th class="text-muted" style="width: 55%;">BOWLER</th>
 	  <th class="px-2 text-muted">O</th>
       <th class="px-2 text-muted">M</th>
       <th class="px-2 text-muted">R</th>
       <th class="px-2 text-muted">W</th>
-	  <th class="px-2 text-muted">ECON</th>
-	  <th class="px-2 text-muted">Extras</th>
+	  <th class="px-2 text-muted">ER</th>
+	  <th class="px-2 text-muted">Ext</th>
     </tr>
   </thead>
   <tbody>
@@ -326,10 +325,33 @@
   </tbody>
 </table>
                  </div>
-			   </div>
-			</div>{% endfor %}
-			</div>
-		</div>
+                 <div class="table-responsive pt-2">
+          <table class="table font_12 mb-0">
+          <thead class="border-0">
+            <tr class="bg-bluelight">
+              <th class="text-muted" style="width: 55%;">Fall of Wickets</th>
+              <th class="px-0 text-muted">Score</th>
+              <th class="px-0 text-muted">Over</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for wicket in i['fall_of_wickets'].split('),') %}
+              <tr class="border-top">
+              {% set result = find_player(wicket.split(' (')[1].split(',')[0], sqf) %}
+        {% set team = result[3] if result else "NA" %}
+        {% set name = result[2] if result else wicket.split(' (')[0] %}
+                <td class="text-blue" style="text-wrap: nowrap;"><b><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></b></td>
+                <td class="px-0 fw-bold">{{ wicket.split(' (')[0] }}</td>
+                <td class="px-0">{{ wicket.split(' (')[1].split(', ')[1].strip('()') }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>{% endfor %}
+  </div>
+</div>
 	  </div>
 	</div>
 

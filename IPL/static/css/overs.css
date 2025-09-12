@@ -83,28 +83,29 @@
     text-align: center;
     width: 24px;
     height: 24px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.283);
 }
 
 .bg-four {
-    background-color: #3098d5;
+    background: linear-gradient(145deg, #3098d5, #1e6f9b);
 }
 
 .bg-six {
-    background-color: #c569e6;
+    background: linear-gradient(145deg, #c569e6, #a45db5);
 }
 
 .bg-normal {
-    background-color: #34c759;
+    background: linear-gradient(145deg, #34c759, #239a3f);
 }
 
 .bg-dot {
-    background-color: #959595;
+    background: linear-gradient(145deg, #959595, #565656);
 }
 
 .bg-extra {
-    background-color: #bb9762;
+    background: linear-gradient(145deg, #bb9762, #946143);
 }
 
 .bg-wicket {
-    background-color: #ff3b30;
+    background: linear-gradient(145deg, #ff3b30, #ad0404);
 }
