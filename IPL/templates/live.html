@@ -13,6 +13,7 @@
 	<link href="{{ url_for('static', filename= 'css/live.css') }}" rel="stylesheet">
    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 	<link href="{{ url_for('static', filename= 'css/flag-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename= 'css/overs.css') }}" rel="stylesheet">
     <style>
     body {
         font-family: 'Exo 2', sans-serif;
@@ -222,6 +223,117 @@
     {% endif %}
 {% endmacro %}
 
+{% macro get_ball_score(ball) %}
+    {%- if ball.isWicket -%}
+        {% if ball.isByes %}
+            W{{ ball.runsByes|default(0) }}
+        {%- elif ball.isLegByes -%}
+            W{{ ball.runsLegByes|default(0) }}
+        {%- elif ball.isWide -%}
+            W{{ ball.runsWide|default(0) }}
+        {%- elif ball.teamRuns|default(0) > 0 -%}
+            W{{ ball.teamRuns|default(0) }}
+        {%- else -%}
+            W
+        {%- endif -%}
+    {%- elif ball.isWide -%}
+        {%- if ball.runsWide|default(0) > 1 -%}
+            Wd{{ ball.runsWide|default(0) }}
+        {%- else -%}
+            Wd
+        {%- endif -%}
+    {%- elif ball.isNoBall -%}
+        {%- if ball.isByes -%}
+            NB{{ ball.runsByes|default(0) }}
+        {%- elif ball.isLegByes -%}
+            NL{{ ball.runsLegByes|default(0) }}
+        {%- else -%}
+            N{{ ball.teamRuns|default(0) - 1 if ball.teamRuns|default(0) > 1 else '' }}
+        {%- endif -%}
+    {%- elif ball.isLegByes -%}
+        L{{ ball.runsLegByes|default(0) if ball.runsLegByes|default(0) > 0 else '' }}
+    {%- elif ball.isByes -%}
+        B{{ ball.runsByes|default(0) if ball.runsByes|default(0) > 0 else '' }}
+    {%- elif ball.teamRuns == 0 -%}
+        0
+    {%- else -%}
+        {{ ball.teamRuns|default(0) }}
+    {%- endif -%}
+{% endmacro %}
+
+{% macro get_ball_bg_color(score) %}
+    {% set score = score|string %}
+    {% if score.startswith('Wd') or score.startswith('B') or score.startswith('L') or score.startswith('N') %}
+        bg-extra
+    {% elif '4' in score %}
+        bg-four
+    {% elif '6' in score %}
+        bg-six
+    {% elif score == '0' %}
+        bg-dot
+    {% elif score in ['1', '2', '3'] %}
+        bg-normal
+    {% elif score.startswith('W') %}
+        bg-wicket
+    {% else %}
+        bg-normal
+    {% endif %}
+{% endmacro %}
+
+{% macro get_batsmen(over) %}
+    {% set ns = namespace( batsmen = [] ) %}
+    {% for ball in over['balls'][::-1] %}
+        {% set batsman = ball['comments'][-1]['message'].split(' to ')[1].split('.')[0] | trim %}
+        {% if batsman and batsman not in ns.batsmen %}
+            {% set ns.batsmen = ns.batsmen + [batsman] %}
+        {% endif %}
+    {% endfor %}
+    {{ ns.batsmen | join('<span>,</span> ') | safe}}
+{% endmacro %}
+
+{% macro get_runs(over) %}
+    {% set ns = namespace(runs = 0) %}
+    {% for ball in over['balls'] %}
+        {%- if ball.isWicket -%}
+            {% if ball.isByes %}
+                {% set ns.runs = ns.runs + ball.runsByes|default(0) %}
+            {%- elif ball.isLegByes -%}
+                {% set ns.runs = ns.runs + ball.runsLegByes|default(0) %}
+            {%- elif ball.isWide -%}
+                {% set ns.runs = ns.runs + ball.runsWide|default(0) %}
+            {%- elif ball.teamRuns > 0 -%}
+                {% set ns.runs = ns.runs + ball.teamRuns|default(0) %}
+            {%- else -%}
+                {% set ns.runs = ns.runs + 0 %}
+            {%- endif -%}
+        {%- elif ball.isWide -%}
+            {%- if ball.runsWide > 1 -%}
+                {% set ns.runs = ns.runs + ball.runsWide|default(0) %}
+            {%- else -%}
+                {% set ns.runs = ns.runs + 1 %}
+            {%- endif -%}
+        {%- elif ball.isNoBall -%}
+            {%- if ball.isByes -%}
+                {%- set ns.runs = ns.runs + ball.runsByes|default(0) + 1 %} 
+            {%- elif ball.isLegByes -%}
+                {%- set ns.runs = ns.runs + ball.runsLegByes|default(0) + 1 %}
+            {%- else -%}
+                {% set ns.runs = ns.runs + (ball.teamRuns|default(0)-1 if ball.teamRuns|default(0) > 1 else 0) + 1 %}
+            {%- endif -%}
+        {%- elif ball.isLegByes -%}
+            {%- set ns.runs = ns.runs + ball.runsLegByes|default(0) if ball.runsLegByes|default(0) > 0 else ns.runs %}
+        {%- elif ball.isByes -%}
+            {%- set ns.runs = ns.runs + ball.runsByes|default(0) if ball.runsByes|default(0) > 0 else ns.runs %}
+        {%- elif ball.teamRuns == 0 -%}
+            {% set ns.runs = ns.runs + 0 %}
+        {%- else -%}
+            {% set ns.runs = ns.runs + ball.teamRuns|default(0) %}
+        {%- endif -%}
+    {% endfor %}
+    {{ ns.runs }}
+{% endmacro %}
+
+
 <div style="padding-top: 55px;"></div>
 <section id="center" class="pt-3 pb-3 center_live">
  <div class="container-xl">
@@ -420,30 +532,101 @@
 		  </div>
 		</div>
       {% endif %}{% endif %}
-      {% if dt3['innings'] | length != 0 %}
-		<div class="live_4 border rounded_10 bg-white mt-3 pt-3 pb-3">
-			<span class="d-block px-3 font_14"><b>Overs Stats</b></span>
-		  <hr class="mt-2 mb-2">
-            {% for over in dt3['overs_timeline_v2'] %}
-		  <ul class="mb-0 px-3 fw-bold">
-			<li class="d-inline-block mx-1 mt-1 mb-1 fw-bold font_13">{{ num_suffix(over['over'].split('.')[0] | int) }}</li>
-              {% for ball in over['summary'] %}
-              {% if ball == '6' %}
-              <li class="d-inline-block bg-purple text-white rounded-1 text-center ball mt-1 mb-1">{{ ball }}</li>
-              {% elif ball == '4' %}
-              <li class="d-inline-block bg-blue text-white rounded-1 text-center ball mt-1 mb-1">{{ ball }}</li>
-              {% elif ball == 'W' %}
-              <li class="d-inline-block bg-danger text-white rounded-1 text-center ball mt-1 mb-1">{{ ball }}</li>
-              {% elif 'W' in ball %}
-              <li class="d-inline-block bg-danger text-white rounded-1 text-center ball mt-1 mb-1">{{ ball }}</li>
-              {% else %}
-			  <li class="d-inline-block bg-light rounded-1 text-center ball mt-1 mb-1">{% if ball == 'x' %}{{ '-' }}{% else %}{{ ball }}{% endif %}</li>
-              {% endif %}
-                {% endfor %}
-                <li class="d-inline-block bg-greenlight rounded-1 text-center ball mt-1 mb-1">{{ over["runs"] }}</li>
-          </ul>{% endfor %}
+		<div class="live_4 border rounded_10 overflow-hidden bg-white mt-3">
+    {% if inn2['inning'] %}
+    {% for over in inn2['inning']['overs'][:-1] %}
+    {% for ball in over['balls'] %}
+    {% if ball['comments'][0]['commentTypeId'] == 'EndOfOver' %}
+    <div class="d-flex gap-3 px-3 py-2" style="border-bottom: 1px solid #d9d9d9; background: #d9d9d9;">
+      <div class="d-flex flex-column gap-1 align-items-center" style="width: 20%;">
+      <div class="font_14 fw-bold text-center">
+        OVER {{ over['overNumber'] }}
+      </div>
+      <div class="font_13 text-center">
+        {{ tid[dt3['score_strip'][1].team_id][0] }}<br>
+        {{ over['totalInningRuns'] }}/{{ over['totalInningWickets'] }}
+      </div>
+      </div>
+      <div class="d-flex flex-column gap-1" style="width: 80%;">
+      <div class="font_13 border-bottom pb-1">
+      {% for bl in over['balls'][::-1] %}
+      {% set score = get_ball_score(bl) %}
+      {{ score }}&nbsp;
+      {% endfor %}
+      &nbsp;=>&nbsp;<b>{{ get_runs(over) }} Runs</b>
+      </div>
+      <div class="font_13">
+        Bowler: <b>{{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}</b>
+      </div>
+      <div class="font_13">
+        Batsmen: <b>{{ get_batsmen(over) }}</b>
+      </div>
+      </div>
+    </div>
+    {% endif %}
+    <div class="d-flex gap-3 px-3 py-2" style="border-bottom: 1px solid #d9d9d9;">
+      <div class="d-flex flex-column gap-2 align-items-center">
+      <div class="font_14 fw-bold text-center">
+        {{ over['overNumber'] - 1 }}.{{ ball['ballNumber'] }}
+      </div>
+      {% set score = get_ball_score(ball) %}
+      <div class="over-right-balls {{ get_ball_bg_color(score) }}" style="width: {{ 20+(score|length * 4) }}px;">{{ score }}</div>
+      </div>
+      <div class="font_14">
+        {{ ball['comments'][-1]['message'] | bold_substring | safe}}
+      </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
+
+    {% if inn1['inning'] %}
+    {% for over in inn1['inning']['overs'][:-1] %}
+    {% for ball in over['balls'] %}
+    {% if ball['comments'][0]['commentTypeId'] == 'EndOfOver' %}
+    <div class="d-flex gap-3 px-3 py-2" style="border-bottom: 1px solid #d9d9d9; background: #d9d9d9;">
+      <div class="d-flex flex-column gap-1 align-items-center" style="width: 20%;">
+      <div class="font_14 fw-bold text-center">
+        OVER {{ over['overNumber'] }}
+      </div>
+      <div class="font_13 text-center">
+        {{ tid[dt3['score_strip'][0].team_id][0] }}<br>
+        {{ over['totalInningRuns'] }}/{{ over['totalInningWickets'] }}
+      </div>
+      </div>
+      <div class="d-flex flex-column gap-1" style="width: 80%;">
+      <div class="font_13 border-bottom pb-1">
+      {% for bl in over['balls'][::-1] %}
+      {% set score = get_ball_score(bl) %}
+      {{ score }}&nbsp;
+      {% endfor %}
+      &nbsp;=>&nbsp;<b>{{ get_runs(over) }} Runs</b>
+      </div>
+      <div class="font_13">
+        Bowler: <b>{{ over['balls'][0]['comments'][0]['message'].split('Bowler: ')[1].split('.')[0] }}</b>
+      </div>
+      <div class="font_13">
+        Batsmen: <b>{{ get_batsmen(over) }}</b>
+      </div>
+      </div>
+    </div>
+    {% endif %}
+    <div class="d-flex gap-3 px-3 py-2" style="border-bottom: 1px solid #d9d9d9;">
+      <div class="d-flex flex-column gap-2 align-items-center">
+      <div class="font_14 fw-bold text-center">
+        {{ over['overNumber'] - 1 }}.{{ ball['ballNumber'] }}
+      </div>
+      {% set score = get_ball_score(ball) %}
+      <div class="over-right-balls {{ get_ball_bg_color(score) }}" style="width: {{ 20+(score|length * 4) }}px;">{{ score }}</div>
+      </div>
+      <div class="font_14">
+        {{ ball['comments'][-1]['message'] | bold_substring | safe}}
+      </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+    {% endif %}
 		</div>
-      {% endif %}
 
 	  </div>
 	</div>

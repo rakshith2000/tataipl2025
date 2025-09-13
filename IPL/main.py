@@ -114,7 +114,6 @@ sqclr = {
     'LSG': {'c1': 'hsl(195 89% 52%)', 'c2': 'hsl(32 95% 53%)'}     # Light Blue to Gold
 }
 
-
 def normalize_name(name):
     """Normalize names for better matching"""
     # Remove special characters and extra spaces
@@ -480,6 +479,7 @@ def liveScore(match):
     MatchDT = (db.session.execute(text('SELECT * FROM Fixture WHERE "Match_No" = :matchno'),{'matchno': match}).fetchall())[0]
     SquadFull = (db.session.execute(text('SELECT * FROM Squad')).fetchall())
     MatchURL = render_live_URL(MatchDT[4], MatchDT[5], match, MatchDT[2])
+    Inn1, Inn2 = get_innings_data(MatchDT[11])
     dttm = concat_DT(MatchDT[2], MatchDT[3])
     response = requests.get(MatchURL, verify=False)
     MatchLDT = response.json()
@@ -491,7 +491,7 @@ def liveScore(match):
     current_date = current_date.replace(tzinfo=None)
     source = request.args.get('source', None)
     team = request.args.get('fteam', None)
-    return render_template('live.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr, clr2=clr, sqf=SquadFull, find_player=find_player, fn=full_name, source=source, fteam=team)
+    return render_template('live.html', match=match, cd=current_date, dt1=MatchDT, dt2=MatchDT2, dt3=MatchLDT, tid=teamID, dttm=dttm, clr=ptclr, clr2=clr, inn1=Inn1, inn2=Inn2, sqf=SquadFull, find_player=find_player, fn=full_name, source=source, fteam=team)
 
 @main.route('/match-<match>/scoreCard')
 def scoreCard(match):

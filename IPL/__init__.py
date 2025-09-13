@@ -3,16 +3,22 @@ from flask_apscheduler import APScheduler
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
-import os, requests, pytz
+import os, requests, pytz, re
 
 db = SQLAlchemy()
 scheduler = APScheduler()
+
+def bold_substring(value):
+    # Bold everything from the start up to and including the first '!'
+    return re.sub(r'^(.*?!)', r'<b>\1</b>', value, count=1)
 
 def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = 'secret-key'
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') #'sqlite:///IPL.sqlite'
+
+    app.jinja_env.filters['bold_substring'] = bold_substring
 
     db.init_app(app)
     login_manager = LoginManager()
