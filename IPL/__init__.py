@@ -10,7 +10,7 @@ scheduler = APScheduler()
 
 def bold_substring(value):
     # Bold everything from the start up to and including the first '!'
-    return re.sub(r'^(.*?!)', r'<b>\1</b>', value, count=1)
+    return re.sub(r'(\b\w+!\b)', r'<b>\1</b>', value, count=1)
 
 def create_app():
     app = Flask(__name__)
