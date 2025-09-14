@@ -52,7 +52,7 @@
         {%- elif ball.isLegByes -%}
             NL{{ ball.runsLegByes|default(0) }}
         {%- else -%}
-            N{{ ball.teamRuns|default(0) - 1 if ball.teamRuns|default(0) > 1 else '' }}
+            N{{ ball.runsScored|default(0) if ball.runsScored|default(0) > 0 else '' }}
         {%- endif -%}
     {%- elif ball.isLegByes -%}
         L{{ ball.runsLegByes|default(0) if ball.runsLegByes|default(0) > 0 else '' }}
@@ -122,7 +122,7 @@
             {%- elif ball.isLegByes -%}
                 {%- set ns.runs = ns.runs + ball.runsLegByes|default(0) + 1 %}
             {%- else -%}
-                {% set ns.runs = ns.runs + (ball.teamRuns|default(0)-1 if ball.teamRuns|default(0) > 1 else 0) + 1 %}
+                {% set ns.runs = ns.runs + (ball.runsScored|default(0) if ball.runsScored|default(0) > 0 else 0) + ball.extras|default(1) %}
             {%- endif -%}
         {%- elif ball.isLegByes -%}
             {%- set ns.runs = ns.runs + ball.runsLegByes|default(0) if ball.runsLegByes|default(0) > 0 else ns.runs %}
