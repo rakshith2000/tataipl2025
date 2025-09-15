@@ -38,6 +38,9 @@ def create_app():
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
+    from .api import api as api_blueprint
+    app.register_blueprint(api_blueprint)
+
     with app.app_context():
         setup_scheduler(app)
         db.create_all()

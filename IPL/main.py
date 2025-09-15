@@ -628,19 +628,9 @@ def get_bowlingstats():
 def battingstats():
     return render_template('battingStat.html')
 
-@main.route('/api/battingstats')
-def api_battingstats():
-    """Return JSON for the batting stats (used by API)."""
-    return jsonify(get_battingstats())
-
 @main.route('/bowlingstats')
 def bowlingstats():
     return render_template('bowlingStat.html')
-
-@main.route('/api/bowlingstats')
-def api_bowlingstats():
-    """Return JSON for the bowling stats (used by API)."""
-    return jsonify(get_bowlingstats())
 
 def get_alltimeipl():
     """Return the context dict for the All Time IPL page (used by renderer and API)."""
@@ -671,11 +661,6 @@ def alltimeipl():
     # keep legacy route but reuse the shared renderer/context provider
     return render_template('all-time-ipl.html')
 
-@main.route('/api/alltimeipl')
-def api_alltime_page():
-    """Return JSON for the All Time IPL data (same context as the HTML page)."""
-    return jsonify(get_alltimeipl())
-
 def get_allPT_records(table_name, order_by='id'):
     data = db.session.execute(text(f'SELECT * FROM {table_name} ORDER BY {order_by}')).fetchall()
     stats = [dict(row._mapping) for row in data]
@@ -694,20 +679,6 @@ def render_page(page):
                'individualrecords':['individual_records','individual-records.html'],
                'partnershiprecords':['partnership_records','partnership-records.html']}
     return render_template(db_html[page][1])
-
-@main.route('/api/<page>')
-def api_page(page):
-    db_html = {'iplawards':['ipl_awards','ipl-awards.html'],
-               'alltimept':['all_time_points_table','all-time-PT.html'],
-               'resultrecords':['result_records','result-records.html'],
-               'teamscoringrecords':['teams_scoring_records','team-scoring-records.html'],
-               'individualbattingrecords':['individual_batting_records','individual-batting-records.html'],
-               'individualbowlingrecords':['individual_bowling_records','individual-bowling-records.html'],
-               'individualwicketkeepingrecords':['individual_wicket_keeping_records','individual-wicketkeeping-records.html'],
-               'individualfieldingrecords':['individual_fielding_records','individual-fielding-records.html'],
-               'individualrecords':['individual_records','individual-records.html'],
-               'partnershiprecords':['partnership_records','partnership-records.html']}
-    return jsonify(get_allPT_records(db_html[page][0]))
 
 @main.route('/update')
 @login_required
