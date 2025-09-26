@@ -409,7 +409,7 @@
               <div class="potm-content">
                   <a href="{{ url_for('main.squad_details', team=team, name=name) }}">
                   <div class="potm-image" style="{% if team == 'RCB' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'GT' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }} {% elif team == 'MI' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }}  {% elif team == 'PBKS' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'KKR' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c3'] }} {% else %} --c1: {{ clr2[team]['c1'] }}; --c2: {{ clr2[team]['c2'] }} {% endif %};">
-                      <img src="{% if dt3['player_of_match']['player_slug'] != "" %}{{ dt3['player_images'][dt3['player_of_match']['player_slug']] }}{% else %}/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png{% endif %}" alt="{{ name }}">
+                      <img src="{% if dt3['player_of_match']['player_slug'] != "" %}{{ dt3['player_images'][dt3['player_of_match']['player_slug']] }}{% else %}https://staticg.sportskeeda.com/skm/assets/player-images/cricket/{{ dt3['player_of_match']['player_name']|lower|replace(' ', '-') }}.png{% endif %}" alt="{{ name }}" onerror="this.onerror=null;this.src='/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png'">
                   </div></a>
                   <div class="potm-details">
                       <div class="potm-name"><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></div>
@@ -442,7 +442,7 @@
               <div class="potm-content">
                   <a href="{{ url_for('main.squad_details', team=team, name=name) }}">
                   <div class="potm-image" style="{% if team == 'RCB' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'GT' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }} {% elif team == 'MI' %} --c1: {{ clr2[team]['c3'] }}; --c2: {{ clr2[team]['c2'] }}  {% elif team == 'PBKS' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c1'] }} {% elif team == 'KKR' %} --c1: {{ clr2[team]['c2'] }}; --c2: {{ clr2[team]['c3'] }} {% else %} --c1: {{ clr2[team]['c1'] }}; --c2: {{ clr2[team]['c2'] }} {% endif %};">
-                      <img src="{% if dt3['player_of_match']['player_slug'] != "" %}{{ dt3['player_images'][dt3['player_of_series']['player_slug']] }}{% else %}/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png{% endif %}" alt="{{ name }}">
+                      <img src="{% if dt3['player_of_series']['player_slug'] != "" %}{{ dt3['player_images'][dt3['player_of_series']['player_slug']] }}{% else %}https://staticg.sportskeeda.com/skm/assets/player-images/cricket/{{ dt3['player_of_series']['player_name']|lower|replace(' ', '-') }}.png{% endif %}" alt="{{ name }}" onerror="this.onerror=null;this.src='/static/images/squads/{{ team }}/{{ name.replace(' ', '-') }}.png'">
                   </div></a>
                   <div class="potm-details">
                       <div class="potm-name"><a href="{{ url_for('main.squad_details', team=team, name=name) }}">{{ name }}</a></div>
